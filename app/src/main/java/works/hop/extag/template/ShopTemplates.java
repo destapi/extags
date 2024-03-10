@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class ShopTemplates {
 
-    public static String resourceFolder = "extag/www";
+    public static String resourceFolder = "www";
     public static String[] pages = {"index", "cart", "checkout", "detail", "contact", "shop"};
 
     public static void main(String[] args) throws XMLStreamException, IOException {

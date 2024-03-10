@@ -75,7 +75,7 @@ public class App {
         // Create and configure a ResourceHandler.
         ResourceHandler handler = new ResourceHandler();
         // Configure the directory where static resources are located.
-        handler.setBaseResource(Resource.newResource("extag/www"));
+        handler.setBaseResource(Resource.newResource("www"));
         // Configure directory listing.
         handler.setDirAllowed(false);
         // Configure welcome files.

@@ -24,8 +24,8 @@ the evaluation of its expression value, which should result in either true or fa
 </li>
 ```
 The parser will evaluate the _done_ expression, and depending on the result, the component will have an additional attribute, __data-x-show__, whose value 
-is either _true_ or _false_. The decision was made not to add an inline styling, but to instead use a _data-> attribute. This css can then be used to toggle 
-visibility of the component.
+is either _true_ or _false_. The decision was made not to add an inline style directly to the element, but to instead use a css styling selector attribute. 
+The css below can then be used to toggle the visibility of the resulting component.
 
 ```css
 [data-x-show=false]{
