@@ -1,4 +1,4 @@
-# EzTagz - Making tags work for you
+# EzTags - Making tags work for you
 
 1. Fast expression engine
 2. Intuitive templating
