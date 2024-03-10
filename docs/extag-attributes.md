@@ -107,10 +107,12 @@ Using the _layout template_ above (assuming it's called _basic-template.xml_), t
 This is only useful in the context of the __x-layout__ tag. It provides the path (constrained by Java's classpath) to the target file whose content should
 be used to decorate the _targeted page_.
 
-### x-dcotype
+### x-doctype
 
 Since the _<!DOCTYPE html>_ tag is not a valid _xml_ tag, the choice was made to use this tag purely for specifying the _doctype_ tag content, which is then
 inserted into the generated markup when the markup generated begins.
+
+> Note that _x-doctype_ is used as both an _attribute_ and a special _tag_
 
 ```xml
 <x-layout x-template="/basic-template.xml">
