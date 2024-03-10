@@ -1,4 +1,4 @@
-# ExTag - Tags with extra info
+# EzTagz - Making tags work for you
 
 1. Fast expression engine
 2. Intuitive templating
