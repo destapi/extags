@@ -15,6 +15,7 @@ public class JElement extends JObject {
     protected String slotRef;
     protected Object context;
     protected String ifExpression;
+    protected String showExpression;
     protected String listExpression;
     protected String listItemsKey;
     protected String textExpression;
@@ -81,6 +82,14 @@ public class JElement extends JObject {
 
     public void setIfExpression(String ifExpression) {
         this.ifExpression = ifExpression;
+    }
+
+    public String getShowExpression() {
+        return showExpression;
+    }
+
+    public void setShowExpression(String showExpression) {
+        this.showExpression = showExpression;
     }
 
     public String getListExpression() {

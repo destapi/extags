@@ -51,6 +51,16 @@ class JParserTest {
     }
 
     @Test
+    void test_loading_and_parsing_x_show_attr_xml() {
+        String file = "/phase1/x-show-attr.xml";
+        JContext processor = new JContext(Map.of("title", "Read book", "done", false));
+        JParser parser = new JParser(file, processor);
+        JElement root = assertDoesNotThrow(parser::parse, "Not expecting error to be thrown");
+        assertThat(root.children).hasSize(4);
+        assertThat(processor.process(root)).isEqualTo("<li><i data-x-show=\"false\" title=\"done\" class=\"fa fa-square\"></i><i data-x-show=\"true\" title=\"done\" class=\"fa fa-check-square\"></i><span>Read book</span><i title=\"remove\" class=\"fa fa-times-circle\"></i></li>");
+    }
+
+    @Test
     void test_loading_and_parsing_template_tags_4_xml() {
         String file = "/phase1/template-tags4.xml";
         JContext processor = new JContext(Map.of("name", "Jimbob", "visible", true, "over", false));

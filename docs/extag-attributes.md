@@ -10,6 +10,29 @@ result in either true or false.
 ```
 The parser will evaluate the _done_ expression, and if the result is _true_, the component will be rendered in the DOM, otherwise it will be skipped.
 
+### x-show
+
+This tag is used with any __x-__ tag to hint that it can be hidden by applying a css style using the __[data-x-show=<true|false>]__ selector, based on 
+the evaluation of its expression value, which should result in either true or false.
+
+```xml
+<li>
+    <x-i x-show="done" class="fa fa-square" title="done"></x-i>
+    <x-i x-show="!done" class="fa fa-check-square" title="done"></x-i>
+    <x-span x-text="title">title</x-span>
+    <i class="fa fa-times-circle" title="remove"></i>
+</li>
+```
+The parser will evaluate the _done_ expression, and depending on the result, the component will have an additional attribute, __data-x-show__, whose value 
+is either _true_ or _false_. The decision was made not to add an inline styling, but to instead use a _data-> attribute. This css can then be used to toggle 
+visibility of the component.
+
+```css
+[data-x-show=false]{
+    display: none;
+}
+```
+
 ### x-items
 
 This tag is used with any __x-__ tag to hint that it will be used in a _for-loop_ to generate markup for multiple related elements. It can optionally

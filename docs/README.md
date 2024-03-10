@@ -37,6 +37,4 @@ plugins for syntax highlighting, since _XML_ is a universally supported format
 
 1. Detect data change at the element level or document fragment level
 2. Stream markup changes to the client using JavaScript's EventSource
-3. Add __x-show="expr"__ to complement __x-if="expr"__. It might sometimes be important to just have the element available in the DOM, and only hide
-it from view in the meantime using ```style: {display: none}```
-4. Load template from other sources in addition to the default _classpath_
+3. Load template from other sources in addition to the default _classpath_

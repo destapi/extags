@@ -63,6 +63,11 @@ public class JParser {
                                 element.setIfExpression(attrValue);
                                 break;
                             }
+                            case "x-show": {
+                                element.setShowExpression(attrValue);
+                                element.attributes.put("data-x-show", MVEL.eval(attrValue, processor.context).toString());
+                                break;
+                            }
                             case "x-items": {
                                 element.setListExpression(attrValue);
                                 break;
@@ -118,7 +123,7 @@ public class JParser {
                     }
                 }
 
-                // push new element into the stack
+                // push a new element into the stack
                 stack.push(element);
             }
 

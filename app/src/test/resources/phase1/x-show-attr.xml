@@ -1,0 +1,6 @@
+<li>
+    <x-i x-show="done" class="fa fa-square" title="done"></x-i>
+    <x-i x-show="!done" class="fa fa-check-square" title="done"></x-i>
+    <x-span x-text="title">title</x-span>
+    <i class="fa fa-times-circle" title="remove"></i>
+</li>
