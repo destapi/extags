@@ -1,4 +1,4 @@
-## ExTag Organizer Tags
+## EzTag Organizer Tags
 
 These are special tags because they are not standard _HTML tags_, and they only serve the purpose of 
 - importing content

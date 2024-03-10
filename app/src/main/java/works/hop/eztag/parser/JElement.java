@@ -1,4 +1,4 @@
-package works.hop.extag.parser;
+package works.hop.eztag.parser;
 
 import org.mvel2.MVEL;
 import org.mvel2.templates.TemplateRuntime;

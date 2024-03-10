@@ -1,8 +1,8 @@
-package works.hop.extag.template;
+package works.hop.eztag.template;
 
-import works.hop.extag.parser.JContext;
-import works.hop.extag.parser.JElement;
-import works.hop.extag.parser.JParser;
+import works.hop.eztag.parser.JContext;
+import works.hop.eztag.parser.JElement;
+import works.hop.eztag.parser.JParser;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;

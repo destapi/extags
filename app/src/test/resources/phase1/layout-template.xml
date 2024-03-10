@@ -19,7 +19,7 @@
         <x-main x-slot="content"></x-main>
         <x-footer x-slot="footer">
             <div>
-                <span class="sticky">&amp;copy; 2024 ExTag</span>
+                <span class="sticky">&amp;copy; 2024 EzTag</span>
             </div>
         </x-footer>
         <script src="special-sauce.js" type="module"></script>

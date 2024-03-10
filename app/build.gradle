@@ -37,7 +37,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'works.hop.extag.App'
+    mainClass = 'works.hop.eztag.App'
 }
 
 tasks.named('test') {

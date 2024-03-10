@@ -1,4 +1,4 @@
-## ExTag Attributes
+## EzTag Attributes
 
 ### x-if
 
@@ -106,7 +106,7 @@ ordering of elements in the final generated markup.
     <body>
         <x-main x-slot="content"></x-main>
         <x-footer x-slot="footer">
-            <div><span class="sticky">&amp;copy; 2024 ExTag</span></div>
+            <div><span class="sticky">&amp;copy; 2024 EzTag</span></div>
         </x-footer>
     </body>
 </html>

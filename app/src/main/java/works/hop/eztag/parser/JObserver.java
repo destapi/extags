@@ -1,4 +1,4 @@
-package works.hop.extag.parser;
+package works.hop.eztag.parser;
 
 import java.util.List;
 import java.util.Map;

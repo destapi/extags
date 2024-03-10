@@ -1,4 +1,4 @@
-## ExTag Decorator Tags
+## EzTag Decorator Tags
 
 These are special tags because they are placeholders for content which is used by the browser and not by a person directly.
 They include _doctype_, _meta_, _link_ and _script_. It's __important__ to be aware that the _style_ tag is not supported

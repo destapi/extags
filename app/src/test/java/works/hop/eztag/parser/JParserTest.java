@@ -1,4 +1,4 @@
-package works.hop.extag.parser;
+package works.hop.eztag.parser;
 
 import org.junit.jupiter.api.Test;
 
@@ -78,7 +78,7 @@ class JParserTest {
         JElement root = assertDoesNotThrow(parser::parse, "Not expecting error to be thrown");
         assertThat(root.children).hasSize(2);
         assertThat(root.slots).hasSize(3);
-        assertThat(processor.process(root)).isEqualTo("<html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"/><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"/><title>Default Title</title></head><body><nav><menu><li>Login</li></menu></nav><main></main><footer><div><span class=\"sticky\">&copy; 2024 ExTag</span></div></footer><script src=\"special-sauce.js\" type=\"module\"></script></body></html>");
+        assertThat(processor.process(root)).isEqualTo("<html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"/><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"/><title>Default Title</title></head><body><nav><menu><li>Login</li></menu></nav><main></main><footer><div><span class=\"sticky\">&copy; 2024 EzTag</span></div></footer><script src=\"special-sauce.js\" type=\"module\"></script></body></html>");
     }
 
     @Test
@@ -92,7 +92,7 @@ class JParserTest {
         JParser parser = new JParser(file, processor);
         JElement root = assertDoesNotThrow(parser::parse, "Not expecting error to be thrown");
         assertThat(root.children).hasSize(6);
-        assertThat(processor.process(root)).isEqualTo("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"/><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"/><meta hobbby=\"reading\"/><link rel=\"stylesheet\" hre=\"css/style.css\" type=\"text/css\"/><title>The best title</title><script defer=\"true\" src=\"/js/sauce.js\"></script></head><body><nav><menu><li>Login</li></menu></nav><div id=\"todo-list\"><form onsubmit=\"add\"><label><input name=\"title\" onchange=\"edit\"/></label><button type=\"submit\">Add</button></form><ul><li><i title=\"done\" class=\"fa fa-square\"></i><span>Read book</span><i title=\"remove\" class=\"fa fa-times-circle\"></i></li><li><i title=\"done\" class=\"fa fa-check-square\"></i><span>Make pancakes</span><i title=\"remove\" class=\"fa fa-times-circle\"></i></li></ul><p>2</p></div><footer><div><span class=\"sticky\">&copy; 2024 ExTag</span></div></footer><script src=\"special-sauce.js\" type=\"module\"></script></body></html>");
+        assertThat(processor.process(root)).isEqualTo("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"/><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"/><meta hobbby=\"reading\"/><link rel=\"stylesheet\" hre=\"css/style.css\" type=\"text/css\"/><title>The best title</title><script defer=\"true\" src=\"/js/sauce.js\"></script></head><body><nav><menu><li>Login</li></menu></nav><div id=\"todo-list\"><form onsubmit=\"add\"><label><input name=\"title\" onchange=\"edit\"/></label><button type=\"submit\">Add</button></form><ul><li><i title=\"done\" class=\"fa fa-square\"></i><span>Read book</span><i title=\"remove\" class=\"fa fa-times-circle\"></i></li><li><i title=\"done\" class=\"fa fa-check-square\"></i><span>Make pancakes</span><i title=\"remove\" class=\"fa fa-times-circle\"></i></li></ul><p>2</p></div><footer><div><span class=\"sticky\">&copy; 2024 EzTag</span></div></footer><script src=\"special-sauce.js\" type=\"module\"></script></body></html>");
     }
 
     @Test
