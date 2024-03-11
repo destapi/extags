@@ -11,7 +11,7 @@
 
     <x-form id="todo-form" x-named="todo-form" onsubmit="add">
         <label><input name="title" /></label>
-        <x-button type="submit">Add</x-button>
+        <button type="submit">Add</button>
     </x-form>
 
     <x-ul id="todo-list" class="listing" x-named="todo-list" x-items="todos" x-key="id">
