@@ -3,7 +3,7 @@ const appName = "todos-app";
 document.addEventListener("DOMContentLoaded", () => {
     const storeStr = localStorage.getItem(appName) || "[]";
     const store = JSON.parse(storeStr);
-    const event = new CustomEvent("refresh", {detail: store});
+    const event = createRefreshEvent(store);
     listing.dispatchEvent(event);
     stats.dispatchEvent(event);
     clearBtn.dispatchEvent(event);
@@ -22,7 +22,7 @@ const clearBtn = document.getElementById("clear");
 clearBtn.addEventListener("refresh", refreshClear, false);
 clearBtn.addEventListener('click', () => {
     localStorage.removeItem(appName);
-    const event = new CustomEvent("refresh", {detail: []});
+    const event = new CustomEvent("refresh", {bubble: true, detail: []});
     listing.dispatchEvent(event);
     stats.dispatchEvent(event);
     clearBtn.dispatchEvent(event);
@@ -36,11 +36,15 @@ function randomIntFromInterval(min, max) { // min and max included
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
+function createRefreshEvent(store) {
+    return new CustomEvent("refresh", {bubble: true, detail: store});
+}
+
 function remove(id) {
     const storeStr = localStorage.getItem(appName);
     const store = JSON.parse(storeStr).filter(t => t.id !== id);
     localStorage.setItem(appName, JSON.stringify(store));
-    const event = new CustomEvent("refresh", {detail: store});
+    const event = createRefreshEvent(store);
     listing.dispatchEvent(event);
     stats.dispatchEvent(event);
     clearBtn.dispatchEvent(event);
@@ -55,7 +59,7 @@ function toggle(id, done) {
         return t;
     });
     localStorage.setItem(appName, JSON.stringify(store));
-    const event = new CustomEvent("refresh", {detail: store});
+    const event = createRefreshEvent(store);
     stats.dispatchEvent(event);
 }
 
@@ -71,7 +75,7 @@ function add(e) {
     localStorage.setItem(appName, JSON.stringify(store));
 
     //notify listing
-    const event = new CustomEvent("refresh", {detail: store});
+    const event = createRefreshEvent(store);
     listing.dispatchEvent(event);
     stats.dispatchEvent(event);
     clearBtn.dispatchEvent(event);
@@ -84,7 +88,7 @@ function refreshTodos({detail: todos}) {
     for (let todo of todos) {
         const template = `
         <li data-x-id="${todo.id}">
-            <label><input type="checkbox" ${todo.done ? 'checked' : ''} /> </label>
+            <label><input type="checkbox" value="${todo.id}" ${todo.done ? 'checked' : ''} /> </label>
             <span>${todo.title}</span>
             <i class="remove" >x</i>
         </li>`;
