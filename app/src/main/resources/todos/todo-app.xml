@@ -10,14 +10,15 @@
     </x-nav>
 
     <x-form id="todo-form" x-named="todo-form" onsubmit="add">
-        <label><input name="title" onchange="edit" /></label>
+        <label><input name="title" /></label>
         <x-button type="submit">Add</x-button>
     </x-form>
 
     <x-ul id="todo-list" class="listing" x-named="todo-list" x-items="todos" x-key="id">
         <li>
-            <label><x-input type="checkbox" checked="@{done}"/> </label>
+            <label><x-input type="checkbox" value="@{id}" checked="@{done}" onchange="toggle"/> </label>
             <x-span x-text="title">Read Book</x-span>
+            <i class="remove" onclick="remove">x</i>
         </li>
     </x-ul>
 </x-layout>

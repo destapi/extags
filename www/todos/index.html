@@ -7,12 +7,15 @@
 </head>
 <body>
 <main id="root">
-    <form id="todo-form" onsubmit="add"><label><input name="title" onchange="edit"/></label>
+    <form id="todo-form" onsubmit="add"><label><input name="title"/></label>
         <button type="submit">Add</button>
     </form>
     <ul id="todo-list" class="listing">
-        <li data-x-id="1"><label><input type="checkbox"/></label><span>Read book</span></li>
-        <li data-x-id="2"><label><input checked type="checkbox"/></label><span>Make dinner</span></li>
+        <li data-x-id="1"><label><input onchange="toggle" type="checkbox" value="1"/></label><span>Read book</span><i
+                onclick="remove" class="remove">x</i></li>
+        <li data-x-id="2"><label><input checked onchange="toggle" type="checkbox"
+                                        value="2"/></label><span>Make dinner</span><i onclick="remove"
+                                                                                      class="remove">x</i></li>
     </ul>
     <nav id="todo-stats">
         <div>completed count: 2</div>

@@ -31,3 +31,4 @@ These are given a different kind of treatment from just regular markup tags
 2. Stream markup changes to the client using JavaScript's EventSource
 3. Load template from other sources in addition to the default _classpath_
 4. Ability to import any components into another component literally (without any processing)
+
