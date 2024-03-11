@@ -51,7 +51,8 @@ be accompanied by the __x-key__ attribute which points to the unique field which
 ### x-key
 
 This is only valid in the same context as __x-items__. It's optional, and its purpose is to inform about the field which uniquely identified each of
-the objects in the iterator.
+the objects in the iterator. Each child element will have a __data-x-id__ attribute added to it. This value can then be used by javascript in the 
+client when figuring out the necessary updates to the generated list of items
 
 ```xml
 <x-ul x-items="items" x-key="id">...</x-ul>
@@ -143,4 +144,31 @@ inserted into the generated markup when the markup generated begins.
     <x-doctype x-doctype="&lt;!doctype html&gt;" />
     <!--...rest of it...-->
 </x-layout>
+```
+
+## Special cases
+
+### Orb expressions for attributes
+
+Attributes on any __x-__ tag can have an _Orb expression (@{expr})_ as their value, and this will be evaluated and reassigned to the attribute instead of being 
+treated simply as a string literal. This feature is only useful for standard _html tag_ attributes, because having this feature on _x-_ attributes is pointless. 
+_x-_ attributes are there only to inform the parser and are not recognized by the browser.
+
+```xml
+<label><x-input type="checkbox" checked="@{todo.done}"/> </label>
+```
+
+### Attributes having boolean values
+
+In _HTML_, some attributes are boolean attributes, which basically means they can be true or false. They are the case, or they are not the case. They compute to one, 
+or they compute to zero. Examples of these attributes include checked, required, disabled and open. When using expressions to define values for these attributes, make
+sure the result is either true or false, and the parser will omit the attribute if the value is false.
+
+A sample generated result may look like this.
+
+```html
+<ul id="todo-list" class="listing">
+    <li data-x-id="1"><label><input type="checkbox"/></label><span>Read book</span></li>
+    <li data-x-id="2"><label><input checked type="checkbox"/></label><span>Make dinner</span></li>
+</ul>
 ```

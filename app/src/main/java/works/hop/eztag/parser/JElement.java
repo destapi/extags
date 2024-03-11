@@ -297,12 +297,32 @@ public class JElement extends JObject {
         return "";
     }
 
+    public void renderNonComponent(StringBuilder builder) {
+        if (isTextNode()) {
+            builder.append(textContent);
+        } else {
+            builder.append("<").append(tagName);
+            renderTagAttributes(builder);
+            builder.append(">");
+
+            for (JElement child : children) {
+                child.setContext(context);
+                builder.append(child.render());
+            }
+
+            if (selfClosingTags.contains(tagName.toLowerCase())) {
+                builder.deleteCharAt(builder.length() - 1).append("/>");
+            } else {
+                builder.append("</").append(tagName).append(">");
+            }
+        }
+    }
+
     public void renderTag(StringBuilder builder) {
         builder.append("<").append(tagName.replaceFirst("x-", ""));
-        for (String attr : attributes.keySet()) {
-            builder.append(" ").append(attr).append("=").append("\"").append(attributes.get(attr)).append("\"");
-        }
+        renderTagAttributes(builder);
         builder.append(">");
+
         if (textExpression != null) {
             builder.append(MVEL.eval(textExpression, context));
         } else if (evalContent != null) {
@@ -313,10 +333,62 @@ public class JElement extends JObject {
                 builder.append(child.render());
             }
         }
+
         if (selfClosingTags.contains(tagName.toLowerCase().replaceFirst("x-", ""))) {
             builder.deleteCharAt(builder.length() - 1).append("/>");
         } else {
             builder.append("</").append(tagName.replaceFirst("x-", "")).append(">");
+        }
+    }
+
+    public String renderListComponent() {
+        if (ifExpression == null || (Boolean) MVEL.eval(ifExpression, context)) {
+            StringBuilder builder = new StringBuilder();
+            if (isTextNode()) {
+                builder.append(textContent);
+            } else {
+                builder.append("<").append(tagName.replaceFirst("x-", ""));
+                renderTagAttributes(builder);
+                builder.append(">");
+
+                Collection<Object> collection = (Collection<Object>) MVEL.eval(listExpression, context);
+                for (Object item : collection) {
+                    for (JElement child : children) {
+                        child.setContext(item);
+                        child.attributes.put("data-x-id", MVEL.eval(listItemsKey, item).toString());
+                        builder.append(child.render());
+                    }
+                }
+
+                if (selfClosingTags.contains(tagName.toLowerCase())) {
+                    builder.deleteCharAt(builder.length() - 1).append("/>");
+                } else {
+                    builder.append("</").append(tagName.replaceFirst("x-", "")).append(">");
+                }
+            }
+            return builder.toString();
+        }
+        return "";
+    }
+
+    private void renderTagAttributes(StringBuilder builder) {
+        for (String attr : attributes.keySet()) {
+            String attrValue = attributes.get(attr);
+            if(attrValue.startsWith("@")){
+                attrValue = TemplateRuntime.eval(attrValue, context).toString();
+            }
+            if(attr.equals("data-x-show")){
+                attrValue = MVEL.eval(attrValue, context).toString();
+                builder.append(" ").append(attr).append("=").append("\"").append(attrValue).append("\"");
+                continue;
+            }
+            if(List.of("checked", "disabled", "required", "open").contains(attr) ){
+                if(attrValue.equals("true")) {
+                    builder.append(" ").append(attr);
+                }
+                continue;
+            }
+            builder.append(" ").append(attr).append("=").append("\"").append(attrValue).append("\"");
         }
     }
 
@@ -350,51 +422,5 @@ public class JElement extends JObject {
         } catch (XMLStreamException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void renderNonComponent(StringBuilder builder) {
-        if (isTextNode()) {
-            builder.append(textContent);
-        } else {
-            builder.append("<").append(tagName);
-            for (String attr : attributes.keySet()) {
-                builder.append(" ").append(attr).append("=").append("\"").append(attributes.get(attr)).append("\"");
-            }
-            builder.append(">");
-            for (JElement child : children) {
-                child.setContext(context);
-                builder.append(child.render());
-            }
-            if (selfClosingTags.contains(tagName.toLowerCase())) {
-                builder.deleteCharAt(builder.length() - 1).append("/>");
-            } else {
-                builder.append("</").append(tagName).append(">");
-            }
-        }
-    }
-
-    public String renderListComponent() {
-        if (ifExpression == null || (Boolean) MVEL.eval(ifExpression, context)) {
-            StringBuilder builder = new StringBuilder();
-            if (isTextNode()) {
-                builder.append(textContent);
-            } else {
-                builder.append("<").append(tagName.replaceFirst("x-", "")).append(">");
-                Collection<Object> collection = (Collection<Object>) MVEL.eval(listExpression, context);
-                for (Object item : collection) {
-                    for (JElement child : children) {
-                        child.setContext(item);
-                        builder.append(child.render());
-                    }
-                }
-                if (selfClosingTags.contains(tagName.toLowerCase())) {
-                    builder.deleteCharAt(builder.length() - 1).append("/>");
-                } else {
-                    builder.append("</").append(tagName.replaceFirst("x-", "")).append(">");
-                }
-            }
-            return builder.toString();
-        }
-        return "";
     }
 }

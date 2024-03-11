@@ -1,0 +1,19 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <x-title x-slot="title">Todos</x-title>
+        <link rel="stylesheet" href="css/style.css" type="text/css" />
+    </head>
+    <body>
+        <main id="root">
+            <x-main x-slot="todo-form"/>
+
+            <x-main x-slot="todo-list"/>
+
+            <x-main x-slot="todo-stats"/>
+        </main>
+
+        <footer>&amp;copy; 2024 EzTags</footer>
+        <script src="js/todos.js"/>
+    </body>
+</html>

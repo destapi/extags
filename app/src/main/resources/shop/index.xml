@@ -1,0 +1,21 @@
+<x-layout x-template="/shop/shop-layout.xml">
+
+    <x-doctype x-doctype="&lt;!DOCTYPE html&gt;"/>
+
+    <x-title x-named="title" x-text="page.title">Online Store</x-title>
+
+    <x-include path="/shop/carousal.xml" />
+
+    <x-include path="/shop/featured.xml" />
+
+    <x-include path="/shop/categories.xml" />
+
+    <x-include path="/shop/products.xml" />
+
+    <x-include path="/shop/offer.xml" />
+
+    <x-include path="/shop/products.xml" />
+
+    <x-include path="/shop/vendor.xml" />
+
+</x-layout>

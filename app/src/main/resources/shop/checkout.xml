@@ -1,4 +1,4 @@
-<x-layout x-template="/online/shop-layout.xml">
+<x-layout x-template="/shop/shop-layout.xml">
 
     <x-doctype x-doctype="&lt;!DOCTYPE html&gt;"/>
 

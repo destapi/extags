@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Todo App</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+</head>
+<body>
+<main id="root">
+    <form id="todo-form" onsubmit="add">
+        <label><input name="title" onchange="edit"/></label>
+        <button type="submit">Add</button>
+    </form>
+    <ul id="todo-list">
+        <li>
+            <label><input type="checkbox" /> </label>
+            <span>Read Book</span>
+        </li>
+    </ul>
+    <nav id="todo-stats">
+        <div>completed count: 1</div>
+        <button id="clear" data-x-show="false" type="button">Clear All</button>
+    </nav>
+</main>
+<footer>&copy; 2024 EzTags</footer>
+<script src="js/todos.js"></script>
+</body>
+</html>

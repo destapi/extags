@@ -65,7 +65,7 @@ public class JParser {
                             }
                             case "x-show": {
                                 element.setShowExpression(attrValue);
-                                element.attributes.put("data-x-show", MVEL.eval(attrValue, processor.context).toString());
+                                element.attributes.put("data-x-show", attrValue);
                                 break;
                             }
                             case "x-items": {

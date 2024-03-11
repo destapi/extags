@@ -1,0 +1,23 @@
+<x-layout x-template="/todos/todo-template.xml">
+
+    <x-doctype x-doctype="&lt;!DOCTYPE html&gt;" />
+
+    <x-title x-named="title">Todo App</x-title>
+
+    <x-nav id="todo-stats" x-named="todo-stats">
+        <x-div x-eval="true">completed count: @{todos.size()}</x-div>
+        <x-button id="clear" x-show="todos.size() != 0" type="button">Clear All</x-button>
+    </x-nav>
+
+    <x-form id="todo-form" x-named="todo-form" onsubmit="add">
+        <label><input name="title" onchange="edit" /></label>
+        <x-button type="submit">Add</x-button>
+    </x-form>
+
+    <x-ul id="todo-list" class="listing" x-named="todo-list" x-items="todos" x-key="id">
+        <li>
+            <label><x-input type="checkbox" checked="@{done}"/> </label>
+            <x-span x-text="title">Read Book</x-span>
+        </li>
+    </x-ul>
+</x-layout>

@@ -1,0 +1,6 @@
+<x-ul id="todo-list" class="listing" x-named="todo-list" x-items="todos" x-key="id">
+    <li>
+        <label><x-input type="checkbox" checked="@{done}"/> </label>
+        <x-span x-text="title">Read Book</x-span>
+    </li>
+</x-ul>

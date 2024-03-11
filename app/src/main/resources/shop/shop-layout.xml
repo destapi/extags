@@ -27,15 +27,15 @@
 
 <body>
 
-    <x-include x-path="/online/topbar.xml" />
+    <x-include x-path="/shop/topbar.xml" />
 
-    <x-include x-path="/online/navbar.xml" />
+    <x-include x-path="/shop/navbar.xml" />
 
-    <x-include x-path="/online/breadcrumb.xml" />
+    <x-include x-path="/shop/breadcrumb.xml" />
 
     <x-main x-slot="content"></x-main>
 
-    <x-include x-path="/online/footer.xml" />
+    <x-include x-path="/shop/footer.xml" />
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
