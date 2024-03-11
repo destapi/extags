@@ -10,6 +10,7 @@ public class JElement extends JObject {
 
     public static final List<String> selfClosingTags = List.of("area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr");
     public static final List<String> decoratorTags = List.of("doctype", "meta", "link", "style", "script");
+    public static final List<String> booleanAttributes = List.of("checked", "disabled", "required", "open");
     protected String tagName;
     protected String slotName;
     protected String slotRef;
@@ -382,7 +383,7 @@ public class JElement extends JObject {
                 builder.append(" ").append(attr).append("=").append("\"").append(attrValue).append("\"");
                 continue;
             }
-            if(List.of("checked", "disabled", "required", "open").contains(attr) ){
+            if(booleanAttributes.contains(attr) ){
                 if(attrValue.equals("true")) {
                     builder.append(" ").append(attr);
                 }

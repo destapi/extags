@@ -25,17 +25,9 @@ Some general rules of thumb are:
 - decorator tags are those which are only visible by the browser, and not discernible by a human, for example, _doctype_, _meta_, _link_ and _script_. 
 These are given a different kind of treatment from just regular markup tags
 
-## Current features
-
-1. Use MVEL templating engine to integrate with any Java backend
-2. Prepend any regular html tag with __x-__ to point out that it needs special treatment from the parser, and similarly prepend custom tag attributes with
-__x-__ to point out that they have pertinent information for the parser
-3. Use well-formed __xhtml__ to describe the html elements, to skip reinventing parsing of DOM content. This also eliminates the need for any special IDE 
-plugins for syntax highlighting, since _XML_ is a universally supported format
-
 ## Features wish list
 
-1. Detect data change at the element level or document fragment level
+1. Detect data changes at the element level or document fragment level
 2. Stream markup changes to the client using JavaScript's EventSource
 3. Load template from other sources in addition to the default _classpath_
-
+4. Ability to import any components into another component literally (without any processing)
