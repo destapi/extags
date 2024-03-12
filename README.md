@@ -5,4 +5,4 @@
 3. Minimal intrusion
 4. Minimal effort
 
-A library you will love instantly!
+[A java templating library](https://destapi.github.io/eztags/#/) you will absolutely love!
