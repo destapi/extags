@@ -25,10 +25,3 @@ Some general rules of thumb are:
 - decorator tags are those which are only visible by the browser, and not discernible by a human, for example, _doctype_, _meta_, _link_ and _script_. 
 These are given a different kind of treatment from just regular markup tags
 
-## Features wish list
-
-1. Detect data changes at the element level or document fragment level
-2. Stream markup changes to the client using JavaScript's EventSource
-3. Load template from other sources in addition to the default _classpath_
-4. Ability to import any components into another component literally (without any processing)
-
