@@ -115,12 +115,15 @@ ordering of elements in the final generated markup.
 
 ### x-named
 
-This is used to indicate that the given __x-__ tag can be used as a document fragment for __ANY__ named _slot_ in a _layout template document_. 
-Using the _layout template_ above (assuming it's called _basic-template.xml_), the following shows how it can be used
+This attribute is intended for use with tags only inside _x-layout_ components, and is used to indicate that the __x-__ tag where it has been added, can 
+be used as a document fragment for __ANY__ named _slot_ in a _layout template document_. If used inside a _x-include_ tag, the _imported_ element can be 
+used as content for the named slot. Typical usage of the attribute is shown below (assuming it's called _basic-template.xml_)
 
 ```xml
 <x-layout x-template="/basic-template.xml">
     <x-title x-named="title" x-text="page.title">The good title</x-title>
+    <!-- OR perhaps -->
+    <x-include x-path="/another/page/fragment.xml" x-named="another-slot" />
 
     <x-div id="todo-list" x-named="content">Main content</x-div>
 </x-layout>

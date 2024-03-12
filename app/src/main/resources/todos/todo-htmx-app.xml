@@ -1,27 +1,14 @@
 <x-layout x-template="/todos/todo-template.xml">
 
-    <x-doctype x-doctype="&lt;!DOCTYPE html&gt;" />
+    <x-doctype x-doctype="&lt;!DOCTYPE html&gt;"/>
 
     <x-title x-named="title">Todo HTMX App</x-title>
 
     <x-script src="https://unpkg.com/htmx.org@1.9.10" defer="true"/>
-<!--    <x-script src="todos/js/todos-init.js" defer="true" />-->
 
-    <x-nav id="todo-stats" x-named="todo-stats">
-        <x-div x-eval="true">completed count: @{($ in todos if $.done == true).size()}</x-div>
-        <x-button id="clear" x-show="todos.size() != 0" type="button">Clear All</x-button>
-    </x-nav>
+    <x-include x-path="/todos/fragment/todo-stats.xml" x-named="todo-stats"/>
 
-    <x-form id="todo-form" x-named="todo-form" hx-post="/htmx/" hx-trigger="submit" hx-target="#todo-list" >
-        <label><input name="title" /></label>
-        <button type="submit">Add</button>
-    </x-form>
-
-    <x-ul id="todo-list" class="listing" x-named="todo-list" x-items="todos" x-key="id">
-        <li>
-            <label><x-input type="checkbox" value="@{id}" checked="@{done}" hx-put="/htmx/?id=@{id}" hx-target="#todo-list" /> </label>
-            <x-span x-text="title" hx-delete="/htmx/?id=@{id}" hx-target="#todo-list">Read Book</x-span>
-            <i class="remove" onclick="remove">x</i>
-        </li>
-    </x-ul>
+    <x-include x-path="/todos/fragment/todo-form.xml" x-named="todo-form"/>
+ 
+    <x-include x-path="/todos/fragment/todo-list.xml" x-named="todo-list"/>
 </x-layout>

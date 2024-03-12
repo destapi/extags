@@ -331,13 +331,6 @@ And the _todos_ application would continue to work just like it did before when 
 server side. This has been the conventional way for a while now, of writing RESTful API client/server code. It doesn't always have to be this way though. The response 
 could be _XML_ instead of _JSON_, for example.
 
-For this exercise, the goal is to _NOT_ use javascript, but instead rely on _HTMX_ entirely. That's the subject of the next section.
+For this exercise, the goal is to _NOT_ use javascript, but instead use something more exciting, like [HTMX](https://htmx.org/) perhaps?. That's the subject of the next section.
 
-## MVEL Projection
-
-```@{($ in todos if $.done == true).size()}```
-
-This will access each item in the _todos_ collection, assign it a temporary variable _$_, adn then inspect the _.done_ field for _truthiness_, and then count how many matched.
-
-> A good place to see more examples - [MVEL Github](https://github.com/mvel/mvel/tree/master/src/test/java/org/mvel2/tests)
 

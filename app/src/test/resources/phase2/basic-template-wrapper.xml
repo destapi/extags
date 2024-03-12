@@ -1,0 +1,5 @@
+<body>
+    <x-header x-slot="header"/>
+    <x-main x-slot="content"/>
+    <x-footer x-slot="footer"/>
+</body>

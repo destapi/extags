@@ -1,0 +1,3 @@
+<x-section id="footer-slot">
+    <div>Preferred footer content</div>
+</x-section>

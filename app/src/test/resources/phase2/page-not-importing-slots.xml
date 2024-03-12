@@ -1,0 +1,11 @@
+<x-layout x-template="/phase2/basic-template-wrapper.xml">
+    <x-section id="header-slot" x-named="header">
+        <div>Preferred header content</div>
+    </x-section>
+    <x-article id="content-slot" x-named="content">
+        <div>Preferred content content</div>
+    </x-article>
+    <x-section id="footer-slot" x-named="footer">
+        <div>Preferred footer content</div>
+    </x-section>
+</x-layout>

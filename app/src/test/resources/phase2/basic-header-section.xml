@@ -1,0 +1,3 @@
+<x-section id="header-slot">
+    <div>Preferred header content</div>
+</x-section>

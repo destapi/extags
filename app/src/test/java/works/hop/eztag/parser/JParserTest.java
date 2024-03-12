@@ -94,7 +94,7 @@ class JParserTest {
         JElement root = assertDoesNotThrow(parser::parse, "Not expecting error to be thrown");
         assertThat(root.children).hasSize(6);
         String markup = processor.process(root);
-        assertThat(markup).isEqualTo("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"/><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"/><meta hobbby=\"reading\"/><link rel=\"stylesheet\" hre=\"css/style.css\" type=\"text/css\"/><title>The best title</title><script defer=\"true\" src=\"/js/sauce.js\"></script></head><body><nav><menu><li>Login</li></menu></nav><div id=\"todo-list\"><form onsubmit=\"add\"><label><input name=\"title\" onchange=\"edit\"/></label><button type=\"submit\">Add</button></form><ul><li data-x-id=\"1\"><i title=\"done\" class=\"fa fa-square\"></i><span>Read book</span><i title=\"remove\" class=\"fa fa-times-circle\"></i></li><li data-x-id=\"2\"><i title=\"done\" class=\"fa fa-check-square\"></i><span>Make pancakes</span><i title=\"remove\" class=\"fa fa-times-circle\"></i></li></ul><p>2</p></div><footer><div><span class=\"sticky\">&copy; 2024 EzTag</span></div></footer><script src=\"special-sauce.js\" type=\"module\"></script></body></html>");
+        assertThat(markup).isEqualTo("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta name=\"viewport\" content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"/><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"/><meta hobbby=\"reading\"/><link rel=\"stylesheet\" hre=\"css/style.css\" type=\"text/css\"/><title>The best title</title><script defer src=\"/js/sauce.js\"></script></head><body><nav><menu><li>Login</li></menu></nav><div id=\"todo-list\"><form onsubmit=\"add\"><label><input name=\"title\" onchange=\"edit\"/></label><button type=\"submit\">Add</button></form><ul><li data-x-id=\"1\"><i title=\"done\" class=\"fa fa-square\"></i><span>Read book</span><i title=\"remove\" class=\"fa fa-times-circle\"></i></li><li data-x-id=\"2\"><i title=\"done\" class=\"fa fa-check-square\"></i><span>Make pancakes</span><i title=\"remove\" class=\"fa fa-times-circle\"></i></li></ul><p>2</p></div><footer><div><span class=\"sticky\">&copy; 2024 EzTag</span></div></footer><script src=\"special-sauce.js\" type=\"module\"></script></body></html>");
     }
 
     @Test
@@ -104,7 +104,7 @@ class JParserTest {
         JParser parser = new JParser(file, processor);
         JElement root = assertDoesNotThrow(parser::parse, "Not expecting error to be thrown");
         assertThat(root.children).hasSize(9);
-        assertThat(processor.process(root)).isEqualTo("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta another=\"something\" hobbby=\"programming\"/><meta skylight=\"azure\" baseline=\"yellow\"/><link rel=\"stylesheet\" hre=\"css/reset.css\" type=\"text/css\"/><link rel=\"stylesheet\" hre=\"css/style.css\" type=\"text/css\"/><title>The best title</title><script defer=\"true\" src=\"/js/hot-sauce.js\"></script><script defer=\"true\" src=\"/js/sweet-sauce.js\"></script></head><body><div id=\"todo-list\">I'm here</div></body></html>");
+        assertThat(processor.process(root)).isEqualTo("<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"/><meta another=\"something\" hobbby=\"programming\"/><meta skylight=\"azure\" baseline=\"yellow\"/><link rel=\"stylesheet\" hre=\"css/reset.css\" type=\"text/css\"/><link rel=\"stylesheet\" hre=\"css/style.css\" type=\"text/css\"/><title>The best title</title><script defer src=\"/js/hot-sauce.js\"></script><script defer src=\"/js/sweet-sauce.js\"></script></head><body><div id=\"todo-list\">I'm here</div></body></html>");
     }
 
     @Test
@@ -153,6 +153,24 @@ class JParserTest {
         JParser parser = new JParser(file, processor);
         JElement root = assertDoesNotThrow(parser::parse, "Not expecting error to be thrown");
         assertThat(root.children).hasSize(1);
-        assertThat(processor.process(root)).isEqualTo("<ul id=\"todo-list\" class=\"listing\"><li data-x-id=\"1\"><label><input checked=\"false\" type=\"checkbox\"/></label><span>Make coffee</span></li></ul>");
+        assertThat(processor.process(root)).isEqualTo("<ul id=\"todo-list\" class=\"listing\"><li data-x-id=\"1\"><label><input type=\"checkbox\"/></label><span>Make coffee</span></li></ul>");
+    }
+
+    @Test
+    void verify_that_named_slots_can_also_be_imported_into_target_page() {
+        String file = "/phase2/page-not-importing-slots.xml";
+        JContext processor = new JContext(emptyMap());
+        JParser parser = new JParser(file, processor);
+        JElement root = assertDoesNotThrow(parser::parse, "Not expecting error to be thrown");
+        assertThat(root.children).hasSize(3);
+        String markup = processor.process(root);
+        assertThat(markup).isEqualTo("<body><section id=\"header-slot\"><div>Preferred header content</div></section><article id=\"content-slot\"><div>Preferred content content</div></article><section id=\"footer-slot\"><div>Preferred footer content</div></section></body>");
+
+        String file2 = "/phase2/page-importing-named-slots.xml";
+        JParser parser2 = new JParser(file2, processor);
+        JElement root2 = assertDoesNotThrow(parser2::parse, "Not expecting error to be thrown");
+        assertThat(root2.children).hasSize(3);
+        String markup2 = processor.process(root2);
+        assertThat(markup2).isEqualTo(markup);
     }
 }

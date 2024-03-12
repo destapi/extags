@@ -1,0 +1,5 @@
+<x-layout x-template="/phase2/basic-template-wrapper.xml">
+    <x-include x-path="/phase2/basic-header-section.xml" x-named="header" />
+    <x-article id="content-slot" x-named="content"><div>Preferred content content</div></x-article>
+    <x-include x-path="/phase2/basic-footer-section.xml" x-named="footer" />
+</x-layout>

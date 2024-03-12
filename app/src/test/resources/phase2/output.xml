@@ -1,0 +1,11 @@
+<body>
+    <section id="header-slot">
+        <div>Preferred header content</div>
+    </section>
+    <article id="content-slot">
+        <div>Preferred content content</div>
+    </article>
+    <section id="footer-slot">
+        <div>Preferred footer content</div>
+    </section>
+</body>

@@ -1,4 +1,4 @@
-<x-nav id="todo-stats" x-named="todo-stats">
+<x-nav id="todo-stats" >
     <x-div x-eval="true">completed count: @{($ in todos if $.done == true).size()}</x-div>
     <x-button id="clear" x-show="todos.size() != 0" type="button">Clear All</x-button>
 </x-nav>

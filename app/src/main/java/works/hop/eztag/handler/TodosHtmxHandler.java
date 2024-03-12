@@ -5,8 +5,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.mvel2.templates.TemplateRuntime;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -14,12 +19,10 @@ import java.util.stream.Collectors;
 public class TodosHtmxHandler extends AbstractHandler {
 
     public static List<Map<String, Object>> todos = new LinkedList<>();
-    public static Function<Map<String, Object>, String> todoListItem = (map) -> String.format("""
-            <li>
-                <label><input type="checkbox" value="%s" %s hx-put="/htmx/?id=%s" hx-target="#todo-list" /> </label>
-                <span>%s</span>
-                <i class="remove" hx-delete="/htmx/?id=%s" hx-target="#todo-list">x</i>
-            </li>""", map.get("id"), (boolean) map.get("done") ? "checked" : "", map.get("id"), map.get("title"), map.get("id"));
+    public static Function<Map<String, Object>, String> listItemTemplate = (map) -> {
+        String template = "/todos/fragment/todo-list.xml";
+        return TemplateRuntime.eval(Objects.requireNonNull(TodosHtmxHandler.class.getResourceAsStream(template)), map).toString();
+    };
 
     //  curl -X DELETE "http://localhost:8080/htmx/?id=<id>"
     private static void deleteTodo(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -32,7 +35,7 @@ public class TodosHtmxHandler extends AbstractHandler {
         }
         response.setStatus(200);
         response.setContentType("text/html");
-        response.getWriter().write(todos.stream().map(todo -> todoListItem.apply(todo))
+        response.getWriter().write(todos.stream().map(todo -> listItemTemplate.apply(todo))
                 .collect(Collectors.joining("\n")));
     }
 
@@ -43,7 +46,7 @@ public class TodosHtmxHandler extends AbstractHandler {
         existingTodo.put("done", !((Boolean) existingTodo.get("done")));
         response.setStatus(201);
         response.setContentType("text/html");
-        response.getWriter().write(todos.stream().map(todo -> todoListItem.apply(todo))
+        response.getWriter().write(todos.stream().map(todo -> listItemTemplate.apply(todo))
                 .collect(Collectors.joining("\n")));
     }
 
@@ -51,7 +54,7 @@ public class TodosHtmxHandler extends AbstractHandler {
     private static void getAllTodos(HttpServletResponse response) throws IOException {
         response.setStatus(200);
         response.setContentType("text/html");
-        response.getWriter().write(todos.stream().map(todo -> todoListItem.apply(todo))
+        response.getWriter().write(todos.stream().map(todo -> listItemTemplate.apply(todo))
                 .collect(Collectors.joining("\n")));
     }
 
@@ -66,7 +69,7 @@ public class TodosHtmxHandler extends AbstractHandler {
 
         response.setStatus(201);
         response.setContentType("text/html");
-        response.getWriter().write(todos.stream().map(todo -> todoListItem.apply(todo))
+        response.getWriter().write(todos.stream().map(todo -> listItemTemplate.apply(todo))
                 .collect(Collectors.joining("\n")));
     }
 

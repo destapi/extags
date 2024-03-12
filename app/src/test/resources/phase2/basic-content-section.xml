@@ -1,0 +1,3 @@
+<x-article id="content-slot">
+    <div>Preferred content content</div>
+</x-article>

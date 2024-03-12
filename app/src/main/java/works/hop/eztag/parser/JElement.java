@@ -246,8 +246,8 @@ public class JElement extends JObject {
     public void renderLayout(StringBuilder builder) {
         try {
             JContext templateProcessor = new JContext(context);
-            JParser parser = new JParser(templatePath, templateProcessor);
-            JElement templateRoot = parser.parse();
+            JParser templateParser = new JParser(templatePath, templateProcessor);
+            JElement templateRoot = templateParser.parse();
             setTemplateElement(templateRoot);
 
             for (JElement child : children) {
@@ -257,6 +257,7 @@ public class JElement extends JObject {
                     templateRoot.slots.put(child.slotName, child);
                     continue;
                 }
+
                 String tagName = child.tagName.replaceFirst("x-", "");
                 if (decoratorTags.contains(tagName)) {
                     if (tagName.equals("doctype")) {
@@ -265,6 +266,14 @@ public class JElement extends JObject {
                         child.setDecoratorNode(true);
                         templateRoot.decorators.get(tagName).add(child);
                     }
+                    continue;
+                }
+
+                if("include".equals(tagName)){
+                    JContext includeProcessor = new JContext(context);
+                    JParser includeParser = new JParser(child.includePath, includeProcessor);
+                    JElement includeRoot = includeParser.parse();
+                    includeRoot.slots.put(child.slotName, includeRoot);
                 }
             }
 

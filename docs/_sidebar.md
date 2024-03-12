@@ -4,3 +4,5 @@
 * [EzTag Organizers](/_core/eztag-organizers.md)
 * [Todolist with locastorage](/_demos/todo-list-local.md)
 * [Todolist with HTMX](/_demos/todo-list-htmx.md)
+* [Include tags as Slot content](/_demos/include-named-slots.md)
+* [MVEL Knowledge base](/_jewels/mvel-knowledge-base.md)

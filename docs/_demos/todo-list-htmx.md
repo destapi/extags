@@ -49,9 +49,9 @@ Picking up from the previous section, the template page will remain exactly the 
 
     <x-ul id="todo-list" class="listing" x-named="todo-list" x-items="todos" x-key="id">
         <li>
-            <label><x-input type="checkbox" value="@{id}" checked="@{done}" onchange="toggle"/> </label>
+            <label><x-input type="checkbox" value="@{id}" checked="@{done}" hx-put="/htmx/?id=%s" hx-target="#todo-list" /> </label>
             <x-span x-text="title">Read Book</x-span>
-            <i class="remove" onclick="remove">x</i>
+            <i class="remove" hx-delete="/htmx/?id=%s" hx-target="#todo-list">x</i>
         </li>
     </x-ul>
 </x-layout>
@@ -72,7 +72,7 @@ At this juncture, the changes necessary would only have to be in the server-side
 > Template for each new todo
 
 ```java
- public static Function<Map<String, Object>, String> todoListItem = (map) -> String.format("""
+ public static Function<Map<String, Object>, String> listItemTemplate = (map) -> String.format("""
     <li>
         <label><input type="checkbox" value="%s" %s hx-put="/htmx/?id=%s" hx-target="#todo-list" /> </label>
         <span>%s</span>
@@ -88,7 +88,7 @@ At this juncture, the changes necessary would only have to be in the server-side
 private static void getAllTodos(HttpServletResponse response) throws IOException {
     response.setStatus(200);
     response.setContentType("text/html");
-    response.getWriter().write(todos.stream().map(todo -> todoListItem.apply(todo))
+    response.getWriter().write(todos.stream().map(todo -> listItemTemplate.apply(todo))
             .collect(Collectors.joining("\n")));
 }
 ```
@@ -107,7 +107,7 @@ private static void createTodo(HttpServletRequest request, HttpServletResponse r
 
     response.setStatus(201);
     response.setContentType("text/html");
-    response.getWriter().write(todos.stream().map(todo -> todoListItem.apply(todo))
+    response.getWriter().write(todos.stream().map(todo -> listItemTemplate.apply(todo))
             .collect(Collectors.joining("\n")));
 }
 ```
@@ -122,7 +122,7 @@ private static void toggleTodo(HttpServletRequest request, HttpServletResponse r
     existingTodo.put("done", !((Boolean) existingTodo.get("done")));
     response.setStatus(201);
     response.setContentType("text/html");
-    response.getWriter().write(todos.stream().map(todo -> todoListItem.apply(todo))
+    response.getWriter().write(todos.stream().map(todo -> listItemTemplate.apply(todo))
             .collect(Collectors.joining("\n")));
 }
 ```
@@ -141,7 +141,7 @@ private static void toggleTodo(HttpServletRequest request, HttpServletResponse r
         }
         response.setStatus(200);
         response.setContentType("text/html");
-        response.getWriter().write(todos.stream().map(todo -> todoListItem.apply(todo))
+        response.getWriter().write(todos.stream().map(todo -> listItemTemplate.apply(todo))
                 .collect(Collectors.joining("\n")));
     }
 ```
@@ -149,8 +149,71 @@ private static void toggleTodo(HttpServletRequest request, HttpServletResponse r
 And the _todos_ application would continue to work just like it did before when using localStorage. The main difference is that now the server response type
 is now _text/html_ and on the client side, _htmx_ is applying the generated markup to the respective places.
 
-## Pending issues
+But hold on, wait a minute. Why is there an _listItemTemplate_ markup defined inline, when this could be fetched from a file? That's an excellent observation,  
+and there is a better way of doing it. The _named slots_ in the target page can be extracted out into their own respective files, and then imported explicitly
+by the target page. The important thing is to ensure that they have the _x-named_ attribute which matches a slot in the template page.
+
+> todos/fragment/todo-stats.xml
+
+```xml
+<x-nav id="todo-stats" x-named="todo-stats">
+    <x-div x-eval="true">completed count: @{($ in todos if $.done == true).size()}</x-div>
+    <x-button id="clear" x-show="todos.size() != 0" type="button">Clear All</x-button>
+</x-nav>
+```
+
+> todos/fragment/todo-list.xml
+
+```xml
+<x-ul id="todo-list" class="listing" x-named="todo-list" x-items="todos" x-key="id">
+    <li>
+        <label><x-input type="checkbox" value="@{id}" checked="@{done}" onchange="toggle"/> </label>
+        <x-span x-text="title">Read Book</x-span>
+        <i class="remove" onclick="remove">x</i>
+    </li>
+</x-ul>
+```
+
+> todos/fragment/todo-form.xml
+
+```xml
+<x-form id="todo-form" x-named="todo-form" hx-post="/htmx/" hx-trigger="submit" hx-target="#todo-list" >
+    <label><input name="title" /></label>
+    <button type="submit">Add</button>
+</x-form>
+```
+
+The final _target page_ will now look like this:
+
+```xml
+<x-layout x-template="/todos/todo-template.xml">
+
+    <x-doctype x-doctype="&lt;!DOCTYPE html&gt;"/>
+
+    <x-title x-named="title">Todo HTMX App</x-title>
+
+    <x-script src="https://unpkg.com/htmx.org@1.9.10" defer="true"/>
+
+    <x-include x-path="/todos/fragment/todo-stats.xml" x-named="todo-stats"/>
+
+    <x-include x-path="/todos/fragment/todo-form.xml" x-named="todo-form"/>
+
+    <x-include x-path="/todos/fragment/todo-list.xml" x-named="todo-list"/>
+</x-layout>
+```
+
+The page fragments can now be reused in other places, and the previous _listItemTemplate_ will now read the necessary file
+
+> Updated template for each new todo
+
+```java
+public static Function<Map<String, Object>, String> listItemTemplate = (map) -> {
+    String template = "/todos/fragment/todo-list.xml";
+    return TemplateRuntime.eval(Objects.requireNonNull(TodosHtmxHandler.class.getResourceAsStream(template)), map).toString();
+};
+```
+
+## Open items
 
 1. The document still needs to retrieve all todos when th page first loads.
 2. The template for each todo item should be loaded from a template fragment
-3. It would be greate to have the target page import the _named slots_ from template fragments instead of having them defined inside the page
