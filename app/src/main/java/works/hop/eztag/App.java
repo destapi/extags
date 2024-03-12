@@ -1,8 +1,5 @@
 package works.hop.eztag;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.alpn.server.ALPNServerConnectionFactory;
 import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory;
 import org.eclipse.jetty.server.*;
@@ -10,6 +7,8 @@ import org.eclipse.jetty.server.handler.*;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import works.hop.eztag.handler.TodosHtmxHandler;
+import works.hop.eztag.handler.TodosJsonHandler;
 
 import java.io.IOException;
 
@@ -59,16 +58,15 @@ public class App {
         server.addConnector(plainConnector);
     }
 
-    private static void simpleHandler(ContextHandlerCollection chc) {
+    private static void todosHandler(ContextHandlerCollection chc) {
         // Create a ContextHandler with contextPath.
-        ContextHandler context = new ContextHandler("/shop");
-        context.setHandler(new AbstractHandler() {
-            @Override
-            public void handle(String path, Request request, HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
-                res.getWriter().println("You reached the club house. Leave a message");
-            }
-        });
-        chc.addHandler(context);
+        ContextHandler todosJson = new ContextHandler("/todos");
+        todosJson.setHandler(new TodosJsonHandler());
+        chc.addHandler(todosJson);
+
+        ContextHandler todosHtmx = new ContextHandler("/htmx");
+        todosHtmx.setHandler(new TodosHtmxHandler());
+        chc.addHandler(todosHtmx);
     }
 
     private static void resourceHandler(HandlerList list) throws IOException {
@@ -97,15 +95,15 @@ public class App {
         configureConnector(server);
 
         // Create a ContextHandlerCollection to hold contexts.
-        HandlerList handlersList = new HandlerList();
+        HandlerList handlerList = new HandlerList();
         ContextHandlerCollection contextCollection = new ContextHandlerCollection();
-        resourceHandler(handlersList);
-        simpleHandler(contextCollection);
-        handlersList.addHandler(contextCollection);
-        handlersList.addHandler(new DefaultHandler());
+        resourceHandler(handlerList);
+        todosHandler(contextCollection);
+        handlerList.addHandler(contextCollection);
+        handlerList.addHandler(new DefaultHandler());
 
         // server.setDefaultHandler(new DefaultHandler(false, true));
-        server.setHandler(handlersList);
+        server.setHandler(handlerList);
 
         // Start the Server to start accepting connections from clients.
         server.start();

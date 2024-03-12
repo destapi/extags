@@ -14,6 +14,6 @@
         </main>
 
         <footer>&amp;copy; 2024 EzTags</footer>
-        <script src="js/todos.js"/>
+        <x-script />
     </body>
 </html>

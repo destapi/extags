@@ -10,7 +10,7 @@ public class JElement extends JObject {
 
     public static final List<String> selfClosingTags = List.of("area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr");
     public static final List<String> decoratorTags = List.of("doctype", "meta", "link", "style", "script");
-    public static final List<String> booleanAttributes = List.of("checked", "disabled", "required", "open");
+    public static final List<String> booleanAttributes = List.of("checked", "disabled", "required", "open", "defer");
     protected String tagName;
     protected String slotName;
     protected String slotRef;
@@ -375,7 +375,7 @@ public class JElement extends JObject {
     private void renderTagAttributes(StringBuilder builder) {
         for (String attr : attributes.keySet()) {
             String attrValue = attributes.get(attr);
-            if(attrValue.startsWith("@")){
+            if(attrValue.contains("@")){
                 attrValue = TemplateRuntime.eval(attrValue, context).toString();
             }
             if(attr.equals("data-x-show")){

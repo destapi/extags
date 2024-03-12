@@ -2,6 +2,8 @@
 
     <x-doctype x-doctype="&lt;!DOCTYPE html&gt;" />
 
+    <x-script src="js/todos-fetch.js"/>
+
     <x-title x-named="title">Todo App</x-title>
 
     <x-nav id="todo-stats" x-named="todo-stats">
