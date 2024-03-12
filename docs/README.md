@@ -1,4 +1,4 @@
-# EzTag Page Layout
+# EzTags
 
 This project started out as a way of stitching together different markup templates, with the goal of trying out [htmx](https://htmx.org/). 
 As I completed each feature that I had in mind, I kept bending to the temptation to add another one, and the list of features just kept 
