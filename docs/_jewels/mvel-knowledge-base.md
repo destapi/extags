@@ -1,6 +1,6 @@
 ## MVEL Projection
 
-This section will contain a collection of MVEL references and tips that would be very handy to have quick access to.
+This section will contain a collection of MVEL references and tips that would be very handy to have rapid access to.
 
 ```@{($ in todos if $.done == true).size()}```
 

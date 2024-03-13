@@ -156,7 +156,7 @@ by the target page. The important thing is to ensure that they have the _x-named
 > todos/fragment/todo-stats.xml
 
 ```xml
-<x-nav id="todo-stats" x-named="todo-stats">
+<x-nav id="todo-stats">
     <x-div x-eval="true">completed count: @{($ in todos if $.done == true).size()}</x-div>
     <x-button id="clear" x-show="todos.size() != 0" type="button">Clear All</x-button>
 </x-nav>
@@ -165,7 +165,7 @@ by the target page. The important thing is to ensure that they have the _x-named
 > todos/fragment/todo-list.xml
 
 ```xml
-<x-ul id="todo-list" class="listing" x-named="todo-list" x-items="todos" x-key="id">
+<x-ul id="todo-list" class="listing" x-items="todos" x-key="id">
     <li>
         <label><x-input type="checkbox" value="@{id}" checked="@{done}" onchange="toggle"/> </label>
         <x-span x-text="title">Read Book</x-span>
@@ -177,7 +177,7 @@ by the target page. The important thing is to ensure that they have the _x-named
 > todos/fragment/todo-form.xml
 
 ```xml
-<x-form id="todo-form" x-named="todo-form" hx-post="/htmx/" hx-trigger="submit" hx-target="#todo-list" >
+<x-form id="todo-form" hx-post="/htmx/" hx-trigger="submit" hx-target="#todo-list" >
     <label><input name="title" /></label>
     <button type="submit">Add</button>
 </x-form>

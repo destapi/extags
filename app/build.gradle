@@ -21,6 +21,9 @@ dependencies {
     // json
     implementation 'com.google.code.gson:gson:2.10.1'
 
+    // commons cli
+    implementation 'commons-cli:commons-cli:1.6.0'
+
     // logging
     implementation 'org.slf4j:slf4j-api:2.0.12';
     implementation 'org.slf4j:slf4j-simple:2.0.12'
@@ -40,10 +43,17 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'works.hop.eztag.App'
+    mainClass = 'works.hop.eztag.template.GenTemplates'
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
