@@ -18,12 +18,12 @@ import java.util.Map;
 import java.util.Objects;
 
 /*
-* java -cp app/build/libs/app.jar works.hop.eztag.template.GenTemplates \
-* -w "www/todos" \
-* -i "/todos/todo-htmx-app" \
-* -o "index.hmtl" \
-* -d "{ \"todos\": [ {\"id\": 1, \"title\": \"Read book\", \"done\": false} ] }"
-* */
+ * java -cp app/build/libs/app.jar works.hop.eztag.template.GenTemplates \
+ * -w "www/todos" \
+ * -i "/todos/todo-htmx-app" \
+ * -o "index.hmtl" \
+ * -d "{ \"todos\": [ {\"id\": 1, \"title\": \"Read book\", \"done\": false} ] }"
+ * */
 public class GenTemplates {
 
     public static void main(String[] args) throws XMLStreamException, IOException, ParseException {

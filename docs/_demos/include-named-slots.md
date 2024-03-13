@@ -1,7 +1,9 @@
 ## EzTag - &lt;include&gt; also being a named slot
 
-In addition to applying an _x-named_ attribute to components inside the _&lt;layout&gt;_, it is also possible to extract these components into
-their own standalone files, and then importing any one of them into any _&lt;layout&gt;_ component using the  _&lt;include&gt;_ tag.
+In addition to applying an _x-named_ attribute to components inside the _&lt;layout&gt;_, it is also possible to extract
+these components into
+their own standalone files, and then importing any one of them into any _&lt;layout&gt;_ component using the
+_&lt;include&gt;_ tag.
 
 > Layout for pages (phase2/basic-template-wrapper.xml)
 
@@ -31,7 +33,8 @@ This can be used to decorate two different pages
 </x-layout>
 ```
 
-The _#header-slot, #content-slot and #footer-slot_ can be extracted into their own files and therefore become reusable in other parts of the application.
+The _#header-slot, #content-slot and #footer-slot_ can be extracted into their own files and therefore become reusable
+in other parts of the application.
 
 > header section
 

@@ -1,14 +1,19 @@
 ## EzTag Decorator Tags
 
-These are special tags because they are placeholders for content which is used by the browser and not by a person directly.
-They include _doctype_, _meta_, _link_ and _script_. It's __important__ to be aware that the _style_ tag is not supported
-as a decorator tag. The _style tag_ is treated like regular _HTML content_. Any styling is assumed to be using the _link tag_.
+These are special tags because they are placeholders for content which is used by the browser and not by a person
+directly.
+They include _doctype_, _meta_, _link_ and _script_. It's __important__ to be aware that the _style_ tag is not
+supported
+as a decorator tag. The _style tag_ is treated like regular _HTML content_. Any styling is assumed to be using the _link
+tag_.
 Also, these tags are only relevant if you are using a _HTML layout page_, otherwise, you wouldn't find use for them.
 
 ### &lt;x-doctype&gt;
 
-This is only used together with the __<x-layout>__ tag. It is used to inform the parser to include the specified _doctype_
-at the beginning of the generated markup. This is an opt-in feature which means that by default, the _doctype_ is not added
+This is only used together with the __<x-layout>__ tag. It is used to inform the parser to include the specified
+_doctype_
+at the beginning of the generated markup. This is an opt-in feature which means that by default, the _doctype_ is not
+added
 to generated content.
 
 ```xml
@@ -21,6 +26,7 @@ to generated content.
 ### &lt;x-meta /&gt;
 
 This tag is used in two places:
+
 - in the _layout page_ to provide positional point to insert _meta tags_
 
 ```xml
@@ -48,6 +54,7 @@ This tag is used in two places:
 ### &lt;x-link /&gt;
 
 in the same way as the _meta tags_, this tag is also used in two places:
+
 - in the _layout page_ to provide positional point to insert _link tags_
 
 ```xml
@@ -78,6 +85,7 @@ in the same way as the _meta tags_, this tag is also used in two places:
 ### &lt;x-script /&gt;
 
 in the same way as the _meta tags_, this tag is also used in two places:
+
 - in the _layout page_ to provide positional point to insert _script tags_
 
 ```xml

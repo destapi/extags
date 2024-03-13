@@ -1,8 +1,19 @@
 package works.hop.eztag.parser;
 
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public interface JNode {
+public interface JNode extends Serializable {
+
+    default boolean isArray() {
+        return false;
+    }
+
+    default boolean isObject() {
+        return false;
+    }
 
     default JObserver observer() {
         return null;
@@ -28,12 +39,36 @@ public interface JNode {
         return prev;
     }
 
+    default void bubble(JEvent event, JNode data) {
+        if(event.source == null) event.source = this;
+
+        if (parent() != null) {
+            parent().bubble(event, data);
+        }
+        // this must be the root, so the observer should be available
+        if(observer() != null){
+            observer().onEvent(event, data);
+        }
+    }
+
+    default String tracePath() {
+        String fullPath = Objects.requireNonNullElse(this.path(), "");
+        JNode node = this.parent();
+        if (node != null) {
+            do {
+                fullPath = String.format("%s%s", Objects.requireNonNullElse(node.path(), ""), fullPath);
+                node = node.parent();
+            } while (node != null);
+        }
+        return fullPath;
+    }
+
     /**
      * JObject retrieve from a map the value reachable by key
      *
      * @param parent     value of parent node if it exists
      * @param subscriber key to register interest for notification if the value changes
-     * @param key        value used as key in the map
+     * @param key        value used as a key in the map
      * @return value if key exists else null
      */
     default Object get(JNode parent, String subscriber, String key) {
@@ -45,7 +80,7 @@ public interface JNode {
      *
      * @param parent     value of parent node if it exists
      * @param subscriber key to register interest for notification if the value changes
-     * @param index      ordinal position of element in array
+     * @param index      ordinal position of an element in array
      * @return value at the index position if it's within valid range
      */
     default Object get(JNode parent, String subscriber, int index) {
@@ -53,7 +88,7 @@ public interface JNode {
     }
 
     /**
-     * JArray retrieve from array the first object that matches the predicate
+     * JArray retrieve from an array the first object that matches the predicate
      *
      * @param parent     value of parent node if it exists
      * @param subscriber key to register interest for notification if the value changes
@@ -65,10 +100,10 @@ public interface JNode {
     }
 
     /**
-     * JArray replace in array the value at index
+     * JArray replace in an array the value at index
      *
      * @param parent value of parent node if it exists
-     * @param index  ordinal position of element to replace in the array
+     * @param index  ordinal position of an element to replace in the array
      * @param value  new value intended
      * @return old value at the index position if it's within valid range
      */
@@ -91,7 +126,7 @@ public interface JNode {
      * JObject add new value with given key into a map
      *
      * @param parent value of parent node if it exists
-     * @param key    value used as key in the map
+     * @param key    value used as a key in the map
      * @param value  value put into the map
      */
     default void put(JNode parent, String key, Object value) {
@@ -99,10 +134,10 @@ public interface JNode {
     }
 
     /**
-     * JObject replace value with given key in a map
+     * JObject replace value with a given key in a map
      *
      * @param parent value of parent node if it exists
-     * @param key    value used as key in the map
+     * @param key    value used as a key in the map
      * @param value  value replaced in the map
      */
     default void replace(JNode parent, String key, Object value) {
@@ -110,12 +145,33 @@ public interface JNode {
     }
 
     /**
-     * JArray add an element to the array
+     * JArray update an object in the collection in-place
      *
      * @param parent value of parent node if it exists
-     * @param value  value added to the array
+     * @param predicate    test for presence or existence
+     * @param consumer  function to update an object in-place
      */
-    default boolean add(JNode parent, Object value) {
+    default void update(JNode parent, Predicate<Object> predicate, Consumer<JNode> consumer) {
+
+    }
+
+    /**
+     * JObject update an object in the map in-place
+     *
+     * @param parent value of parent node if it exists
+     * @param key    value used as a key in the map
+     * @param consumer  function to update an object in-place
+     */
+    default void update(JNode parent, String key, Consumer<JNode> consumer) {
+
+    }
+
+    /**
+     * JArray add an element to the array
+     *
+     * @param value value added to the array
+     */
+    default boolean addItem(Object value) {
         return false;
     }
 
@@ -123,7 +179,7 @@ public interface JNode {
      * JArray remove from the array the value at index
      *
      * @param parent value of parent node if it exists
-     * @param index  ordinal position of element in array
+     * @param index  ordinal position of an element in array
      * @return value at the index position if it's within valid range
      */
     default Object remove(JNode parent, int index) {
@@ -131,21 +187,31 @@ public interface JNode {
     }
 
     /**
-     * JArray remove from array the first object that matches the predicate
+     * JArray remove from an array the first object that matches the predicate
      *
      * @param parent    value of parent node if it exists
      * @param predicate test for presence or existence
      * @return value if found else null
      */
-    default Object remove(JNode parent, Predicate<Object> predicate) {
+    default Object removeFirst(JNode parent, Predicate<Object> predicate) {
         return null;
+    }
+
+    /**
+     * JArray remove from an array any object that matches the predicate
+     *
+     * @param parent    value of parent node if it exists
+     * @param predicate test for presence or existence
+     */
+    default void removeAny(JNode parent, Predicate<Object> predicate) {
+
     }
 
     /**
      * JObject remove from a map the value reachable by key
      *
      * @param parent value of parent node if it exists
-     * @param key    value used as key in the map
+     * @param key    value used as a key in the map
      * @return value if key exists else null
      */
     default Object remove(JNode parent, String key) {
@@ -157,4 +223,8 @@ public interface JNode {
     boolean isEmpty();
 
     void clear();
+
+    String path();
+
+    void path(String path);
 }

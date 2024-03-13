@@ -17,7 +17,7 @@ public class ShopTemplates {
     public static String[] pages = {"index", "cart", "checkout", "detail", "contact", "shop"};
 
     public static void main(String[] args) throws XMLStreamException, IOException {
-        for(String page : pages){
+        for (String page : pages) {
             JContext processor = new JContext(Map.of("page", Map.of("title", "MultiShop - Online Shop Website Template")));
             JParser parser = new JParser(String.format("/shop/%s.xml", page), processor);
             JElement root = parser.parse();

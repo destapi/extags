@@ -1,6 +1,8 @@
 <x-ul id="todo-list" class="listing" x-items="todos" x-key="id">
     <li>
-        <label><x-input type="checkbox" value="@{id}" checked="@{done}" hx-put="/htmx/?id=%s" hx-target="#todo-list" /> </label>
+        <label>
+            <x-input type="checkbox" value="@{id}" checked="@{done}" hx-put="/htmx/?id=%s" hx-target="#todo-list"/>
+        </label>
         <x-span x-text="title">Read Book</x-span>
         <i class="remove" hx-delete="/htmx/?id=%s" hx-target="#todo-list">x</i>
     </li>

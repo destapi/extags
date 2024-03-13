@@ -1,6 +1,5 @@
 package works.hop.game.service;
 
-import org.junit.jupiter.api.Test;
 import works.hop.game.model.ProgressTiming;
 import works.hop.game.model.Question;
 import works.hop.game.model.QuestionGroup;
@@ -9,8 +8,6 @@ import works.hop.game.model.ScoringPlan;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RunQuestionsTest {
 
@@ -70,10 +67,11 @@ class RunQuestionsTest {
         TimerTask task = new TimerTask() {
 
             long max = 5000L;
+
             public void run() {
                 System.out.println("Task performed on: " + new Date() + "n" +
                         "Thread's name: " + Thread.currentThread().getName());
-                if(max < 0 ){
+                if (max < 0) {
                     timer.cancel();
                 }
                 max -= 1000;

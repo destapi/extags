@@ -4,18 +4,18 @@
 
     <x-title x-named="title" x-text="page.title">Online Store</x-title>
 
-    <x-include path="/shop/carousal.xml" />
+    <x-include path="/shop/carousal.xml"/>
 
-    <x-include path="/shop/featured.xml" />
+    <x-include path="/shop/featured.xml"/>
 
-    <x-include path="/shop/categories.xml" />
+    <x-include path="/shop/categories.xml"/>
 
-    <x-include path="/shop/products.xml" />
+    <x-include path="/shop/products.xml"/>
 
-    <x-include path="/shop/offer.xml" />
+    <x-include path="/shop/offer.xml"/>
 
-    <x-include path="/shop/products.xml" />
+    <x-include path="/shop/products.xml"/>
 
-    <x-include path="/shop/vendor.xml" />
+    <x-include path="/shop/vendor.xml"/>
 
 </x-layout>

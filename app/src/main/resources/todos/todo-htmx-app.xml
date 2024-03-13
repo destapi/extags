@@ -9,6 +9,6 @@
     <x-include x-path="/todos/fragment/todo-stats.xml" x-named="todo-stats"/>
 
     <x-include x-path="/todos/fragment/todo-form.xml" x-named="todo-form"/>
- 
+
     <x-include x-path="/todos/fragment/todo-list.xml" x-named="todo-list"/>
 </x-layout>

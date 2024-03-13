@@ -9,6 +9,9 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Stack;
@@ -20,16 +23,39 @@ public class JParser {
     Stack<JElement> stack = new Stack<>();
     JElement lastPopped;
 
+    public JParser(JContext processor) {
+        this.processor = processor;
+    }
+
     public JParser(String path, JContext processor) {
         this.path = path;
         this.processor = processor;
     }
 
-    public JElement parse() throws XMLStreamException {
+    public XMLEventReader reader() throws XMLStreamException {
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-        XMLEventReader reader = xmlInputFactory.createXMLEventReader(
-                getClass().getResourceAsStream(path));
-        parse(reader);
+        return xmlInputFactory.createXMLEventReader(
+                getClass().getResourceAsStream(Objects.requireNonNull(path, "you must either initialize the file path variable " +
+                        "in the constructor, or try to use a different parse function that meets your requirements better")));
+    }
+
+    public XMLEventReader reader(Reader content) throws XMLStreamException {
+        XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
+        return xmlInputFactory.createXMLEventReader(content);
+    }
+
+    public JElement parse() throws XMLStreamException {
+        parse(reader());
+        lastPopped.observer(processor);
+        return lastPopped;
+    }
+
+    public JElement parse(String content) throws XMLStreamException {
+        return parse(new StringReader(content));
+    }
+
+    public JElement parse(Reader content) throws XMLStreamException {
+        parse(reader(content));
         lastPopped.observer(processor);
         return lastPopped;
     }
@@ -106,6 +132,10 @@ public class JParser {
                             }
                             case "x-doctype": {
                                 ((JElement) element.root()).setDocTypeTag(attrValue);
+                                break;
+                            }
+                            case "x-sub": {
+                                element.interests.addAll(Arrays.stream(attrValue.split(",")).toList());
                                 break;
                             }
                             default: {

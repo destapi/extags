@@ -34,6 +34,7 @@ public class JElement extends JObject {
     protected boolean isLayoutNode;
     protected boolean isDecoratorNode;
     protected JElement docTypeElement;
+    protected List<String> interests = new LinkedList<>();
     protected Map<String, String> attributes = new LinkedHashMap<>();
     protected Map<String, JElement> slots = new LinkedHashMap<>();
     protected Map<String, List<JElement>> decorators = new HashMap<>() {
@@ -269,7 +270,7 @@ public class JElement extends JObject {
                     continue;
                 }
 
-                if("include".equals(tagName)){
+                if ("include".equals(tagName)) {
                     JContext includeProcessor = new JContext(context);
                     JParser includeParser = new JParser(child.includePath, includeProcessor);
                     JElement includeRoot = includeParser.parse();
@@ -285,26 +286,6 @@ public class JElement extends JObject {
         } catch (XMLStreamException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public String renderComponent() {
-        if (ifExpression == null || (Boolean) MVEL.eval(ifExpression, context)) {
-            StringBuilder builder = new StringBuilder();
-            if (tagName.equals("x-layout")) {
-                renderLayout(builder);
-            } else if (includePath != null) {
-                renderIncluded(builder);
-            } else if (isLayoutSlot) {
-                setLayoutSlot(false);
-                builder.append(((JElement) root()).slots.get(getSlotRef()).render());
-            } else if (decoratorTags.contains(tagName.replaceFirst("x-", "")) && !isDecoratorNode()) {
-                renderDecorator(builder);
-            } else {
-                renderTag(builder);
-            }
-            return builder.toString();
-        }
-        return "";
     }
 
     public void renderNonComponent(StringBuilder builder) {
@@ -351,8 +332,36 @@ public class JElement extends JObject {
         }
     }
 
+    public String renderComponent() {
+        if (ifExpression == null || (Boolean) MVEL.eval(ifExpression, context)) {
+            if(!interests.isEmpty()){
+                observer.subscribe(this.interests.stream().map(i -> new JSubscribe(i, this)).toList());
+            }
+
+            StringBuilder builder = new StringBuilder();
+            if (tagName.equals("x-layout")) {
+                renderLayout(builder);
+            } else if (includePath != null) {
+                renderIncluded(builder);
+            } else if (isLayoutSlot) {
+                setLayoutSlot(false);
+                builder.append(((JElement) root()).slots.get(getSlotRef()).render());
+            } else if (decoratorTags.contains(tagName.replaceFirst("x-", "")) && !isDecoratorNode()) {
+                renderDecorator(builder);
+            } else {
+                renderTag(builder);
+            }
+            return builder.toString();
+        }
+        return "";
+    }
+
     public String renderListComponent() {
         if (ifExpression == null || (Boolean) MVEL.eval(ifExpression, context)) {
+            if(!interests.isEmpty()){
+                observer.subscribe(this.interests.stream().map(i -> new JSubscribe(i, this)).toList());
+            }
+
             StringBuilder builder = new StringBuilder();
             if (isTextNode()) {
                 builder.append(textContent);
@@ -384,16 +393,16 @@ public class JElement extends JObject {
     private void renderTagAttributes(StringBuilder builder) {
         for (String attr : attributes.keySet()) {
             String attrValue = attributes.get(attr);
-            if(attrValue.contains("@")){
+            if (attrValue.contains("@")) {
                 attrValue = TemplateRuntime.eval(attrValue, context).toString();
             }
-            if(attr.equals("data-x-show")){
+            if (attr.equals("data-x-show")) {
                 attrValue = MVEL.eval(attrValue, context).toString();
                 builder.append(" ").append(attr).append("=").append("\"").append(attrValue).append("\"");
                 continue;
             }
-            if(booleanAttributes.contains(attr) ){
-                if(attrValue.equals("true")) {
+            if (booleanAttributes.contains(attr)) {
+                if (attrValue.equals("true")) {
                     builder.append(" ").append(attr);
                 }
                 continue;

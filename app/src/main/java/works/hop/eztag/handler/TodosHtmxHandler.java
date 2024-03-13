@@ -8,10 +8,6 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.mvel2.templates.TemplateRuntime;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;

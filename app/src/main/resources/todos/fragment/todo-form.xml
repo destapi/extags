@@ -1,4 +1,6 @@
-<x-form id="todo-form" hx-post="/htmx/" hx-trigger="submit" hx-target="#todo-list" >
-    <label><input name="title" /></label>
+<x-form id="todo-form" hx-post="/htmx/" hx-trigger="submit" hx-target="#todo-list">
+    <label>
+        <input name="title"/>
+    </label>
     <button type="submit">Add</button>
 </x-form>

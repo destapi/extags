@@ -28,11 +28,16 @@ This is an example of how a todolist can be put together using _eztags_. This is
 ```
 
 The layout:
-1. has no _&lt;!doctype&gt;_ because the template markup must be _valid XML_. This tag can however be optionally injected, as will be seen later.
-2. has a slot for a _title_ which can also be optionally injected, or else the title in the layout template would be used
-3. has three named slots _(todo-form, todo-list, todo-stats)_ which just like the title slot can optionally be injected, or else, the resulting
-markup would be empty tags
-4. contains a _&lt;x-script/&gt;_ placeholder where a target page can optionally inject its own javascript tag into the generated page
+
+1. has no _&lt;!doctype&gt;_ because the template markup must be _valid XML_. This tag can however be optionally
+   injected, as will be seen later.
+2. has a slot for a _title_ which can also be optionally injected, or else the title in the layout template would be
+   used
+3. has three named slots _(todo-form, todo-list, todo-stats)_ which just like the title slot can optionally be injected,
+   or else, the resulting
+   markup would be empty tags
+4. contains a _&lt;x-script/&gt;_ placeholder where a target page can optionally inject its own javascript tag into the
+   generated page
 5. contains the stylesheet which will remain the same in the final generated page
 
 > The app page (/todos/todo-app.xml)
@@ -67,14 +72,17 @@ markup would be empty tags
 ```
 
 The target page:
+
 1. uses the _todo-template.xml_ layout to organize its components using the _named slots_ content
 2. injects a _&lt;!doctype&gt;_ into the generated page
 3. injects a _title_ to override the default in the generated page
 4. injects three named parts (todo-form, todo-list, todo-stats) for the slots in the template page.
 5. injects a script tag which the target page requires, into the _&lt;x-script/&gt; placeholder in the template
-6. declares event handlers, and these should be available in the document's global scope before they can be attached successfully to the target elements
+6. declares event handlers, and these should be available in the document's global scope before they can be attached
+   successfully to the target elements
 
-The glue that will wire together the markup and the user-events generated on the page is provided manually using javascript.
+The glue that will wire together the markup and the user-events generated on the page is provided manually using
+javascript.
 
 > /todos/cs/todos.js
 
@@ -206,9 +214,11 @@ i.remove {
 }
 ```
 
-This should work as expected, with all the state being saved in the browser's localStorage and nothing happening on the server side.
+This should work as expected, with all the state being saved in the browser's localStorage and nothing happening on the
+server side.
 
-Now, it would be easy to just convert the calls to save in localStorage into calls to submit data to the backend using javascript's _fetch API_. 
+Now, it would be easy to just convert the calls to save in localStorage into calls to submit data to the backend using
+javascript's _fetch API_.
 
 > Update the document load event handler to fetch all
 
@@ -223,7 +233,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 ```
 
-The server side handler would look something close to this, if you are using the _Servlet API_, and it would return all the todos, assuming
+The server side handler would look something close to this, if you are using the _Servlet API_, and it would return all
+the todos, assuming
 _todos_ is an instance variable in the servlet handler.
 
 ```java
@@ -327,10 +338,13 @@ private static void deleteTodo(HttpServletRequest request, HttpServletResponse r
 }
 ```
 
-And the _todos_ application would continue to work just like it did before when using localStorage. The main difference is that now the persistence is happening on the 
-server side. This has been the conventional way for a while now, of writing RESTful API client/server code. It doesn't always have to be this way though. The response 
+And the _todos_ application would continue to work just like it did before when using localStorage. The main difference
+is that now the persistence is happening on the
+server side. This has been the conventional way for a while now, of writing RESTful API client/server code. It doesn't
+always have to be this way though. The response
 could be _XML_ instead of _JSON_, for example.
 
-For this exercise, the goal is to _NOT_ use javascript, but instead use something more exciting, like [HTMX](https://htmx.org/) perhaps?. That's the subject of the next section.
+For this exercise, the goal is to _NOT_ use javascript, but instead use something more exciting,
+like [HTMX](https://htmx.org/) perhaps?. That's the subject of the next section.
 
 

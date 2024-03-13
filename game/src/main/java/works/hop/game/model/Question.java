@@ -1,6 +1,5 @@
 package works.hop.game.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.LinkedList;
