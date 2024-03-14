@@ -1,4 +1,4 @@
-package works.hop.game.model;
+package works.hop.game.running;
 
 import lombok.Data;
 

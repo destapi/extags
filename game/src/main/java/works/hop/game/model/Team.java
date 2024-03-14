@@ -4,28 +4,24 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 @Data
-public class Participant implements Serializable {
+public class Team {
 
     long id;
-    @Length(max = 64)
-    String firstName;
-    @Length(max = 64)
-    String lastName;
     @NotNull
     @Length(max = 64)
-    String screenName;
-    @NotNull
-    @Length(max = 64)
-    String emailAddress;
-    @NotNull
+    String name;
     @Length(max = 64)
     String city;
-    @NotNull
-    @Length(max = 64)
+    @Length(max = 32)
     String state;
+    Participant captain;
+    @NotNull
+    long captainRef;
     LocalDateTime dateCreated;
+    List<Participant> members = new LinkedList<>();
 }

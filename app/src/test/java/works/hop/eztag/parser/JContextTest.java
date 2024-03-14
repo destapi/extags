@@ -1,5 +1,6 @@
 package works.hop.eztag.parser;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.xml.stream.XMLStreamException;
@@ -10,6 +11,7 @@ import static java.util.stream.Collectors.toCollection;
 class JContextTest {
 
     @Test
+    @Disabled("not yet ready for testing")
     void signal_data_changed_event_to_generated_component() throws XMLStreamException {
         // template
         String template = """

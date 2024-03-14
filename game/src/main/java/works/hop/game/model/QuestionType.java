@@ -1,4 +1,7 @@
 package works.hop.game.model;
 
-public class QuestionType {
+public enum QuestionType {
+
+    GENERAL, SCIENCE, MATH, ENGLISH, GEOGRAPHY, POLITICS, HISTORY, RELIGION, MUSIC, MOVIES, TV,
+    ANIMALS
 }

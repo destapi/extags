@@ -1,4 +1,6 @@
-package works.hop.game.model;
+package works.hop.game.running;
+
+import works.hop.game.model.Question;
 
 public class ScoringPlan {
 

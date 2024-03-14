@@ -1,9 +1,9 @@
 package works.hop.game.service;
 
-import works.hop.game.model.ProgressTiming;
+import works.hop.game.running.ProgressTiming;
 import works.hop.game.model.Question;
-import works.hop.game.model.QuestionGroup;
-import works.hop.game.model.ScoringPlan;
+import works.hop.game.running.QuestionGroup;
+import works.hop.game.running.ScoringPlan;
 
 import java.util.Date;
 import java.util.Timer;
@@ -14,13 +14,13 @@ class RunQuestionsTest {
     public static void main(String[] args) throws InterruptedException {
         //plan questions
         Question que1 = new Question();
-        que1.setId("1");
+        que1.setId(1);
         que1.setQuestion("1 + 1");
         Question que2 = new Question();
-        que1.setId("2");
+        que1.setId(2);
         que2.setQuestion("2 + 2");
         Question que3 = new Question();
-        que1.setId("3");
+        que1.setId(3);
         que3.setQuestion("3 + 3");
 
         // plan timing

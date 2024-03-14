@@ -1,6 +1,7 @@
-package works.hop.game.model;
+package works.hop.game.running;
 
 import lombok.Data;
+import works.hop.game.model.Question;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +12,6 @@ public class QuestionGroup {
     int ordinal;
     String gameRef;
     List<Question> session = new LinkedList<>();
-    QuestionType questionType;
     ProgressTiming timing;
     ScoringPlan scoringPlan;
 }

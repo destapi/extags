@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="http://github.com/destapi/eztags/app/eztags.xsd"
+xmlns="http://github.com/destapi/eztags/app/eztags.xsd">
+
+    <xs:complexType name="htmlType">
+
+    </xs:complexType>
+
+    <xs:complexType name="layoutType">
+
+    </xs:complexType>
+
+    <xs:element name="layout" type="layoutType"/>
+</xs:schema>
