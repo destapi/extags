@@ -1,0 +1,104 @@
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#nav-bar {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+}
+
+#nav-bar .nav-left{
+    background-color: #ccc;
+    padding: 10px;
+}
+
+#nav-bar .nav-center{
+    background-color: #bbb;
+    flex: 1;
+    padding: 10px;
+}
+
+#nav-bar .nav-right{
+    background-color: #aaa;
+    padding: 10px;
+}
+
+#main {
+    flex: 1;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+}
+
+#main .content-panel {
+    flex: 1 1 80%;
+    padding: 10px;
+    background-color: #ddd;
+    display: flex;
+    flex-direction: column;
+}
+
+#main .content-panel .question {
+    flex: 1;
+    background-color: #bbb;
+}
+
+#main .content-panel .player-response {
+    min-height: 70px;
+    background-color: #ccc;
+}
+
+#main .content-panel .server-response {
+    min-height: 100px;
+    background-color: #ddd;
+}
+
+#main .content-panel .time-remaining {
+    min-height: 40px;
+    background-color: #eee;
+}
+
+#main .content-panel .time-remaining label {
+    padding-right: 10px;
+    font-size: 1.2rem;
+}
+
+#main .content-panel .time-remaining progress {
+    padding: 10px;
+    min-width: 100%;
+}
+
+#main .participants-panel {
+    flex: 1 1 20%;
+    padding: 10px;
+    background-color: #eee;
+}
+
+#footer {
+    min-height: 70px;
+    padding: 10px;
+    background-color: #ccc;
+}
+
+.nav-menu ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+.nav-menu ul li {
+    display: inline-flex;
+    margin: 0.3em 1em;
+}
+
+.nav-menu ul li.hidden {
+    display: none;
+}
+
+.nav-menu ul button {
+  width: 100%;
+  border: none;
+}
