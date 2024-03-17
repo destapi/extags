@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class TodoHtmxTemplates {
+public class HtmxTemplates {
 
     public static String resourceFolder = "www/todos";
 

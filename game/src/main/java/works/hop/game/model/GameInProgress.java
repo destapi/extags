@@ -22,4 +22,6 @@ public class GameInProgress {
     Long countdownDuration;
     Long countdownIntervals;
     ProgressStatus progressStatus;
+    LocalDateTime timeStarted;
+    LocalDateTime timeEnded;
 }

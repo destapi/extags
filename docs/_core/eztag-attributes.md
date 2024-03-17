@@ -153,6 +153,46 @@ _basic-template.xml_)
 </x-layout>
 ```
 
+### x-fragment
+
+Sometimes, breaking up a page into slot definitions and putting them in standalone files may sound like a great strategy
+because it employs the
+__separation of concerns__ principle. In theory, it sounds good indeed, but in practice, it's not all sunshine and
+rainbows. It does inadvertently
+introduce another kind of coupling which means that it raises the cognitive impedance needed to understand what purpose
+each standalone file serves
+when isolated from the other collaborating files. One would require intimate knowledge of the files and the part they
+play in concert with each
+other, which is a kind of tight coupling.
+
+There is another principle that comes into play here, and which perhaps can become more significant under certain
+circumstances. This is the
+__locality of behavior__ principal. The idea here is that the different concerns which together address a single problem
+should be collocated,
+which lowers the cognitive impedance needed to understand the solution and also increases the cohesion for that
+solution. This is what __fragments__
+provides. You can therefore think of _slots_ as enforcing _separation of concerns_, while _fragments_ on the other hand
+can be viewed as enforcing
+_locality_of_behavior_.
+
+A fragment's content is stored in memory, inside its _parent element_ using its name as a map key. To retrieve the
+fragment's content, the parent
+element should first be located, so that the fragment can then be obtained from the memory map using its name.
+
+```xml
+<x-layout x-template="/phase2/basic-template-wrapper.xml">
+    <x-section id="header-slot" x-fragment="header">
+        <div>Preferred header content</div>
+    </x-section>
+    <x-article id="content-slot" x-fragment="content">
+        <div>Preferred content content</div>
+    </x-article>
+    <x-section id="footer-slot" x-fragment="footer">
+        <div>Preferred footer content</div>
+    </x-section>
+</x-layout>
+```
+
 ### x-template
 
 This is only useful in the context of the __x-layout__ tag. It provides the path (constrained by Java's classpath) to

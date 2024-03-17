@@ -13,9 +13,9 @@ public interface JObserver {
 
     Map<String, List<JNode>> observables();
 
-    void subscribe(List<JSubscribe> interests);
+    JReceiver receiver();
 
-    void onEvent(JEvent event, JNode data);
+    void subscribe(List<JSubscribe> interests);
 
     /**
      * applies to jarray
@@ -24,7 +24,7 @@ public interface JObserver {
      * @param path   represents the 'json-path' string which follows the path from the element being changed up to the target or root node.
      * @param value  the value that was added to the array
      */
-    default void add(Object target, String path, Object value) {
+    default void addItemToCollection(Object target, String path, Object value) {
     }
 
     /**
@@ -36,7 +36,7 @@ public interface JObserver {
      * @param oldValue the value identified by the key 'key' in the dictionary before the update
      * @param newValue the new value that will be identified by the key 'key' in the dictionary
      */
-    default void set(Object target, String path, String key, Object oldValue, Object newValue) {
+    default void addItemToDictionary(Object target, String path, String key, Object oldValue, Object newValue) {
     }
 
     /**
@@ -46,7 +46,7 @@ public interface JObserver {
      * @param path   represents the 'json-path' string which follows the path from the element being changed up to the target or root node.
      * @param value  value in an array that has been accessed
      */
-    default void get(Object target, String path, Object value) {
+    default void getItemFromCollection(Object target, String path, Object value) {
     }
 
     /**
@@ -57,7 +57,7 @@ public interface JObserver {
      * @param index  ordinal position of the target value in the array
      * @param value  value in an array that has been accessed
      */
-    default void get(Object target, String path, int index, Object value) {
+    default void getItemFromCollection(Object target, String path, int index, Object value) {
     }
 
     /**
@@ -68,7 +68,7 @@ public interface JObserver {
      * @param key    key used to identify a value in a dictionary
      * @param value  value in the dictionary that has been accessed
      */
-    default void get(Object target, String path, String key, Object value) {
+    default void getItemFromDictionary(Object target, String path, String key, Object value) {
     }
 
     /**
@@ -76,10 +76,10 @@ public interface JObserver {
      *
      * @param target represents the immediate parent of the JSON attribute whose data is being changed
      * @param path   represents the 'json-path' string which follows the path from the element being changed up to the target or root node.
-     * @param prev  the value existing before the new one is applied
+     * @param prev   the value existing before the new one is applied
      * @param value  the value in the array which has been updated
      */
-    default void replace(Object target, String path, Object prev, Object value) {
+    default void updateItemInCollection(Object target, String path, Object prev, Object value) {
     }
 
     /**
@@ -88,10 +88,10 @@ public interface JObserver {
      * @param target represents the immediate parent of the JSON attribute whose data is being changed
      * @param path   represents the 'json-path' string which follows the path from the element being changed up to the target or root node.
      * @param index  ordinal position of the target value in the array
-     * @param prev  the value existing before the new one is applied
+     * @param prev   the value existing before the new one is applied
      * @param value  the value in the array which has been updated
      */
-    default void replace(Object target, String path, int index, Object prev, Object value) {
+    default void updateItemInCollection(Object target, String path, int index, Object prev, Object value) {
     }
 
     /**
@@ -100,10 +100,10 @@ public interface JObserver {
      * @param target represents the immediate parent of the JSON attribute whose data is being changed
      * @param path   represents the 'json-path' string which follows the path from the element being changed up to the target or root node.
      * @param key    key used to identify a value in a dictionary
-     * @param prev  the value existing before the new one is applied
+     * @param prev   the value existing before the new one is applied
      * @param value  the value identified by the key 'key' in the dictionary which has been updated
      */
-    default void replace(Object target, String path, String key, Object prev, Object value) {
+    default void updateItemInDictionary(Object target, String path, String key, Object prev, Object value) {
     }
 
     /**
@@ -113,7 +113,7 @@ public interface JObserver {
      * @param path   represents the 'json-path' string which follows the path from the element being changed up to the target or root node.
      * @param value  a predicate function used to search for a target value for deletion in the array
      */
-    default void delete(Object target, String path, Object value) {
+    default void removeItemFromCollection(Object target, String path, Object value) {
     }
 
     /**
@@ -124,7 +124,7 @@ public interface JObserver {
      * @param index  ordinal position of the value in the array
      * @param value  value in the array that has been removed
      */
-    default void delete(Object target, String path, int index, Object value) {
+    default void removeItemFromCollection(Object target, String path, int index, Object value) {
     }
 
     /**
@@ -135,7 +135,7 @@ public interface JObserver {
      * @param key    key used to identify a value in a dictionary
      * @param value  value in the dictionary that has been removed
      */
-    default void delete(Object target, String path, String key, Object value) {
+    default void removeItemFromDictionary(Object target, String path, String key, Object value) {
     }
 
     /**

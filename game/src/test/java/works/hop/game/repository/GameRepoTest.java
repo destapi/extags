@@ -14,7 +14,6 @@ import works.hop.game.model.Participant;
 import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestRepositoryConfig.class)
@@ -26,7 +25,7 @@ class GameRepoTest {
     ParticipantRepo participantRepo;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         gameRepo = new GameRepo(embeddedDataSource);
         participantRepo = new ParticipantRepo(embeddedDataSource);
     }

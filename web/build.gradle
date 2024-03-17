@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'works.hop.web'
-version = 'unspecified'
+version = '0.0.1'
 
 repositories {
     mavenCentral()
@@ -43,7 +43,6 @@ test {
     useJUnitPlatform()
 }
 
-// Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)

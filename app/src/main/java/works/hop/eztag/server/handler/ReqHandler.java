@@ -1,20 +1,34 @@
 package works.hop.eztag.server.handler;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import works.hop.eztag.server.router.PathParams;
 
-public interface ReqHandler {
+public abstract class ReqHandler implements IReqHandler {
 
-    PathParams params();
+    private String path;
+    private PathParams params = new PathParams();
 
-    void params(PathParams params);
+    @Override
+    public PathParams params() {
+        return this.params;
+    }
 
-    String path();
+    @Override
+    public void params(PathParams params) {
+        this.params = params;
+    }
 
-    void path(String path);
+    @Override
+    public String path() {
+        return this.path;
+    }
 
-    String param(String name);
+    @Override
+    public void path(String path) {
+        this.path = path;
+    }
 
-    String handle(HttpServletRequest req, HttpServletResponse response);
+    @Override
+    public String param(String name) {
+        return params().get(name);
+    }
 }

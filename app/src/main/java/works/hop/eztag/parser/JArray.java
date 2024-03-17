@@ -37,33 +37,33 @@ public class JArray extends LinkedList<Object> implements JNode {
     }
 
     @Override
-    public Object get(JNode parent, String subscriber, int index) {
+    public Object getIndexed(String subscriber, int index) {
         return super.get(index);
     }
 
     @Override
-    public Object get(JNode parent, String subscriber, Predicate<Object> predicate) {
+    public Object getItem(String subscriber, Predicate<Object> predicate) {
         return super.stream().filter(predicate).findFirst().orElseThrow();
     }
 
     @Override
-    public Object set(JNode parent, int index, Object value) {
+    public Object replaceIndexed(int index, Object value) {
         JObserver rootObserver = this.root().observer();
         if (rootObserver != null) {
-            rootObserver.replace(this, this.tracePath(), super.get(index), value);
+            rootObserver.updateItemInCollection(this, this.tracePath(), super.get(index), value);
         }
         return super.set(index, value);
     }
 
     @Override
-    public void set(JNode parent, Predicate<Object> predicate, Object value) {
+    public void replaceItem(Predicate<Object> predicate, Object value) {
         for (int i = 0; i < super.size(); i++) {
             if (predicate.test(super.get(i))) {
                 super.set(i, value);
                 // notify with first match
                 JObserver rootObserver = this.root().observer();
                 if (rootObserver != null) {
-                    rootObserver.replace(this, this.tracePath(), super.get(i), value);
+                    rootObserver.updateItemInCollection(this, this.tracePath(), super.get(i), value);
                 }
                 break;
             }
@@ -81,13 +81,13 @@ public class JArray extends LinkedList<Object> implements JNode {
         // notify with added value
         JObserver rootObserver = this.root().observer();
         if (added && rootObserver != null) {
-            rootObserver.add(this, this.tracePath(), value);
+            rootObserver.addItemToCollection(this, this.tracePath(), value);
         }
         return added;
     }
 
     @Override
-    public void update(JNode parent, Predicate<Object> predicate, Consumer<JNode> consumer) {
+    public void updateItem(Predicate<Object> predicate, Consumer<JNode> consumer) {
         for (Iterator<Object> iterator = super.iterator(); iterator.hasNext(); ) {
             Object next = iterator.next();
             if (predicate.test(next)) {
@@ -95,25 +95,25 @@ public class JArray extends LinkedList<Object> implements JNode {
                 // notify using first match
                 JObserver rootObserver = this.root().observer();
                 if (rootObserver != null) {
-                    rootObserver.replace(this, this.tracePath(), null, next);
+                    rootObserver.updateItemInCollection(this, this.tracePath(), null, next);
                 }
             }
         }
     }
 
     @Override
-    public Object remove(JNode parent, int index) {
+    public Object removeIndexed(int index) {
         Object value = remove(index);
         //notify matched index
         JObserver rootObserver = this.root().observer();
         if (rootObserver != null) {
-            rootObserver.delete(this, this.tracePath(), index, value);
+            rootObserver.removeItemFromCollection(this, this.tracePath(), index, value);
         }
         return value;
     }
 
     @Override
-    public Object removeFirst(JNode parent, Predicate<Object> predicate) {
+    public Object removeFirst(Predicate<Object> predicate) {
         for (Iterator<Object> iterator = super.iterator(); iterator.hasNext(); ) {
             Object next = iterator.next();
             if (predicate.test(next)) {
@@ -121,7 +121,7 @@ public class JArray extends LinkedList<Object> implements JNode {
                 // notify using first match
                 JObserver rootObserver = this.root().observer();
                 if (rootObserver != null) {
-                    rootObserver.delete(this, this.tracePath(), next);
+                    rootObserver.removeItemFromCollection(this, this.tracePath(), next);
                 }
                 return next;
             }
@@ -130,7 +130,7 @@ public class JArray extends LinkedList<Object> implements JNode {
     }
 
     @Override
-    public void removeAny(JNode parent, Predicate<Object> predicate) {
+    public void removeAny(Predicate<Object> predicate) {
         for (Iterator<Object> iterator = super.iterator(); iterator.hasNext(); ) {
             Object next = iterator.next();
             if (predicate.test(next)) {
@@ -138,7 +138,7 @@ public class JArray extends LinkedList<Object> implements JNode {
                 //notify using any match
                 JObserver rootObserver = this.root().observer();
                 if (rootObserver != null) {
-                    rootObserver.delete(this, this.tracePath(), next);
+                    rootObserver.removeItemFromCollection(this, this.tracePath(), next);
                 }
             }
         }

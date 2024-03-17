@@ -30,17 +30,21 @@ sql> exit
 Connection closed
 ```
 
-3. Connecting to a database using the file protocol locks the database to the thread that first established contact, and any other 
-attempts to connect to the same database will produce an error. For this reason, it's better to start a TCP server which will connect 
-to the database and then allow multiple clients to access the database concurrently.
+3. Connecting to a database using the file protocol locks the database to the thread that first established contact, and
+   any other
+   attempts to connect to the same database will produce an error. For this reason, it's better to start a TCP server
+   which will connect
+   to the database and then allow multiple clients to access the database concurrently.
 
 > View start options for db server
+
 ```bash
 java -cp game/.bin/h2-2.2.224.jar org.h2.tools.Server -?
 ```
 
 > Start a db server instance  
 > When running without options, -tcp, -web, -browser and -pg are started.
+
 ```bash
 java -cp game/.bin/h2-2.2.224.jar org.h2.tools.Server
 ```

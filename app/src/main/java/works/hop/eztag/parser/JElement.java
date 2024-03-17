@@ -14,6 +14,7 @@ public class JElement extends JObject {
     protected String tagName;
     protected String slotName;
     protected String slotRef;
+    protected String fragmentRef;
     protected Object context;
     protected String ifExpression;
     protected String showExpression;
@@ -31,6 +32,7 @@ public class JElement extends JObject {
     protected boolean isEvalNode;
     protected boolean isLayoutSlot;
     protected boolean isSlotNode;
+    protected boolean isFragmentNode;
     protected boolean isLayoutNode;
     protected boolean isDecoratorNode;
     protected JElement docTypeElement;
@@ -44,6 +46,7 @@ public class JElement extends JObject {
             put("meta", new LinkedList<>());
         }
     };
+    protected Map<String, JElement> fragments = new HashMap<>();
     protected List<JElement> children = new LinkedList<>();
 
     public String getTagName() {
@@ -68,6 +71,14 @@ public class JElement extends JObject {
 
     public void setSlotRef(String slotRef) {
         this.slotRef = slotRef;
+    }
+
+    public String getFragmentRef() {
+        return fragmentRef;
+    }
+
+    public void setFragmentRef(String fragmentRef) {
+        this.fragmentRef = fragmentRef;
     }
 
     public Object getContext() {
@@ -206,6 +217,14 @@ public class JElement extends JObject {
         isSlotNode = slotNode;
     }
 
+    public boolean isFragmentNode() {
+        return isFragmentNode;
+    }
+
+    public void setFragmentNode(boolean fragmentNode) {
+        isFragmentNode = fragmentNode;
+    }
+
     public boolean isLayoutNode() {
         return isLayoutNode;
     }
@@ -334,7 +353,7 @@ public class JElement extends JObject {
 
     public String renderComponent() {
         if (ifExpression == null || (Boolean) MVEL.eval(ifExpression, context)) {
-            if(!interests.isEmpty()){
+            if (!interests.isEmpty()) {
                 observer.subscribe(this.interests.stream().map(i -> new JSubscribe(i, this)).toList());
             }
 
@@ -358,7 +377,7 @@ public class JElement extends JObject {
 
     public String renderListComponent() {
         if (ifExpression == null || (Boolean) MVEL.eval(ifExpression, context)) {
-            if(!interests.isEmpty()){
+            if (!interests.isEmpty()) {
                 observer.subscribe(this.interests.stream().map(i -> new JSubscribe(i, this)).toList());
             }
 

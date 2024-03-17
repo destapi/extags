@@ -2,7 +2,6 @@ package works.hop.game.repository.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
 import works.hop.game.model.GameScore;
-import works.hop.game.model.ProgressStatus;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

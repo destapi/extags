@@ -1,6 +1,5 @@
 package works.hop.eztag.parser;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +7,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class JContext implements JObserver {
 
-    Map<String, List<JNode>> observables = new ConcurrentHashMap<>();
-    Object context;
+    final JReceiver receiver;
+    final Object context;
+    final Map<String, List<JNode>> observables = new ConcurrentHashMap<>();
 
     public JContext(Object context) {
+        this(context, null);
+    }
+
+    public JContext(Object context, JReceiver receiver) {
+        this.receiver = receiver;
         this.context = context;
     }
 
@@ -26,6 +31,11 @@ public class JContext implements JObserver {
     }
 
     @Override
+    public JReceiver receiver() {
+        return this.receiver;
+    }
+
+    @Override
     public void subscribe(List<JSubscribe> interests) {
         interests.forEach(sub -> {
             if (!observables().containsKey(sub.event)) {
@@ -37,17 +47,34 @@ public class JContext implements JObserver {
     }
 
     @Override
-    public void onEvent(JEvent event, JNode data) {
-        System.out.println(process((JElement) event.source));
+    public void addItemToCollection(Object target, String path, Object value) {
+        List<JNode> listeners = observables.get("add");
+        for (JNode node : listeners) {
+            JEvent event = new JEvent();
+            event.source = node;
+            event.event = "addItemToCollection";
+            node.bubble(event, (JNode) value);
+        }
     }
 
     @Override
-    public void add(Object target, String path, Object value) {
-        List<JNode> listeners = observables.get("add");
-        for(JNode node : listeners){
+    public void removeItemFromCollection(Object target, String path, Object value) {
+        List<JNode> listeners = observables.get("remove");
+        for (JNode node : listeners) {
             JEvent event = new JEvent();
             event.source = node;
-            event.event = "add";
+            event.event = "removeItemFromCollection";
+            node.bubble(event, (JNode) value);
+        }
+    }
+
+    @Override
+    public void updateItemInCollection(Object target, String path, Object prev, Object value) {
+        List<JNode> listeners = observables.get("update");
+        for (JNode node : listeners) {
+            JEvent event = new JEvent();
+            event.source = node;
+            event.event = "updateItemInCollection";
             node.bubble(event, (JNode) value);
         }
     }

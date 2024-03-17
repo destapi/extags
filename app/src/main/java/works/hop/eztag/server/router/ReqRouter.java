@@ -1,10 +1,10 @@
 package works.hop.eztag.server.router;
 
-import works.hop.eztag.server.handler.ReqHandler;
+import works.hop.eztag.server.handler.IReqHandler;
 
 public interface ReqRouter {
 
-    void store(String method, String path, ReqHandler handler);
+    void store(String method, String path, IReqHandler handler);
 
-    ReqHandler fetch(String method, String path);
+    IReqHandler fetch(String method, String path);
 }

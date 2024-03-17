@@ -35,12 +35,12 @@ public class JObject extends LinkedHashMap<String, Object> implements JNode {
     }
 
     @Override
-    public Object get(JNode parent, String subscriber, String key) {
+    public Object getItem(String subscriber, String key) {
         return super.get(key);
     }
 
     @Override
-    public void put(JNode parent, String key, Object value) {
+    public void putItem(String key, Object value) {
         // apply paren-child relationship
         Object oldValue = get(key);
         if (value != null) {
@@ -53,7 +53,7 @@ public class JObject extends LinkedHashMap<String, Object> implements JNode {
         // notify with added value
         JObserver rootObserver = this.root().observer();
         if (rootObserver != null) {
-            rootObserver.set(this, this.tracePath(), key, oldValue, value);
+            rootObserver.addItemToDictionary(this, this.tracePath(), key, oldValue, value);
         }
 
         super.put(key, value);
@@ -66,15 +66,15 @@ public class JObject extends LinkedHashMap<String, Object> implements JNode {
 
         JObserver rootObserver = this.root().observer();
         if (rootObserver != null) {
-            rootObserver.replace(this, this.tracePath(), key, value);
+            rootObserver.updateItemInCollection(this, this.tracePath(), key, value);
         }
     }
 
     @Override
-    public void replace(JNode parent, String key, Object value) {
+    public void replaceItem(String key, Object value) {
         JObserver rootObserver = this.root().observer();
         if (rootObserver != null) {
-            rootObserver.replace(this, this.tracePath(), key, value);
+            rootObserver.updateItemInCollection(this, this.tracePath(), key, value);
         }
 
         super.replace(key, value);
@@ -85,7 +85,7 @@ public class JObject extends LinkedHashMap<String, Object> implements JNode {
         Object value = remove(key);
         JObserver rootObserver = this.root().observer();
         if (rootObserver != null) {
-            rootObserver.delete(this, this.tracePath(), key, value);
+            rootObserver.removeItemFromDictionary(this, this.tracePath(), key, value);
         }
         return value;
     }

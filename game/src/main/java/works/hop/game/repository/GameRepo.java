@@ -6,7 +6,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import works.hop.game.model.Game;
-import works.hop.game.model.GameInProgress;
 import works.hop.game.model.GameStatus;
 import works.hop.game.repository.mapper.GameRowMapper;
 

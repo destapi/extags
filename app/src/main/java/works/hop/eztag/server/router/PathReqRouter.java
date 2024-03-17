@@ -1,6 +1,6 @@
 package works.hop.eztag.server.router;
 
-import works.hop.eztag.server.handler.ReqHandler;
+import works.hop.eztag.server.handler.IReqHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,10 +12,10 @@ public class PathReqRouter implements ReqRouter {
     String pathParamRegex = "(\\{.+?\\})";
     String paramNameRegex = "\\{(.+?)\\}";
     Pattern storagePattern = Pattern.compile(pathParamRegex);
-    Map<String, ReqHandler> pathRegexHandlers = new HashMap<>();
+    Map<String, IReqHandler> pathRegexHandlers = new HashMap<>();
 
     @Override
-    public void store(String method, String path, ReqHandler handler) {
+    public void store(String method, String path, IReqHandler handler) {
         path = path.endsWith("/") ? path : path.concat("/");
         Matcher matcher = storagePattern.matcher(path);
         if (!matcher.find()) {
@@ -29,10 +29,10 @@ public class PathReqRouter implements ReqRouter {
     }
 
     @Override
-    public ReqHandler fetch(String method, String path) {
+    public IReqHandler fetch(String method, String path) {
         path = path.endsWith("/") ? path : path.concat("/");
         for (String pathRegex : pathRegexHandlers.keySet()) {
-            ReqHandler handler = pathRegexHandlers.get(pathRegex);
+            IReqHandler handler = pathRegexHandlers.get(pathRegex);
             Matcher pathParamMatcher = Pattern.compile(pathRegex).matcher(path);
             Matcher paramNameMatcher = Pattern.compile(paramNameRegex).matcher(handler.path());
             if (pathParamMatcher.find()) {

@@ -7,3 +7,4 @@ build
 .idea
 .vscode
 .bin
+**/node_modules

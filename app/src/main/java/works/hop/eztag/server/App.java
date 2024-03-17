@@ -3,6 +3,7 @@ package works.hop.eztag.server;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.cli.*;
 import org.eclipse.jetty.alpn.server.ALPNServerConnectionFactory;
 import org.eclipse.jetty.http2.server.HTTP2ServerConnectionFactory;
 import org.eclipse.jetty.server.*;
@@ -10,69 +11,77 @@ import org.eclipse.jetty.server.handler.*;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
-import works.hop.eztag.server.handler.AbstractReqHandler;
+import works.hop.eztag.server.handler.IReqHandler;
 import works.hop.eztag.server.handler.ReqHandler;
-import works.hop.eztag.server.handler.TodosHtmxHandler;
-import works.hop.eztag.server.handler.TodosJsonHandler;
 import works.hop.eztag.server.router.MethodReqRouter;
 import works.hop.eztag.server.router.ReqRouter;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.function.Consumer;
 
-public class WebApp {
+public class App {
 
     static ReqRouter router = new MethodReqRouter();
     static ContextHandlerCollection contextCollection = new ContextHandlerCollection();
 
-    public static void runApp(String[] args, Consumer<WebApp> consumer) {
+    public static void runApp(String[] args, Consumer<App> consumer) {
+        final Options options = new Options();
+        options.addOption(new Option("keystorePath", false, "path to keystore file."));
+        options.addOption(new Option("keystorePassword", false, "keystore password"));
+        options.addOption(new Option("securePort", true, "port for ssl connection"));
+        options.addOption(new Option("selectors", true, "number of selector threads"));
+        options.addOption(new Option("acceptors", true, "number of acceptor threads"));
+        options.addOption(new Option("welcomeFiles", true, "comma-separated values of welcome files"));
+        options.addOption(new Option("p", "port", true, "port for non-ssl connection"));
+        options.addOption(new Option("h", "host", true, "dns name or ip address of server"));
+        options.addOption(new Option("r", "resourcesDir", true, "static resources directory path"));
+
         try {
-            WebApp app = new WebApp();
-            Server server = app.configureServer();
-            consumer.accept(app);
-            server.start();
-        } catch (Exception e) {
-            throw new RuntimeException("Could not start server successfully", e);
+            CommandLineParser parser = new DefaultParser();
+            // parse the command line arguments
+            CommandLine line = parser.parse(options, args);
+
+            try {
+                App app = new App();
+                Server server = app.configureServer(line);
+                consumer.accept(app);
+                server.start();
+            } catch (Exception e) {
+                throw new RuntimeException("Could not start server successfully", e);
+            }
+        } catch (ParseException exp) {
+            // oops, something went wrong
+            System.err.println("Parsing failed.  Reason: " + exp.getMessage());
         }
     }
 
-    private static ConnectionFactory configureSsl(HttpConnectionFactory https) {
+    private static ConnectionFactory configureSsl(HttpConnectionFactory https, CommandLine cmd) {
         SslContextFactory.Server sslContextFactory = new SslContextFactory.Server();
-        sslContextFactory.setKeyStorePath("eztag/.env/server-keystore");
-        sslContextFactory.setKeyStorePassword("changeme");
+        sslContextFactory.setKeyStorePath(cmd.getOptionValue("keystorePath", "eztag/.env/server-keystore"));
+        sslContextFactory.setKeyStorePassword(cmd.getOptionValue("keystorePassword", "changeme"));
         return new SslConnectionFactory(sslContextFactory, https.getProtocol());
     }
 
-    public static void main(String[] args) throws Exception {
-        runApp(args, (app) -> {
-        });
-    }
-
-    private void handler(String path, AbstractHandler handler) {
-        ContextHandler todosJson = new ContextHandler(path);
-        todosJson.setHandler(handler);
-        contextCollection.addHandler(todosJson);
-    }
-
-    private void configureConnector(Server server) {
+    private void configureConnector(Server server, CommandLine cmd) {
         // The plain HTTP configuration.
         HttpConfiguration plainConfig = new HttpConfiguration();
         // The secure HTTP configuration.
         HttpConfiguration secureConfig = new HttpConfiguration(plainConfig);
 
         // The number of acceptor threads.
-        int acceptors = 1;
+        int acceptors = Optional.ofNullable(cmd.getOptionValue("acceptors")).map(Integer::parseInt).orElse(1);
         // The number of selectors.
-        int selectors = 1;
+        int selectors = Optional.ofNullable(cmd.getOptionValue("selectors")).map(Integer::parseInt).orElse(1);
         // Create a ServerConnector instance.
         // First, create the secure connector for HTTPS and HTTP/2.
         HttpConnectionFactory https = new HttpConnectionFactory(secureConfig);
         HTTP2ServerConnectionFactory http2 = new HTTP2ServerConnectionFactory(secureConfig);
         ALPNServerConnectionFactory alpn = new ALPNServerConnectionFactory();
         alpn.setDefaultProtocol(https.getProtocol());
-        ConnectionFactory ssl = configureSsl(https);
+        ConnectionFactory ssl = configureSsl(https, cmd);
         ServerConnector secureConnector = new ServerConnector(server, acceptors, selectors, ssl, alpn, http2, https);
-        secureConnector.setPort(8443);
+        secureConnector.setPort(Optional.ofNullable(cmd.getOptionValue("securePort")).map(Integer::parseInt).orElse(8443));
 
         // Second, create the plain connector for HTTP.
         HttpConnectionFactory http = new HttpConnectionFactory(plainConfig);
@@ -81,9 +90,9 @@ public class WebApp {
 
         // Configure TCP/IP parameters.
         // The port to listen to.
-        plainConnector.setPort(8080);
+        plainConnector.setPort(Optional.ofNullable(cmd.getOptionValue("port")).map(Integer::parseInt).orElse(8080));
         // The address to bind to.
-        plainConnector.setHost("127.0.0.1");
+        plainConnector.setHost(cmd.getOptionValue("host", "127.0.0.1"));
 
         // The TCP accept queue size.
         plainConnector.setAcceptQueueSize(128);
@@ -91,36 +100,34 @@ public class WebApp {
         server.addConnector(plainConnector);
     }
 
-    private void resourceHandler(HandlerList list) throws IOException {
+    private void resourceHandler(HandlerList list, CommandLine cmd) throws IOException {
         // Create and configure a ResourceHandler.
         ResourceHandler handler = new ResourceHandler();
         // Configure the directory where static resources are located.
-        handler.setBaseResource(Resource.newResource("www/todos"));
+        handler.setBaseResource(Resource.newResource(cmd.getOptionValue("resourcesDir", "www/todos")));
         // Configure directory listing.
         handler.setDirAllowed(false);
         // Configure welcome files.
-        handler.setWelcomeFiles(new String[]{"index.html"});
+        handler.setWelcomeFiles(Optional.ofNullable(cmd.getOptionValue("welcomeFiles")).map(w -> w.split(",")).orElse(new String[]{"index.html"}));
         // Configure whether to accept range requests.
         handler.setAcceptRanges(true);
         list.addHandler(handler);
     }
 
-    public Server configureServer() throws Exception {
+    public Server configureServer(CommandLine cmd) throws Exception {
         // Create and configure a ThreadPool.
         QueuedThreadPool threadPool = new QueuedThreadPool();
-        threadPool.setName("eztag-server");
+        threadPool.setName(cmd.getOptionValue("serverName", "eztag-server"));
 
         // Create a Server instance.
         Server server = new Server(threadPool);
 
         // Create a ServerConnector to accept connections from clients.
-        configureConnector(server);
+        configureConnector(server, cmd);
 
         // Create a ContextHandlerCollection to hold contexts.
         HandlerList handlerList = new HandlerList();
-        resourceHandler(handlerList);
-        handler("/todos", new TodosJsonHandler());
-        handler("/htmx", new TodosHtmxHandler());
+        resourceHandler(handlerList, cmd);
         handlerList.addHandler(contextCollection);
         handlerList.addHandler(new DefaultHandler());
 
@@ -129,44 +136,44 @@ public class WebApp {
         return server;
     }
 
-    public void handle(String method, String path, AbstractReqHandler handler) {
+    public void handle(String method, String path, ReqHandler handler) {
         handler.path(path); //MUST be set for routing to function
         router.store(method, path, handler);
     }
 
-    public WebApp get(String path, AbstractReqHandler handler) {
+    public App get(String path, ReqHandler handler) {
         this.handle("get", path, handler);
         return this;
     }
 
-    public WebApp delete(String path, AbstractReqHandler handler) {
+    public App delete(String path, ReqHandler handler) {
         this.handle("delete", path, handler);
         return this;
     }
 
-    public WebApp post(String path, AbstractReqHandler handler) {
+    public App post(String path, ReqHandler handler) {
         this.handle("post", path, handler);
         return this;
     }
 
-    public WebApp put(String path, AbstractReqHandler handler) {
+    public App put(String path, ReqHandler handler) {
         this.handle("put", path, handler);
         return this;
     }
 
-    public WebApp patch(String path, AbstractReqHandler handler) {
+    public App patch(String path, ReqHandler handler) {
         this.handle("patch", path, handler);
         return this;
     }
 
-    public WebApp route(String context) {
+    public App route(String context) {
         ContextHandler contextHandler = new ContextHandler(context);
         contextCollection.addHandler(contextHandler);
         contextHandler.setHandler(new AbstractHandler() {
             @Override
             public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
                 try {
-                    ReqHandler handler = router.fetch(baseRequest.getMethod(), target);
+                    IReqHandler handler = router.fetch(baseRequest.getMethod(), target);
                     String result = handler.handle(request, response);
                     response.getWriter().write(result);
                     baseRequest.setHandled(true);

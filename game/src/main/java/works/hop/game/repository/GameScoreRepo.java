@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import works.hop.game.model.GameScore;
-import works.hop.game.model.ProgressStatus;
 import works.hop.game.repository.mapper.GameScoreRowMapper;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.util.Objects;
-import java.util.Optional;
 
 @Repository
 public class GameScoreRepo {

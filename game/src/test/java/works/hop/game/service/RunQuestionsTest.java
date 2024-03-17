@@ -1,7 +1,7 @@
 package works.hop.game.service;
 
-import works.hop.game.running.ProgressTiming;
 import works.hop.game.model.Question;
+import works.hop.game.running.ProgressTiming;
 import works.hop.game.running.QuestionGroup;
 import works.hop.game.running.ScoringPlan;
 

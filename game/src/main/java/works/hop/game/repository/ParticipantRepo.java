@@ -22,16 +22,17 @@ public class ParticipantRepo {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public Participant getById(Long id){
+    public Participant getById(Long id) {
         String SELECT_BY_ID = "select * from Participant where id = ?";
         return jdbcTemplate.queryForObject(SELECT_BY_ID, new ParticipantRowMapper(), id);
     }
 
-    public Participant getByEmail(String emailAddress){
+    public Participant getByEmail(String emailAddress) {
         String SELECT_BY_EMAIL = "select * from Participant where emailAddress = ?";
         return jdbcTemplate.queryForObject(SELECT_BY_EMAIL, new ParticipantRowMapper(), emailAddress);
     }
-    public Participant createPlayer(Participant participant){
+
+    public Participant createPlayer(Participant participant) {
         String INSERT_ENTITY_SQL = "insert into Participant (firstName, lastName, screenName, emailAddress, city, state) values (?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         this.jdbcTemplate.update(connection -> {
@@ -46,11 +47,11 @@ public class ParticipantRepo {
             return ps;
         }, keyHolder);
 
-        participant.setId ((long) keyHolder.getKeyList().get(0).get("id"));
+        participant.setId((long) keyHolder.getKeyList().get(0).get("id"));
         return participant;
     }
 
-    public Participant updatePlayer(Participant participant){
+    public Participant updatePlayer(Participant participant) {
         String UPDATE_ENTITY_SQL = "update Participant set firstName = ?, lastName=?, screenName=?, city=?, state=? where emailAddress = ?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(UPDATE_ENTITY_SQL);

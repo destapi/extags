@@ -1,7 +1,6 @@
 package works.hop.game.repository.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
-import works.hop.game.model.Participant;
 import works.hop.game.model.Question;
 import works.hop.game.model.QuestionType;
 

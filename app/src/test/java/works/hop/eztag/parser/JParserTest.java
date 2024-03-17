@@ -138,10 +138,10 @@ class JParserTest {
         JElement root = assertDoesNotThrow(() -> parser.parse(), "Not expecting error to be thrown");
         assertThat(root.children).hasSize(2);
         assertThat(processor.process(root)).isEqualTo("<head><style type=\"text/css\">.main {\n" +
-                "            background-color: blue;color: white;\n" +
-                "            font-size: 1.2em;}</style><script type=\"module\">export default {\n" +
-                "            const a = 1;const b = 2\n" +
-                "            const c = a + b;console.log(`sum of ${a} and ${b} = ${c}`)\n" +
+                "        background-color: blue;color: white;\n" +
+                "        font-size: 1.2em;}</style><script type=\"module\">export default {\n" +
+                "        const a = 1;const b = 2\n" +
+                "        const c = a + b;console.log(`sum of ${a} and ${b} = ${c}`)\n" +
                 "        }</script></head>");
     }
 
@@ -171,5 +171,19 @@ class JParserTest {
         assertThat(root2.children).hasSize(3);
         String markup2 = processor.process(root2);
         assertThat(markup2).isEqualTo(markup);
+    }
+
+    @Test
+    void verify_that_fragments_in_a_page_are_stored_in_a_memory_map() {
+        String file = "/phase2/page-declaring-fragments.xml";
+        JContext processor = new JContext(emptyMap());
+        JParser parser = new JParser(file, processor);
+        JElement root = assertDoesNotThrow(() -> parser.parse(), "Not expecting error to be thrown");
+        assertThat(root.children).hasSize(3);
+        assertThat(root.fragments).hasSize(3);
+        assertThat(processor.process(root)).isEqualTo("<div><section id=\"header-slot\"><div>Preferred header content</div></section><article id=\"content-slot\"><div>Preferred content content</div></article><section id=\"footer-slot\"><div>Preferred footer content</div></section></div>");
+        assertThat(processor.process(root.fragments.get("header"))).isEqualTo("<section id=\"header-slot\"><div>Preferred header content</div></section>");
+        assertThat(processor.process(root.fragments.get("content"))).isEqualTo("<article id=\"content-slot\"><div>Preferred content content</div></article>");
+        assertThat(processor.process(root.fragments.get("footer"))).isEqualTo("<section id=\"footer-slot\"><div>Preferred footer content</div></section>");
     }
 }

@@ -3,14 +3,14 @@ plugins {
 }
 
 group = 'works.hop.game'
-version = 'unspecified'
+version = '0.0.1'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-   // spring framework
+    // spring framework
     implementation 'org.springframework:spring-context:6.1.4'
     implementation 'org.springframework:spring-jdbc:6.1.4'
     implementation 'org.springframework:spring-tx:6.1.4'
@@ -41,4 +41,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }

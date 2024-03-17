@@ -1,12 +1,12 @@
 package works.hop.eztag.server.router;
 
 import org.junit.jupiter.api.Test;
-import works.hop.eztag.server.handler.ReqHandler;
-import works.hop.eztag.server.router.PathParams;
-import works.hop.eztag.server.router.PathReqRouter;
+import works.hop.eztag.server.handler.IReqHandler;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class PathReqRouterTest {
 
@@ -14,36 +14,36 @@ class PathReqRouterTest {
 
     @Test
     void store_and_fetch_with_simple_path() {
-        ReqHandler mockHandler = mock(ReqHandler.class);
+        IReqHandler mockHandler = mock(IReqHandler.class);
         when(mockHandler.path()).thenReturn("/");
 
         router.store("post", "/", mockHandler);
         //now fetch the handler
-        ReqHandler fetched = router.fetch("post", "/");
+        IReqHandler fetched = router.fetch("post", "/");
         assertThat(fetched).isSameAs(mockHandler);
     }
 
     @Test
     void store_and_fetch_and_identical_simple_path() {
-        ReqHandler mockHandler = mock(ReqHandler.class);
+        IReqHandler mockHandler = mock(IReqHandler.class);
         when(mockHandler.path()).thenReturn("/one");
 
         router.store("post", "/one", mockHandler);
         assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> {
             router.store("post", "/one", mockHandler);
-                }).withMessage("The current path '/one/' path is already matched").withNoCause();
+        }).withMessage("The current path '/one/' path is already matched").withNoCause();
     }
 
     @Test
     void store_and_fetch_with_path_having_a_param() {
-        ReqHandler mockHandler = mock(ReqHandler.class);
+        IReqHandler mockHandler = mock(IReqHandler.class);
         when(mockHandler.path()).thenReturn("/{id}/one");
         PathParams mockParams = new PathParams();
         when(mockHandler.params()).thenReturn(mockParams);
 
         router.store("post", "/{id}/one", mockHandler);
         //now fetch the handler
-        ReqHandler fetched = router.fetch("post", "/two/one");
+        IReqHandler fetched = router.fetch("post", "/two/one");
         assertThat(fetched).isSameAs(mockHandler);
         assertThat(mockParams).hasSize(1);
         assertThat(mockParams.get("id")).isEqualTo("two");
@@ -51,14 +51,14 @@ class PathReqRouterTest {
 
     @Test
     void store_and_fetch_with_path_having_two_param() {
-        ReqHandler mockHandler = mock(ReqHandler.class);
+        IReqHandler mockHandler = mock(IReqHandler.class);
         when(mockHandler.path()).thenReturn("/{id}/one/{name}");
         PathParams mockParams = new PathParams();
         when(mockHandler.params()).thenReturn(mockParams);
 
         router.store("post", "/{id}/one/{name}", mockHandler);
         //now fetch the handler
-        ReqHandler fetched = router.fetch("post", "/two/one/three");
+        IReqHandler fetched = router.fetch("post", "/two/one/three");
         assertThat(fetched).isSameAs(mockHandler);
         assertThat(mockParams).hasSize(2);
         assertThat(mockParams.get("id")).isEqualTo("two");
@@ -67,7 +67,7 @@ class PathReqRouterTest {
 
     @Test
     void store_and_fetch_with_non_existent_path() {
-        ReqHandler mockHandler = mock(ReqHandler.class);
+        IReqHandler mockHandler = mock(IReqHandler.class);
         when(mockHandler.path()).thenReturn("/one");
 
         router.store("post", "/one", mockHandler);

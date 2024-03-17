@@ -125,6 +125,12 @@ public class JParser {
                                 element.setSlotName(attrValue);
                                 break;
                             }
+                            case "x-fragment": {
+                                element.setFragmentNode(true);
+                                element.setFragmentRef(attrValue);
+                                ((JElement) element.root()).fragments.put(attrValue, element);
+                                break;
+                            }
                             case "x-template": {
                                 element.setLayoutNode(true);
                                 element.setTemplatePath(attrValue);

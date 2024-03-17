@@ -1,0 +1,11 @@
+<div>
+    <x-section id="header-slot" x-fragment="header">
+        <div>Preferred header content</div>
+    </x-section>
+    <x-article id="content-slot" x-fragment="content">
+        <div>Preferred content content</div>
+    </x-article>
+    <x-section id="footer-slot" x-fragment="footer">
+        <div>Preferred footer content</div>
+    </x-section>
+</div>
