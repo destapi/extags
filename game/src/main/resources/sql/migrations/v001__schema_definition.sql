@@ -27,7 +27,8 @@ create table if not exists Team
     city        varchar(64),
     state       varchar(32),
     captainRef  bigint      not null references Participant (id),
-    dateCreated timestamp default now()
+    dateCreated timestamp default now(),
+    constraint uniqCaptain unique(name, captainRef)
 );
 
 create table if not exists Question
@@ -35,11 +36,12 @@ create table if not exists Question
     id           bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     question     varchar(256)                                                                                                                       not null,
     questionType ENUM ('GENERAL', 'SCIENCE', 'MATH', 'ENGLISH', 'GEOGRAPHY', 'POLITICS', 'HISTORY', 'RELIGION', 'MUSIC', 'MOVIES', 'TV', 'ANIMALS') not null default 'GENERAL',
-    answer       varchar(256)                                                                                                                       not null,
+    answer       varchar(256)                                                                                                                    not null,
     answerReason varchar(1024),
     maxPoints    int                                                                                                                                         default 0,
-    createdByRef bigint                                                                                                                             not null references Participant (id),
-    dateCreated  timestamp                                                                                                                                   default now()
+    createdByRef bigint                                                                                                                         not null references Participant (id),
+    dateCreated  timestamp not null default now(),
+    constraint uniqQuestion unique(question, createdByRef)
 );
 
 create table if not exists Choice
@@ -68,7 +70,8 @@ create table if not exists Game
     gameStatus   ENUM ('CREATED', 'STARTED', 'COMPLETED') not null default 'CREATED',
     organizerRef bigint                                   not null references Participant (id),
     startTime    timestamp,
-    dateCreated  timestamp                                         default now()
+    dateCreated  timestamp                                         default now(),
+    constraint uniqGame unique(title, organizerRef)
 );
 
 create table if not exists GameScore

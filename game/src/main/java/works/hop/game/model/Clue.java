@@ -7,7 +7,7 @@ public class Clue {
 
     int ordinal;
     Question question;
-    String questionRef;
+    long questionRef;
     String clueValue;
     String explanation;
 }

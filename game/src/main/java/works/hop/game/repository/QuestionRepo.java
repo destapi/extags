@@ -29,6 +29,11 @@ public class QuestionRepo {
         return jdbcTemplate.queryForObject(SELECT_BY_ID, new QuestionRowMapper(), id);
     }
 
+    public Question getByValue(Long createdBy, String question) {
+        String SELECT_BY_ID = "select * from Question where createdByRef = ? and question = ?";
+        return jdbcTemplate.queryForObject(SELECT_BY_ID, new QuestionRowMapper(), createdBy, question);
+    }
+
     public Question createQuestion(Question question) {
         String INSERT_ENTITY_SQL = "insert into Question (question, questionType, answer, answerReason, maxPoints, createdByRef) values (?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();

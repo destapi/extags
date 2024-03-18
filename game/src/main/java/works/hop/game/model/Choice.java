@@ -10,7 +10,7 @@ public class Choice {
     int ordinal;
     Question question;
     @NotNull
-    String questionRef;
+    long questionRef;
     @Length(max = 64)
     String choiceValue;
     @Length(max = 256)
