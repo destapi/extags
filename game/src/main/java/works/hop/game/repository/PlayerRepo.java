@@ -66,4 +66,13 @@ public class PlayerRepo {
 
         return player;
     }
+
+    public void removePlayer(long playerRef) {
+        String REMOVE_ENTITY_SQL = "delete from Player where id=?";
+        this.jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(REMOVE_ENTITY_SQL);
+            ps.setLong(1, playerRef);
+            return ps;
+        });
+    }
 }

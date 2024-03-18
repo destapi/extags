@@ -1,0 +1,16 @@
+<div>
+    <x-form x-onsubmit="handleCols">
+        <label><input name="cols" x-value="cols"/></label>
+        <input type="submit" value="Set # of cols" />
+    </x-form>
+
+    <ul>
+        <x-li x-items="mods" x-onclick="$" x-eval="true">@{$}</x-li>
+    </ul>
+
+    <x-div x-items="data">
+        <x-div x-data-xy="0,0">
+            <x-span x-text="$">9</x-span>
+        </x-div>
+    </x-div>
+</div>

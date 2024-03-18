@@ -103,7 +103,7 @@ public class GameRepo {
             ps.setString(1, GameStatus.READY.name());
             ps.setTimestamp(2, null);
             ps.setTimestamp(3, null);
-            ps.setLong(3, gameId);
+            ps.setLong(4, gameId);
             return ps;
         });
     }
@@ -138,7 +138,7 @@ public class GameRepo {
     }
 
     public List<Player> participantsList(long gameId){
-        String SELECT_GAME_PARTICIPANTS = "select * from Participant where id in (select playerRef from Participant where gameRef = ?)";
+        String SELECT_GAME_PARTICIPANTS = "select * from Player where id in (select playerRef from Participant where gameRef = ?)";
         return jdbcTemplate.query(SELECT_GAME_PARTICIPANTS, new PlayerRowMapper(), gameId);
     }
 

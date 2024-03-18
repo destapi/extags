@@ -13,6 +13,8 @@ import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestRepositoryConfig.class)
 class GameStepRepoTest {
@@ -33,7 +35,7 @@ class GameStepRepoTest {
     }
 
     @Test
-    void createAndUpdateGameQue() {
+    void createAndUpdateGameStep() {
         Player crazyeyes = playerRepo.getByEmail("jimmy.crazyeyes@email.com");
         Game game = gameRepo.getByOrganizer(crazyeyes.getId()).stream()
                 .filter(g -> g.getTitle().equals("eye of a tiger")).findFirst().orElseThrow();
@@ -57,5 +59,34 @@ class GameStepRepoTest {
         newGameStep.setQuestionNum(2);
         GameStep updated1 = gameStepRepo.updateGameStep(newGameStep);
         assertThat(updated1.getQuestionNum()).isEqualTo(newGameStep.getQuestionNum());
+    }
+
+    @Test
+    void createAndRemoveGameStep() {
+        Player crazyeyes = playerRepo.getByEmail("jimmy.crazyeyes@email.com");
+        Game game = gameRepo.getByOrganizer(crazyeyes.getId()).stream()
+                .filter(g -> g.getTitle().equals("eye of a tiger")).findFirst().orElseThrow();
+        Question que1 = questionRepo.getByAuthor(crazyeyes.getId()).stream()
+                .filter(q -> q.getQuestion().equals("1 + 1")).findFirst().orElseThrow();
+
+        GameStep newGameStep = new GameStep();
+        newGameStep.setGroupNum(1);
+        newGameStep.setQuestionNum(1);
+        newGameStep.setGameRef(game.getId());
+        newGameStep.setQuestionRef(que1.getId());
+        newGameStep.setAutoProgression(true);
+        newGameStep.setDelayAfterCountdown(1000L);
+        newGameStep.setDelayBeforeCountdown(1000L);
+        newGameStep.setCountdownDuration(10000L);
+        newGameStep.setCountdownIntervals(500L);
+        newGameStep.setStepStatus(StepStatus.COMING_UP);
+        newGameStep = gameStepRepo.createGameStep(newGameStep);
+
+        List<GameStep> steps = gameStepRepo.getGameSteps(game.getId());
+        assertThat(steps).hasSize(1);
+
+        gameStepRepo.removeGameStep(newGameStep);
+        steps = gameStepRepo.getGameSteps(game.getId());
+        assertThat(steps).isEmpty();
     }
 }

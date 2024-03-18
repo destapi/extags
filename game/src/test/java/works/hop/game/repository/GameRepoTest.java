@@ -14,7 +14,11 @@ import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static works.hop.game.model.GameStatus.COMPLETED;
+import static works.hop.game.model.GameStatus.READY;
 import static works.hop.game.model.GameStatus.STARTED;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestRepositoryConfig.class)
@@ -51,6 +55,39 @@ class GameRepoTest {
     }
 
     @Test
+    void createAndResetGame() {
+        Player crazyeyes = playerRepo.getByEmail("jimmy.crazyeyes@email.com");
+        Game newGame = new Game();
+        newGame.setTitle("the chicken dance");
+        newGame.setOrganizerRef(crazyeyes.getId());
+        newGame = gameRepo.createGame(newGame);
+        assertThat(newGame.getId()).isNotZero();
+        assertThat(newGame.getGameStatus()).isNull();
+        assertThat(newGame.getTimeStarted()).isNull();
+        assertThat(newGame.getTimeEnded()).isNull();
+
+        //update game
+        newGame.setGameStatus(COMPLETED);
+        newGame.setTimeStarted(LocalDateTime.now());
+        newGame.setTimeEnded(LocalDateTime.now());
+        Game updated1 = gameRepo.updateGame(newGame);
+        assertThat(updated1.getGameStatus()).isEqualTo(COMPLETED);
+        assertThat(updated1.getTimeStarted()).isNotNull();
+        assertThat(updated1.getTimeEnded()).isNotNull();
+
+        // retrieve first time
+        Game found = gameRepo.getById(newGame.getId());
+        assertThat(found.getId()).isEqualTo(newGame.getId());
+
+        // reset game
+        gameRepo.resetGame(found.getId());
+        Game found2 = gameRepo.getById(newGame.getId());
+        assertThat(found2.getGameStatus()).isEqualTo(READY);
+        assertThat(found2.getTimeStarted()).isNull();
+        assertThat(found2.getTimeEnded()).isNull();
+    }
+
+    @Test
     void startAndEndGame() {
         Player crazyeyes = playerRepo.getByEmail("jimmy.crazyeyes@email.com");
         Game newGame = new Game();
@@ -66,5 +103,24 @@ class GameRepoTest {
         gameRepo.endGame(newGame.getId());
         Game updated2 = gameRepo.getById(newGame.getId());
         assertThat(updated2.getGameStatus()).isEqualTo(COMPLETED);
+    }
+
+    @Test
+    void joinAndLeaveGame() {
+        Player crazyeyes = playerRepo.getByEmail("jimmy.crazyeyes@email.com");
+        Player bigfoot = playerRepo.getByEmail("casssie.bigfoot@email.com");
+        Game newGame = new Game();
+        newGame.setTitle("the polar express");
+        newGame.setOrganizerRef(crazyeyes.getId());
+        newGame = gameRepo.createGame(newGame);
+        assertThat(newGame.getId()).isNotZero();
+
+        gameRepo.joinGame(newGame.getId(), bigfoot.getId());
+        List<Player> participants1 = gameRepo.participantsList(newGame.getId());
+        assertThat(participants1).hasSize(1);
+
+        gameRepo.leaveGame(newGame.getId(), bigfoot.getId());
+        List<Player> participants2 = gameRepo.participantsList(newGame.getId());
+        assertThat(participants2).isEmpty();
     }
 }

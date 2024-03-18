@@ -35,7 +35,7 @@ public class QuestionRepo {
         return jdbcTemplate.queryForObject(SELECT_BY_ID, new QuestionRowMapper(), createdBy, question);
     }
 
-    public List<Question> getByAuthor(Long createdBy) {
+    public List<Question> getByAuthor(long createdBy) {
         String SELECT_BY_ID = "select * from Question where createdByRef = ?";
         return jdbcTemplate.query(SELECT_BY_ID, new QuestionRowMapper(), createdBy);
     }
@@ -73,5 +73,14 @@ public class QuestionRepo {
         });
 
         return question;
+    }
+
+    public void removeQuestion(long id) {
+        String UPDATE_ENTITY_SQL = "delete from Question where id = ?";
+        this.jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(UPDATE_ENTITY_SQL);
+            ps.setLong(1, id);
+            return ps;
+        });
     }
 }

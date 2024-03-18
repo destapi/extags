@@ -55,7 +55,7 @@ public class ClueRepo {
     }
 
     public void removeClue(int ordinal, long questionRef) {
-        String UPDATE_ENTITY_SQL = "delete from Clue where ordinal = ? && questionRef=?";
+        String UPDATE_ENTITY_SQL = "delete from Clue where ordinal = ? and questionRef=?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(UPDATE_ENTITY_SQL);
             ps.setInt(1, ordinal);

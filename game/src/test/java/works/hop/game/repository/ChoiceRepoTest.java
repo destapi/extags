@@ -52,4 +52,21 @@ class ChoiceRepoTest {
         assertThat(updated).hasSize(4);
         assertThat(updated.stream().filter(v -> v.getChoiceValue().equals("7")).findFirst()).isPresent();
     }
+
+    @Test
+    void createAndRemoveChoice() {
+        Choice newChoice = new Choice();
+        newChoice.setOrdinal(2);
+        newChoice.setQuestionRef(2L);
+        newChoice.setExplanation("it's three");
+        newChoice.setChoiceValue("3");
+        newChoice = choiceRepo.createChoice(newChoice);
+
+        List<Choice> choices = choiceRepo.getByRef(2L);
+        assertThat(choices).isNotEmpty();
+
+        choiceRepo.removeChoice(2, 2L);
+        choices = choiceRepo.getByRef(2L);
+        assertThat(choices).isEmpty();
+    }
 }

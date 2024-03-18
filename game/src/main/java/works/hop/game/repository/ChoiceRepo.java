@@ -55,7 +55,7 @@ public class ChoiceRepo {
     }
 
     public void removeChoice(int ordinal, long questionRef) {
-        String UPDATE_ENTITY_SQL = "delete from Choice where ordinal = ? && questionRef=?";
+        String UPDATE_ENTITY_SQL = "delete from Choice where ordinal = ? and questionRef=?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(UPDATE_ENTITY_SQL);
             ps.setInt(1, ordinal);

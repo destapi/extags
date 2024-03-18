@@ -8,6 +8,7 @@ import works.hop.game.repository.mapper.GameScoreRowMapper;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.util.List;
 import java.util.Objects;
 
 @Repository
@@ -19,19 +20,24 @@ public class GameScoreRepo {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public GameScore getById(Long id) {
-        String SELECT_BY_ID = "select * from GameScore where gameRef=? and playerRef=? and ";
-        return jdbcTemplate.queryForObject(SELECT_BY_ID, new GameScoreRowMapper(), id);
+    public GameScore getByQuestonRef(long playerRef, long gameRef, long questionRef) {
+        String SELECT_BY_QUE_ID = "select * from GameScore where gameRef=? and playerRef=? and questionRef = ?";
+        return jdbcTemplate.queryForObject(SELECT_BY_QUE_ID, new GameScoreRowMapper(), gameRef, playerRef, questionRef);
     }
 
-    public GameScore getByEmail(String emailAddress) {
-        String SELECT_BY_EMAIL = "select * from GameScore where emailAddress = ?";
-        return jdbcTemplate.queryForObject(SELECT_BY_EMAIL, new GameScoreRowMapper(), emailAddress);
+    public List<GameScore> getByPlayerRef(long playerRef, long gameRef) {
+        String SELECT_BY_EMAIL = "select * from GameScore where gameRef=? and playerRef=?";
+        return jdbcTemplate.query(SELECT_BY_EMAIL, new GameScoreRowMapper(), playerRef, gameRef);
     }
 
-    public GameScore createPlayer(GameScore gameScore) {
-        String INSERT_ENTITY_SQL = "insert into GameScore (gameRef, questionRef, questionRef, response, pointsEarned, timePosted) " +
-                "values (?, ?, ?, ?, ?, ?, now())";
+    public List<GameScore> getByGameRef(long gameRef) {
+        String SELECT_BY_EMAIL = "select * from GameScore where gameRef = ?";
+        return jdbcTemplate.query(SELECT_BY_EMAIL, new GameScoreRowMapper(), gameRef);
+    }
+
+    public GameScore createGameScore(GameScore gameScore) {
+        String INSERT_ENTITY_SQL = "insert into GameScore (gameRef, playerRef, questionRef, response, pointsEarned, timePosted) " +
+                "values (?, ?, ?, ?, ?, now())";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection
                     .prepareStatement(INSERT_ENTITY_SQL);
@@ -45,8 +51,8 @@ public class GameScoreRepo {
         return gameScore;
     }
 
-    public GameScore updatePlayer(GameScore gameScore) {
-        String UPDATE_ENTITY_SQL = "update GameScore set response=?, pointsEarned=? where gameRef=?, questionRef=?, questionRef=?";
+    public GameScore updateGameScore(GameScore gameScore) {
+        String UPDATE_ENTITY_SQL = "update GameScore set response=?, pointsEarned=? where gameRef=? and playerRef=? and questionRef=?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(UPDATE_ENTITY_SQL);
             ps.setString(1, Objects.requireNonNull(gameScore.getResponse()));
@@ -58,5 +64,14 @@ public class GameScoreRepo {
         });
 
         return gameScore;
+    }
+
+    public int clearGameScores(long gameRef) {
+        String CLEAR_ENTITIES_SQL = "delete from GameScore where gameRef=?";
+        return this.jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(CLEAR_ENTITIES_SQL);
+            ps.setLong(1, gameRef);
+            return ps;
+        });
     }
 }

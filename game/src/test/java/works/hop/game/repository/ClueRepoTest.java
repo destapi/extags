@@ -52,4 +52,23 @@ class ClueRepoTest {
         assertThat(updated).hasSize(4);
         assertThat(updated.stream().filter(v -> v.getClueValue().equals("7")).findFirst()).isPresent();
     }
+
+    
+
+    @Test
+    void createAndRemoveClue() {
+        Clue newClue = new Clue();
+        newClue.setOrdinal(2);
+        newClue.setQuestionRef(2L);
+        newClue.setExplanation("it's three");
+        newClue.setClueValue("3");
+        newClue = clueRepo.createClue(newClue);
+
+        List<Clue> clues = clueRepo.getByRef(2L);
+        assertThat(clues).isNotEmpty();
+
+        clueRepo.removeClue(2, 2L);
+        clues = clueRepo.getByRef(2L);
+        assertThat(clues).isEmpty();
+    }
 }
