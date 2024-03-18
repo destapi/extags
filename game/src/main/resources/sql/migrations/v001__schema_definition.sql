@@ -115,7 +115,5 @@ create table if not exists GameStep
     countdownDuration    long                                                         default 0,
     countdownIntervals   long                                                         default 0,
     stepStatus       ENUM ('AWAITING_NEXT', 'COMING_UP', 'SHOWING', 'COUNTING_DOWN') not null default 'AWAITING_NEXT',
-    timeStarted          timestamp                                                    default now(),
-    timeEnded            timestamp,
     constraint pkCurrent primary key (gameRef, questionRef)
 );
