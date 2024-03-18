@@ -12,7 +12,7 @@ public class GameScore {
     Game game;
     @NotNull
     long gameRef;
-    Participant player;
+    Player player;
     @NotNull
     long playerRef;
     Question question;

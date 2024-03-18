@@ -19,9 +19,9 @@ public class Team {
     String city;
     @Length(max = 32)
     String state;
-    Participant captain;
+    Player captain;
     @NotNull
     long captainRef;
     LocalDateTime dateCreated;
-    List<Participant> members = new LinkedList<>();
+    List<Player> members = new LinkedList<>();
 }

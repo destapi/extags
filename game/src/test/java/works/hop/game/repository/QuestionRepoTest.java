@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.game.config.TestRepositoryConfig;
-import works.hop.game.model.Participant;
+import works.hop.game.model.Player;
 import works.hop.game.model.Question;
 import works.hop.game.model.QuestionType;
 
@@ -22,17 +22,17 @@ class QuestionRepoTest {
     @Autowired
     DataSource embeddedDataSource;
     QuestionRepo gameRepo;
-    ParticipantRepo participantRepo;
+    PlayerRepo playerRepo;
 
     @BeforeEach
     void setUp() {
         gameRepo = new QuestionRepo(embeddedDataSource);
-        participantRepo = new ParticipantRepo(embeddedDataSource);
+        playerRepo = new PlayerRepo(embeddedDataSource);
     }
 
     @Test
     void createAndUpdateQuestion() {
-        Participant crazyeyes = participantRepo.getByEmail("jimmy.crazyeyes@email.com");
+        Player crazyeyes = playerRepo.getByEmail("jimmy.crazyeyes@email.com");
         Question newQuestion = new Question();
         newQuestion.setQuestion("1+1");
         newQuestion.setCreatedByRef(crazyeyes.getId());

@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.game.config.TestRepositoryConfig;
 import works.hop.game.model.Choice;
-import works.hop.game.model.Participant;
+import works.hop.game.model.Player;
 import works.hop.game.model.Question;
 
 import javax.sql.DataSource;
@@ -23,19 +23,19 @@ class ChoiceRepoTest {
     @Autowired
     DataSource embeddedDataSource;
     ChoiceRepo choiceRepo;
-    ParticipantRepo participantRepo;
+    PlayerRepo playerRepo;
     QuestionRepo questionRepo;
 
     @BeforeEach
     void setUp(){
         choiceRepo = new ChoiceRepo(embeddedDataSource);
-        participantRepo = new ParticipantRepo(embeddedDataSource);
+        playerRepo = new PlayerRepo(embeddedDataSource);
         questionRepo = new QuestionRepo(embeddedDataSource);
     }
 
     @Test
     void createAndUpdateChoice() {
-        Participant crazyeyes = participantRepo.getByEmail("jimmy.crazyeyes@email.com");
+        Player crazyeyes = playerRepo.getByEmail("jimmy.crazyeyes@email.com");
         Choice newChoice = new Choice();
         newChoice.setOrdinal(2);
         newChoice.setQuestionRef(2L);

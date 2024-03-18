@@ -12,6 +12,7 @@ import works.hop.game.repository.mapper.QuestionRowMapper;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,6 +33,11 @@ public class QuestionRepo {
     public Question getByValue(Long createdBy, String question) {
         String SELECT_BY_ID = "select * from Question where createdByRef = ? and question = ?";
         return jdbcTemplate.queryForObject(SELECT_BY_ID, new QuestionRowMapper(), createdBy, question);
+    }
+
+    public List<Question> getByAuthor(Long createdBy) {
+        String SELECT_BY_ID = "select * from Question where createdByRef = ?";
+        return jdbcTemplate.query(SELECT_BY_ID, new QuestionRowMapper(), createdBy);
     }
 
     public Question createQuestion(Question question) {

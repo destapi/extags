@@ -3,14 +3,11 @@ package works.hop.game.model;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
-public class GameInProgress {
+public class GameStep {
 
     int groupNum;
     int questionNum;
-    Game game;
     @NotNull
     long gameRef;
     Question question;
@@ -21,7 +18,6 @@ public class GameInProgress {
     Long delayAfterCountdown;
     Long countdownDuration;
     Long countdownIntervals;
-    ProgressStatus progressStatus;
-    LocalDateTime timeStarted;
-    LocalDateTime timeEnded;
+    @NotNull
+    StepStatus stepStatus;
 }

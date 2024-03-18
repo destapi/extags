@@ -23,7 +23,7 @@ public class Question {
     @Length(max = 1024)
     String answerReason;
     int maxPoints;
-    Participant createdBy;
+    Player createdBy;
     @NotNull
     long createdByRef;
     LocalDateTime dateCreated;

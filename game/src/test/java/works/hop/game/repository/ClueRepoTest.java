@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.game.config.TestRepositoryConfig;
 import works.hop.game.model.Clue;
-import works.hop.game.model.Participant;
+import works.hop.game.model.Player;
 import works.hop.game.model.Question;
 
 import javax.sql.DataSource;
@@ -23,19 +23,19 @@ class ClueRepoTest {
     @Autowired
     DataSource embeddedDataSource;
     ClueRepo clueRepo;
-    ParticipantRepo participantRepo;
+    PlayerRepo playerRepo;
     QuestionRepo questionRepo;
 
     @BeforeEach
     void setUp(){
         clueRepo = new ClueRepo(embeddedDataSource);
-        participantRepo = new ParticipantRepo(embeddedDataSource);
+        playerRepo = new PlayerRepo(embeddedDataSource);
         questionRepo = new QuestionRepo(embeddedDataSource);
     }
 
     @Test
     void createAndUpdateClue() {
-        Participant crazyeyes = participantRepo.getByEmail("jimmy.crazyeyes@email.com");
+        Player crazyeyes = playerRepo.getByEmail("jimmy.crazyeyes@email.com");
         Clue newClue = new Clue();
         newClue.setOrdinal(2);
         newClue.setQuestionRef(2L);

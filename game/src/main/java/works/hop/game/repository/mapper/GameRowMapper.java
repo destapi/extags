@@ -15,13 +15,14 @@ public class GameRowMapper implements RowMapper<Game> {
     @Override
     public Game mapRow(ResultSet rs, int rowNum) throws SQLException {
         Game game = new Game();
-        game.setGameStatus(GameStatus.valueOf(rs.getString("gameStatus")));
+        game.setId(rs.getLong("id"));
         game.setTitle(rs.getString("title"));
         game.setOrganizerRef(rs.getLong("organizerRef"));
         game.setDescription(rs.getString("description"));
-        game.setStartTime(Optional.ofNullable(rs.getTimestamp("startTime")).map(Timestamp::toLocalDateTime).orElse(null));
+        game.setGameStatus(GameStatus.valueOf(rs.getString("gameStatus")));
+        game.setTimeStarted(Optional.ofNullable(rs.getTimestamp("timeStarted")).map(Timestamp::toLocalDateTime).orElse(null));
+        game.setTimeEnded(Optional.ofNullable(rs.getTimestamp("timeEnded")).map(Timestamp::toLocalDateTime).orElse(null));
         game.setDateCreated(rs.getTimestamp("dateCreated").toLocalDateTime());
-        game.setId(rs.getLong("id"));
         return game;
     }
 }

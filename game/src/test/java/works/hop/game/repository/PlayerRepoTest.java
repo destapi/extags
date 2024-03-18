@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.game.config.TestRepositoryConfig;
-import works.hop.game.model.Participant;
+import works.hop.game.model.Player;
 
 import javax.sql.DataSource;
 
@@ -15,32 +15,32 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestRepositoryConfig.class)
-class ParticipantRepoTest {
+class PlayerRepoTest {
 
     @Autowired
     DataSource embeddedDataSource;
-    ParticipantRepo participantRepo;
+    PlayerRepo playerRepo;
 
     @BeforeEach
     void setUp() {
-        participantRepo = new ParticipantRepo(embeddedDataSource);
+        playerRepo = new PlayerRepo(embeddedDataSource);
     }
 
     @Test
     void createAndUpdateUser() {
-        Participant newPlayer = new Participant();
+        Player newPlayer = new Player();
         newPlayer.setScreenName("weassle");
         newPlayer.setFirstName("cassie");
         newPlayer.setEmailAddress("cassie.weassle@email.com");
-        newPlayer = participantRepo.createPlayer(newPlayer);
+        newPlayer = playerRepo.createPlayer(newPlayer);
         assertThat(newPlayer.getId()).isNotZero();
         assertThat(newPlayer.getCity()).isNull();
         assertThat(newPlayer.getLastName()).isNull();
 
         newPlayer.setLastName("kadzo");
         newPlayer.setCity("madison");
-        newPlayer = participantRepo.updatePlayer(newPlayer);
-        Participant updated = participantRepo.getById(newPlayer.getId());
+        newPlayer = playerRepo.updatePlayer(newPlayer);
+        Player updated = playerRepo.getById(newPlayer.getId());
         assertThat(updated.getCity()).isEqualTo(newPlayer.getCity());
         assertThat(updated.getLastName()).isEqualTo(newPlayer.getLastName());
     }

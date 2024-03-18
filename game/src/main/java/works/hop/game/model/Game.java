@@ -18,14 +18,14 @@ public class Game {
     String title;
     @Length(max = 256)
     String description;
-    Participant organizer;
+    Player organizer;
     @NotNull
     long organizerRef;
     @NotNull
     GameStatus gameStatus;
-    LocalDateTime startTime;
-    LocalDateTime startEnded;
+    LocalDateTime timeStarted;
+    LocalDateTime timeEnded;
     LocalDateTime dateCreated;
-    Map<Long, Participant> participants = new HashMap<>();
+    Map<Long, Player> participants = new HashMap<>();
     Map<Long, List<GameScore>> scoreBoard = new HashMap<>();
 }

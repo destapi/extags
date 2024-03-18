@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class Participant implements Serializable {
+public class Player implements Serializable {
 
     long id;
     @Length(max = 64)

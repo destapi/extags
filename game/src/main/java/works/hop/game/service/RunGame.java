@@ -1,15 +1,15 @@
 package works.hop.game.service;
 
-import works.hop.game.model.Participant;
+import works.hop.game.model.Player;
 import works.hop.game.model.Question;
 
 import java.time.LocalDateTime;
 
 public interface RunGame {
 
-    String initGame(Participant organizer, String title, String description, LocalDateTime scheduledStart);
+    String initGame(Player organizer, String title, String description, LocalDateTime scheduledStart);
 
-    String addParticipant(Participant player);
+    String addParticipant(Player player);
 
     String joinGame();
 
