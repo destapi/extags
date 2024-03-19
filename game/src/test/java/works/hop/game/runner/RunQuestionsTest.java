@@ -1,9 +1,9 @@
-package works.hop.game.service;
+package works.hop.game.runner;
 
 import works.hop.game.model.Question;
-import works.hop.game.running.ProgressTiming;
-import works.hop.game.running.QuestionGroup;
-import works.hop.game.running.ScoringPlan;
+import works.hop.game.planner.ProgressTiming;
+import works.hop.game.planner.QuestionGroup;
+import works.hop.game.planner.ScoringPlan;
 
 import java.util.Date;
 import java.util.Timer;

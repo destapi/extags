@@ -1,4 +1,4 @@
-package works.hop.game.service;
+package works.hop.game.runner;
 
 import works.hop.game.model.Player;
 import works.hop.game.model.Question;

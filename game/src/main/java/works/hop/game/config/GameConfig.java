@@ -5,6 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan("works.hop.game")
-public class AppConfig {
+public class GameConfig {
     //spring entry point
 }

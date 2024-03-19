@@ -6,6 +6,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import works.hop.game.model.Player;
+import works.hop.game.model.PlayerStatus;
 import works.hop.game.repository.mapper.PlayerRowMapper;
 
 import javax.sql.DataSource;
@@ -65,6 +66,16 @@ public class PlayerRepo {
         });
 
         return player;
+    }
+
+    public void updateStatus(long playerRef, PlayerStatus status) {
+        String UPDATE_STATUS_SQL = "update Player set playerStatus = ? where id=?";
+        this.jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(UPDATE_STATUS_SQL);
+            ps.setString(1, Objects.requireNonNull(status).name());
+            ps.setLong(2, playerRef);
+            return ps;
+        });
     }
 
     public void removePlayer(long playerRef) {

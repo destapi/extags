@@ -20,7 +20,7 @@ public class GameScoreRepo {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public GameScore getByQuestonRef(long playerRef, long gameRef, long questionRef) {
+    public GameScore getByQuestionRef(long playerRef, long gameRef, long questionRef) {
         String SELECT_BY_QUE_ID = "select * from GameScore where gameRef=? and playerRef=? and questionRef = ?";
         return jdbcTemplate.queryForObject(SELECT_BY_QUE_ID, new GameScoreRowMapper(), gameRef, playerRef, questionRef);
     }

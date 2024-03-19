@@ -6,7 +6,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import works.hop.game.model.Game;
-import works.hop.game.model.GameScore;
 import works.hop.game.model.GameStatus;
 import works.hop.game.model.Player;
 import works.hop.game.repository.mapper.GameRowMapper;
@@ -18,7 +17,6 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 @Repository
@@ -40,9 +38,14 @@ public class GameRepo {
         return game;
     }
 
-    public List<Game> getByOrganizer(long organizerRef){
+    public List<Game> getByOrganizer(long organizerRef) {
         String SELECT_BY_ID = "select * from Game where organizerRef = ?";
         return jdbcTemplate.query(SELECT_BY_ID, new GameRowMapper(), organizerRef);
+    }
+
+    public List<Player> getParticipants(long gameId) {
+        String SELECT_GAME_PARTICIPANTS = "select * from Player where id in (select playerRef from Participant where gameRef = ?)";
+        return jdbcTemplate.query(SELECT_GAME_PARTICIPANTS, new PlayerRowMapper(), gameId);
     }
 
     public Game createGame(Game game) {
@@ -128,39 +131,12 @@ public class GameRepo {
         });
     }
 
-    public void clearParticipant(long gameRef) {
+    public void clearParticipants(long gameRef) {
         String DELETE_ENTITY_SQL = "delete from Participant where gameRef = ?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(DELETE_ENTITY_SQL);
             ps.setLong(1, gameRef);
             return ps;
         });
-    }
-
-    public List<Player> participantsList(long gameId){
-        String SELECT_GAME_PARTICIPANTS = "select * from Player where id in (select playerRef from Participant where gameRef = ?)";
-        return jdbcTemplate.query(SELECT_GAME_PARTICIPANTS, new PlayerRowMapper(), gameId);
-    }
-
-    public void addScore(long gameRef, long playerRef) {
-        //todo pending
-    }
-
-    public void updateScore(long gameRef, long playerRef) {
-        //todo pending
-    }
-
-    public void clearScores(long gameRef, long playerRef) {
-        //todo pending
-    }
-
-    public List<GameScore> participantScores(long gameId, long playerId){
-        // todo pending
-        return null;
-    }
-
-    public Map<String, List<GameScore>> currentScores(long gameId){
-        // todo pending
-        return null;
     }
 }

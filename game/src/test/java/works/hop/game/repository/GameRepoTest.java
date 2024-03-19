@@ -11,14 +11,11 @@ import works.hop.game.model.Game;
 import works.hop.game.model.Player;
 
 import javax.sql.DataSource;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static works.hop.game.model.GameStatus.COMPLETED;
-import static works.hop.game.model.GameStatus.READY;
-import static works.hop.game.model.GameStatus.STARTED;
-
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static works.hop.game.model.GameStatus.*;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestRepositoryConfig.class)
@@ -116,11 +113,11 @@ class GameRepoTest {
         assertThat(newGame.getId()).isNotZero();
 
         gameRepo.joinGame(newGame.getId(), bigfoot.getId());
-        List<Player> participants1 = gameRepo.participantsList(newGame.getId());
+        List<Player> participants1 = gameRepo.getParticipants(newGame.getId());
         assertThat(participants1).hasSize(1);
 
         gameRepo.leaveGame(newGame.getId(), bigfoot.getId());
-        List<Player> participants2 = gameRepo.participantsList(newGame.getId());
+        List<Player> participants2 = gameRepo.getParticipants(newGame.getId());
         assertThat(participants2).isEmpty();
     }
 }

@@ -78,7 +78,7 @@ public class TeamRepo {
         });
     }
 
-    public void addTeamMember(long teamRef, long playerRef){
+    public void addTeamMember(long teamRef, long playerRef) {
         String INSERT_ENTITY_SQL = "insert into TeamMember (teamRef, playerRef) values (?, ?)";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(INSERT_ENTITY_SQL);
@@ -88,7 +88,7 @@ public class TeamRepo {
         });
     }
 
-    public void removeTeamMember(long teamRef, long playerRef){
+    public void removeTeamMember(long teamRef, long playerRef) {
         String INSERT_ENTITY_SQL = "delete from TeamMember where teamRef = ? and playerRef = ?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(INSERT_ENTITY_SQL);

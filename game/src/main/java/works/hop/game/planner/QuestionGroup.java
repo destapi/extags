@@ -1,4 +1,4 @@
-package works.hop.game.running;
+package works.hop.game.planner;
 
 import lombok.Data;
 import works.hop.game.model.Question;

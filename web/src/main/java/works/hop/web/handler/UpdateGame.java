@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
 import works.hop.game.model.Game;
 import works.hop.game.repository.GameRepo;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
-@Service("updateGame")
+@Component("updateGame")
 @RequiredArgsConstructor
 public class UpdateGame extends ReqHandler {
 

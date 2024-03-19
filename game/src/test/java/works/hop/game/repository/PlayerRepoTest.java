@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static works.hop.game.model.PlayerStatus.ACTIVATED;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestRepositoryConfig.class)
@@ -45,6 +46,10 @@ class PlayerRepoTest {
         Player updated = playerRepo.getById(newPlayer.getId());
         assertThat(updated.getCity()).isEqualTo(newPlayer.getCity());
         assertThat(updated.getLastName()).isEqualTo(newPlayer.getLastName());
+
+        playerRepo.updateStatus(newPlayer.getId(), ACTIVATED);
+        Player updated2 = playerRepo.getById(newPlayer.getId());
+        assertThat(updated2.getPlayerStatus()).isEqualTo(ACTIVATED);
     }
 
     @Test
@@ -60,12 +65,12 @@ class PlayerRepoTest {
         Player found = playerRepo.getById(newPlayer.getId());
         assertThat(found.getId()).isEqualTo(newPlayer.getId());
         assertThat(found.getFirstName()).isEqualTo(newPlayer.getFirstName());
-        
+
         // delete player
         playerRepo.removePlayer(newPlayer.getId());
 
         //now retrieve same player
         assertThatExceptionOfType(EmptyResultDataAccessException.class)
-        .isThrownBy(() -> playerRepo.getById(newPlayer.getId()));
+                .isThrownBy(() -> playerRepo.getById(newPlayer.getId()));
     }
 }

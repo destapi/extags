@@ -5,13 +5,13 @@ import works.hop.eztag.server.handler.IReqHandler;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class MethodReqRouter implements ReqRouter {
+public class MethodRouteSearch implements RouteSearch {
 
-    Map<MethodType, ReqRouter> handlers = new EnumMap<>(MethodType.class);
+    Map<MethodType, RouteSearch> handlers = new EnumMap<>(MethodType.class);
 
-    public MethodReqRouter() {
+    public MethodRouteSearch() {
         for (MethodType type : MethodType.values()) {
-            handlers.put(type, new PathReqRouter());
+            handlers.put(type, new PathRouteSearch());
         }
     }
 

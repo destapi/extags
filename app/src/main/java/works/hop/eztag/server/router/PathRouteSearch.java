@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PathReqRouter implements ReqRouter {
+public class PathRouteSearch implements RouteSearch {
 
     String pathParamRegex = "(\\{.+?\\})";
     String paramNameRegex = "\\{(.+?)\\}";

@@ -9,16 +9,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.game.config.TestRepositoryConfig;
 import works.hop.game.model.Game;
 import works.hop.game.model.GameScore;
-import works.hop.game.model.GameScore;
 import works.hop.game.model.Player;
 import works.hop.game.model.Question;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestRepositoryConfig.class)
@@ -57,7 +54,7 @@ class GameScoreRepoTest {
         newGameScore.setResponse("rock and rolling");
         newGameScore.setPointsEarned(1000);
         newGameScore = gameScoreRepo.updateGameScore(newGameScore);
-        GameScore updated = gameScoreRepo.getByQuestonRef(crazyeyes.getId(), game.getId(), question.getId());
+        GameScore updated = gameScoreRepo.getByQuestionRef(crazyeyes.getId(), game.getId(), question.getId());
         assertThat(updated.getPointsEarned()).isEqualTo(newGameScore.getPointsEarned());
         assertThat(updated.getResponse()).isEqualTo(newGameScore.getResponse());
     }

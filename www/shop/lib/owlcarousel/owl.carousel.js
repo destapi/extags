@@ -51,7 +51,7 @@
         this._handlers = {};
 
         /**
-         * References to the running plugins of this carousel.
+         * References to the planner plugins of this carousel.
          * @protected
          */
         this._plugins = {};

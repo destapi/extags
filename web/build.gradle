@@ -17,6 +17,10 @@ dependencies {
     // spring framework
     implementation 'org.springframework:spring-context:6.1.4'
 
+    // validation
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
+    implementation 'org.glassfish.expressly:expressly:5.0.0'
+
     // json
     implementation 'com.google.code.gson:gson:2.10.1'
 

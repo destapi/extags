@@ -27,7 +27,7 @@ class ChoiceRepoTest {
     QuestionRepo questionRepo;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         choiceRepo = new ChoiceRepo(embeddedDataSource);
         playerRepo = new PlayerRepo(embeddedDataSource);
         questionRepo = new QuestionRepo(embeddedDataSource);
@@ -37,7 +37,7 @@ class ChoiceRepoTest {
     void createAndUpdateChoice() {
         Player crazyeyes = playerRepo.getByEmail("jimmy.crazyeyes@email.com");
         Choice newChoice = new Choice();
-        newChoice.setOrdinal(2);
+        newChoice.setOrdinal(1);
         newChoice.setQuestionRef(2L);
         newChoice.setExplanation("it's two");
         newChoice.setChoiceValue("2");
@@ -62,11 +62,11 @@ class ChoiceRepoTest {
         newChoice.setChoiceValue("3");
         newChoice = choiceRepo.createChoice(newChoice);
 
-        List<Choice> choices = choiceRepo.getByRef(2L);
+        List<Choice> choices = choiceRepo.getByRef(newChoice.getQuestionRef());
         assertThat(choices).isNotEmpty();
 
         choiceRepo.removeChoice(2, 2L);
-        choices = choiceRepo.getByRef(2L);
-        assertThat(choices).isEmpty();
+        List<Choice> choices2 = choiceRepo.getByRef(2L);
+        assertThat(choices2).hasSize(choices.size() - 1);
     }
 }

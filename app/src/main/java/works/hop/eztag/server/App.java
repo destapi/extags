@@ -12,9 +12,8 @@ import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import works.hop.eztag.server.handler.IReqHandler;
-import works.hop.eztag.server.handler.ReqHandler;
-import works.hop.eztag.server.router.MethodReqRouter;
-import works.hop.eztag.server.router.ReqRouter;
+import works.hop.eztag.server.router.Router;
+import works.hop.eztag.server.router.AppRouter;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -22,7 +21,6 @@ import java.util.function.Consumer;
 
 public class App {
 
-    static ReqRouter router = new MethodReqRouter();
     static ContextHandlerCollection contextCollection = new ContextHandlerCollection();
 
     public static void runApp(String[] args, Consumer<App> consumer) {
@@ -136,37 +134,8 @@ public class App {
         return server;
     }
 
-    public void handle(String method, String path, ReqHandler handler) {
-        handler.path(path); //MUST be set for routing to function
-        router.store(method, path, handler);
-    }
-
-    public App get(String path, ReqHandler handler) {
-        this.handle("get", path, handler);
-        return this;
-    }
-
-    public App delete(String path, ReqHandler handler) {
-        this.handle("delete", path, handler);
-        return this;
-    }
-
-    public App post(String path, ReqHandler handler) {
-        this.handle("post", path, handler);
-        return this;
-    }
-
-    public App put(String path, ReqHandler handler) {
-        this.handle("put", path, handler);
-        return this;
-    }
-
-    public App patch(String path, ReqHandler handler) {
-        this.handle("patch", path, handler);
-        return this;
-    }
-
-    public App route(String context) {
+    public Router route(String context) {
+        Router router = new AppRouter(App.this);
         ContextHandler contextHandler = new ContextHandler(context);
         contextCollection.addHandler(contextHandler);
         contextHandler.setHandler(new AbstractHandler() {
@@ -182,6 +151,6 @@ public class App {
                 }
             }
         });
-        return this;
+        return router;
     }
 }

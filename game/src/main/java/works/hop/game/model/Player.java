@@ -27,5 +27,6 @@ public class Player implements Serializable {
     @NotNull
     @Length(max = 64)
     String state;
+    PlayerStatus playerStatus;
     LocalDateTime dateCreated;
 }

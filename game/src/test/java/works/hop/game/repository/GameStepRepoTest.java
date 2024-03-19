@@ -10,10 +10,9 @@ import works.hop.game.config.TestRepositoryConfig;
 import works.hop.game.model.*;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestRepositoryConfig.class)

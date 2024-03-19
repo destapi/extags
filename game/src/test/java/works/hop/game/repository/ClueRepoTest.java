@@ -27,7 +27,7 @@ class ClueRepoTest {
     QuestionRepo questionRepo;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         clueRepo = new ClueRepo(embeddedDataSource);
         playerRepo = new PlayerRepo(embeddedDataSource);
         questionRepo = new QuestionRepo(embeddedDataSource);
@@ -37,7 +37,7 @@ class ClueRepoTest {
     void createAndUpdateClue() {
         Player crazyeyes = playerRepo.getByEmail("jimmy.crazyeyes@email.com");
         Clue newClue = new Clue();
-        newClue.setOrdinal(2);
+        newClue.setOrdinal(1);
         newClue.setQuestionRef(2L);
         newClue.setExplanation("it's two");
         newClue.setClueValue("2");
@@ -53,8 +53,6 @@ class ClueRepoTest {
         assertThat(updated.stream().filter(v -> v.getClueValue().equals("7")).findFirst()).isPresent();
     }
 
-    
-
     @Test
     void createAndRemoveClue() {
         Clue newClue = new Clue();
@@ -64,11 +62,11 @@ class ClueRepoTest {
         newClue.setClueValue("3");
         newClue = clueRepo.createClue(newClue);
 
-        List<Clue> clues = clueRepo.getByRef(2L);
+        List<Clue> clues = clueRepo.getByRef(newClue.getQuestionRef());
         assertThat(clues).isNotEmpty();
 
         clueRepo.removeClue(2, 2L);
-        clues = clueRepo.getByRef(2L);
-        assertThat(clues).isEmpty();
+        List<Clue> clues2 = clueRepo.getByRef(2L);
+        assertThat(clues2).hasSize(clues.size() - 1);
     }
 }

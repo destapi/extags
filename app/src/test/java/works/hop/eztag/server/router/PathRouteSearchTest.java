@@ -8,9 +8,9 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class PathReqRouterTest {
+class PathRouteSearchTest {
 
-    PathReqRouter router = new PathReqRouter();
+    PathRouteSearch router = new PathRouteSearch();
 
     @Test
     void store_and_fetch_with_simple_path() {

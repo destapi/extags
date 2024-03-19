@@ -1,7 +1,7 @@
-package works.hop.game.service;
+package works.hop.game.runner;
 
 import works.hop.game.model.Question;
-import works.hop.game.running.QuestionGroup;
+import works.hop.game.planner.QuestionGroup;
 
 import java.util.Timer;
 import java.util.TimerTask;

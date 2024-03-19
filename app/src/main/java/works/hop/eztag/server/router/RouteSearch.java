@@ -2,7 +2,7 @@ package works.hop.eztag.server.router;
 
 import works.hop.eztag.server.handler.IReqHandler;
 
-public interface ReqRouter {
+public interface RouteSearch {
 
     void store(String method, String path, IReqHandler handler);
 
