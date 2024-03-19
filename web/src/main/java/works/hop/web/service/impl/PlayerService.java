@@ -5,6 +5,7 @@ import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import works.hop.game.model.Player;
+import works.hop.game.model.PlayerStatus;
 import works.hop.game.repository.PlayerRepo;
 import works.hop.web.service.IPlayerService;
 import works.hop.web.service.IResult;
@@ -49,21 +50,57 @@ public class PlayerService implements IPlayerService {
 
     @Override
     public IResult<Player> createNewPlayer(Player player) {
-        return null;
+        IResult<Player> result = new Result<>();
+        try {
+            Map<String, String> violations = validate(player);
+            if (!violations.isEmpty()) {
+                result.errors(violations);
+                return result;
+            }
+            result.data(playerRepo.createPlayer(player));
+        } catch (Exception e) {
+            result.errors(Map.of("createNewPlayer", e.getMessage()));
+        }
+        return result;
     }
 
     @Override
-    public IResult<Player> updatePlayer(long id) {
-        return null;
+    public IResult<Player> updatePlayer(Player player) {
+        IResult<Player> result = new Result<>();
+        try {
+            Map<String, String> violations = validate(player);
+            if (!violations.isEmpty()) {
+                result.errors(violations);
+                return result;
+            }
+            result.data(playerRepo.updatePlayer(player));
+        } catch (Exception e) {
+            result.errors(Map.of("updatePlayer", e.getMessage()));
+        }
+        return result;
     }
 
     @Override
-    public IResult<Player> updateStatus(long id) {
-        return null;
+    public IResult<Void> updateStatus(long id, PlayerStatus newStatus) {
+        IResult<Void> result = new Result<>();
+        try {
+            playerRepo.updateStatus(id, newStatus);
+            return new Result<>(null);
+        } catch (Exception e) {
+            result.errors(Map.of("updateStatus", e.getMessage()));
+        }
+        return result;
     }
 
     @Override
-    public IResult<Player> removePlayer(long id) {
-        return null;
+    public IResult<Void> removePlayer(long id) {
+        IResult<Void> result = new Result<>();
+        try {
+            playerRepo.removePlayer(id);
+            return new Result<>(null);
+        } catch (Exception e) {
+            result.errors(Map.of("removePlayer", e.getMessage()));
+        }
+        return result;
     }
 }

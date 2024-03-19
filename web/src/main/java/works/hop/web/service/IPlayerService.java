@@ -1,6 +1,7 @@
 package works.hop.web.service;
 
 import works.hop.game.model.Player;
+import works.hop.game.model.PlayerStatus;
 
 public interface IPlayerService extends Validator<Player> {
 
@@ -10,9 +11,9 @@ public interface IPlayerService extends Validator<Player> {
 
     IResult<Player> createNewPlayer(Player id);
 
-    IResult<Player> updatePlayer(long id);
+    IResult<Player> updatePlayer(Player player);
 
-    IResult<Player> updateStatus(long id);
+    IResult<Void> updateStatus(long id, PlayerStatus newStatus);
 
-    IResult<Player> removePlayer(long id);
+    IResult<Void> removePlayer(long id);
 }

@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
 import works.hop.game.model.Player;
-import works.hop.game.repository.PlayerRepo;
+import works.hop.web.service.IPlayerService;
+import works.hop.web.service.IResult;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,7 +20,7 @@ import java.lang.reflect.Type;
 public class CreatePlayer extends ReqHandler {
 
     final Gson gson;
-    final PlayerRepo playerRepo;
+    final IPlayerService playerService;
 
     @Override
     public String handle(HttpServletRequest request, HttpServletResponse response) {
@@ -28,7 +29,8 @@ public class CreatePlayer extends ReqHandler {
             }.getType();
             Player playerInfo = gson.fromJson(
                     new InputStreamReader(request.getInputStream()), mapType);
-            return gson.toJson(playerRepo.createPlayer(playerInfo));
+            IResult<Player> newPlayer = playerService.createNewPlayer(playerInfo);
+            return gson.toJson(newPlayer);
         } catch (IOException e) {
             response.setStatus(500);
             return e.getMessage();

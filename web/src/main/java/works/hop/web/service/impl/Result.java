@@ -2,12 +2,24 @@ package works.hop.web.service.impl;
 
 import works.hop.web.service.IResult;
 
-import java.util.Map;
-
 public class Result<T> implements IResult<T> {
 
     T data;
-    Map<String, String> errors;
+    Errors errors;
+
+    public Result() {
+        super();
+    }
+
+    public Result(T data) {
+        super();
+        this.data = data;
+    }
+
+    public Result(Errors errors) {
+        super();
+        this.errors = errors;
+    }
 
     @Override
     public T data() {
@@ -20,12 +32,12 @@ public class Result<T> implements IResult<T> {
     }
 
     @Override
-    public Map<String, String> errors() {
+    public Errors errors() {
         return this.errors;
     }
 
     @Override
-    public void errors(Map<String, String> errors) {
+    public void errors(Errors errors) {
         this.errors = errors;
     }
 }

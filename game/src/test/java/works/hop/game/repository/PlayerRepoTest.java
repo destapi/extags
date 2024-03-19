@@ -69,8 +69,16 @@ class PlayerRepoTest {
         // delete player
         playerRepo.removePlayer(newPlayer.getId());
 
-        //now retrieve same player
+        //now retrieve the same player
         assertThatExceptionOfType(EmptyResultDataAccessException.class)
                 .isThrownBy(() -> playerRepo.getById(newPlayer.getId()));
+    }
+
+    @Test
+    void retrievePlayerByEmail(){
+        String email = "jimmy.crazyeyes@email.com";
+        Player player = playerRepo.getByEmail(email);
+        assertThat(player).isNotNull();
+        assertThat(player.getEmailAddress()).isEqualTo(email);
     }
 }

@@ -6,7 +6,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
+import works.hop.game.model.Player;
 import works.hop.web.service.IPlayerService;
+import works.hop.web.service.IResult;
 
 @Component("playerByEmail")
 @RequiredArgsConstructor
@@ -19,7 +21,8 @@ public class PlayerByEmail extends ReqHandler {
     public String handle(HttpServletRequest request, HttpServletResponse response) {
         try {
             String emailAddress = param("email");
-            return gson.toJson(playerService.getByEmailAddress(emailAddress));
+            IResult<Player> byEmail = playerService.getByEmailAddress(emailAddress);
+            return gson.toJson(byEmail);
         } catch (Throwable e) {
             response.setStatus(500);
             return e.getMessage();

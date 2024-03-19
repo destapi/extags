@@ -1,5 +1,7 @@
 package works.hop.web.service;
 
+import works.hop.web.service.impl.Errors;
+
 import java.util.Map;
 
 public interface IResult<T> {
@@ -8,7 +10,13 @@ public interface IResult<T> {
 
     void data(T data);
 
-    Map<String, String> errors();
+    Errors errors();
 
-    void errors(Map<String, String> errors);
+    void errors(Errors errors);
+
+    default void errors(Map<String, String> errors){
+        Errors errs = new Errors();
+        errs.putAll(errors);
+        this.errors(errs);
+    }
 }
