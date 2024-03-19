@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta content="width=device-width,initial-scale=1.0" name="viewport">
     <title>Nord Design System</title>
-    <link rel="stylesheet" href="https://nordcdn.net/ds/css/3.1.1/nord.min.css"
-          integrity="sha384-zz2Vh/uaPtnKKnKq4a8aP/R7ybJEZD3LuwnvmLE+p42C+Zjr2R0Y+PKwdABWc61A" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="../bundle.css">
+    <link crossorigin="anonymous" href="https://nordcdn.net/ds/css/3.1.1/nord.min.css"
+          integrity="sha384-zz2Vh/uaPtnKKnKq4a8aP/R7ybJEZD3LuwnvmLE+p42C+Zjr2R0Y+PKwdABWc61A" rel="stylesheet"/>
+    <link href="../bundle.css" rel="stylesheet">
     <script src="../bundle.js"></script>
 </head>
 
@@ -17,13 +17,13 @@
         <nord-card padding="l"><h1 slot="header">Sign in to Nord</h1>
             <form action="#">
                 <nord-stack>
-                    <nord-input label="Username" expand required hide-required name="email" autocomplete="email"
-                                type="email" placeholder="user@example.com"></nord-input>
+                    <nord-input autocomplete="email" expand hide-required label="Username" name="email" placeholder="user@example.com"
+                                required type="email"></nord-input>
                     <div class="password">
-                        <nord-input label="Password" expand required hide-required autocomplete="password"
-                                    name="password" type="password" placeholder="••••••••"></nord-input>
+                        <nord-input autocomplete="password" expand hide-required label="Password" name="password"
+                                    placeholder="••••••••" required type="password"></nord-input>
                         <a href="#">Forgot password?</a></div>
-                    <nord-button type="submit" expand variant="primary">Sign in</nord-button>
+                    <nord-button expand type="submit" variant="primary">Sign in</nord-button>
                 </nord-stack>
             </form>
         </nord-card>

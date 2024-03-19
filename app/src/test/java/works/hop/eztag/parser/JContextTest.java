@@ -59,12 +59,12 @@ class JContextTest {
         numbers.addItem(item15);
 
         // now update num 9 to be 10
-        numbers.updateItem(i -> (int)((JNode) i).getItem("", "num") == 9, node -> {
+        numbers.updateItem(i -> (int) ((JNode) i).getItem("", "num") == 9, node -> {
             node.putItem("num", 10);
         });
 
         // now remove 3
-        numbers.removeFirst(i -> (int)((JNode) i).getItem("", "num") == 3);
+        numbers.removeFirst(i -> (int) ((JNode) i).getItem("", "num") == 3);
     }
 
 }

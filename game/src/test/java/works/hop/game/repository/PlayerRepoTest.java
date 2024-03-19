@@ -75,7 +75,7 @@ class PlayerRepoTest {
     }
 
     @Test
-    void retrievePlayerByEmail(){
+    void retrievePlayerByEmail() {
         String email = "jimmy.crazyeyes@email.com";
         Player player = playerRepo.getByEmail(email);
         assertThat(player).isNotNull();

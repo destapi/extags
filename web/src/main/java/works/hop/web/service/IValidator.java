@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 
 public interface IValidator<T> {
 
-    default Map<String, String> validate(@Valid T model){
+    default Map<String, String> validate(@Valid T model) {
         Set<ConstraintViolation<T>> violations = validator().validate(model);
         if (!violations.isEmpty()) {
-            return violations.stream().map(v -> new String[]{v.getLeafBean().toString(), v.getMessage()})
+            return violations.stream().map(v -> new String[]{v.getPropertyPath().toString(), v.getMessage()})
                     .collect(Collectors.toMap(v -> v[0], v -> v[1]));
         }
         return Collections.emptyMap();

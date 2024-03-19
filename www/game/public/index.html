@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta content="width=device-width,initial-scale=1.0" name="viewport">
     <title>Nord Design System</title>
-    <link rel="stylesheet" href="https://nordcdn.net/ds/css/3.1.1/nord.min.css"
-          integrity="sha384-zz2Vh/uaPtnKKnKq4a8aP/R7ybJEZD3LuwnvmLE+p42C+Zjr2R0Y+PKwdABWc61A" crossorigin="anonymous" />
-    <link rel="stylesheet" href="../bundle.css">
+    <link crossorigin="anonymous" href="https://nordcdn.net/ds/css/3.1.1/nord.min.css"
+          integrity="sha384-zz2Vh/uaPtnKKnKq4a8aP/R7ybJEZD3LuwnvmLE+p42C+Zjr2R0Y+PKwdABWc61A" rel="stylesheet"/>
+    <link href="../bundle.css" rel="stylesheet">
     <script src="../bundle.js"></script>
 </head>
 
@@ -15,34 +15,34 @@
 <!-- start top bar -->
 <nord-layout>
     <nord-navigation slot="nav">
-        <nord-dropdown slot="header" expand>
-            <nord-button slot="toggle" expand>
-                <nord-avatar slot="start" name="Game Zone" variant="square">B</nord-avatar>
+        <nord-dropdown expand slot="header">
+            <nord-button expand slot="toggle">
+                <nord-avatar name="Game Zone" slot="start" variant="square">B</nord-avatar>
                 Game Zone
             </nord-button>
             <nord-dropdown-group heading="maina.stephen@gamezone.com">
                 <nord-dropdown-item>
-                    <nord-avatar slot="start" name="Game Zone" size="s" variant="square">B</nord-avatar>
+                    <nord-avatar name="Game Zone" size="s" slot="start" variant="square">B</nord-avatar>
                     Game Zone
-                    <nord-icon slot="end" name="interface-checked"></nord-icon>
+                    <nord-icon name="interface-checked" slot="end"></nord-icon>
                 </nord-dropdown-item>
                 <nord-dropdown-item>
-                    <nord-avatar slot="start" name="Ocean Beach Clinic" size="s" variant="square"
-                                 style="--n-avatar-color: var(--n-color-status-success)">
+                    <nord-avatar name="Ocean Beach Clinic" size="s" slot="start" style="--n-avatar-color: var(--n-color-status-success)"
+                                 variant="square">
                         O
                     </nord-avatar>
                     Ocean Beach Clinic
                 </nord-dropdown-item>
                 <nord-dropdown-item>
-                    <nord-avatar slot="start" name="Park Animal Hospital" size="s" variant="square"
-                                 style="--n-avatar-color: var(--n-color-status-highlight)">
+                    <nord-avatar name="Park Animal Hospital" size="s" slot="start" style="--n-avatar-color: var(--n-color-status-highlight)"
+                                 variant="square">
                         P
                     </nord-avatar>
                     Park Animal Hospital
                 </nord-dropdown-item>
                 <nord-dropdown-item>
-                    <nord-avatar slot="start" name="Balboa Pet Hospital" size="s" variant="square"
-                                 style="--n-avatar-color: var(--n-color-status-danger)">
+                    <nord-avatar name="Balboa Pet Hospital" size="s" slot="start" style="--n-avatar-color: var(--n-color-status-danger)"
+                                 variant="square">
                         B
                     </nord-avatar>
                     Balboa Pet Hospital
@@ -55,7 +55,7 @@
             <nord-dropdown-item>Sign out from all clinics</nord-dropdown-item>
         </nord-dropdown>
         <nord-nav-group heading="Workspace">
-            <nord-nav-item href="#" active icon="navigation-dashboard">Dashboard</nord-nav-item>
+            <nord-nav-item active href="#" icon="navigation-dashboard">Dashboard</nord-nav-item>
             <nord-nav-item icon="navigation-payments">
                 Payments
                 <nord-nav-group slot="subnav">
@@ -75,8 +75,8 @@
             <nord-nav-item href="#" icon="navigation-settings">Settings</nord-nav-item>
         </nord-nav-group>
         <nord-dropdown expand slot="footer">
-            <nord-button slot="toggle" expand>
-                <nord-avatar slot="start" aria-hidden="true" name="Stephen Maina"></nord-avatar>
+            <nord-button expand slot="toggle">
+                <nord-avatar aria-hidden="true" name="Stephen Maina" slot="start"></nord-avatar>
                 Stephen Maina
             </nord-button>
             <nord-dropdown-group>
@@ -86,24 +86,24 @@
             <nord-dropdown-group>
                 <nord-dropdown-item>
                     Show keyboard shortcuts
-                    <div slot="end" class="n-color-text-weaker n-font-size-xs">Cmd+K</div>
+                    <div class="n-color-text-weaker n-font-size-xs" slot="end">Cmd+K</div>
                 </nord-dropdown-item>
                 <nord-dropdown-item>Help & Support</nord-dropdown-item>
                 <nord-dropdown-item>API</nord-dropdown-item>
             </nord-dropdown-group>
             <nord-dropdown-item>
                 Sign out
-                <nord-icon slot="end" name="interface-logout"></nord-icon>
+                <nord-icon name="interface-logout" slot="end"></nord-icon>
             </nord-dropdown-item>
         </nord-dropdown>
     </nord-navigation>
     <nord-header slot="header">
         <h1 class="n-typescale-l">Dashboard</h1>
-        <nord-button variant="primary" slot="end">
-            <nord-icon slot="start" name="interface-add-small"></nord-icon>
+        <nord-button slot="end" variant="primary">
+            <nord-icon name="interface-add-small" slot="start"></nord-icon>
             Create new
         </nord-button>
-        <nord-tooltip id="export" position="block-end"> Export data as Spreadsheet </nord-tooltip>
+        <nord-tooltip id="export" position="block-end"> Export data as Spreadsheet</nord-tooltip>
     </nord-header>
     <nord-stack gap="l">
         <nord-card>
@@ -125,8 +125,10 @@
                     <tr>
                         <td class="n-table-align-right">350,00&thinsp;€</td>
                         <td class="n-table-ellipsis">
-                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet consectetuer
-                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet
+                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit
+                            amet consectetuer
+                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum
+                            dolor sit amet
                             consectetuer adipiscing
                         </td>
                         <td>Card</td>
@@ -135,8 +137,10 @@
                     <tr>
                         <td class="n-table-align-right">29,90&thinsp;€</td>
                         <td class="n-table-ellipsis">
-                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet consectetuer
-                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet
+                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit
+                            amet consectetuer
+                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum
+                            dolor sit amet
                             consectetuer adipiscing
                         </td>
                         <td>Card</td>
@@ -145,8 +149,10 @@
                     <tr>
                         <td class="n-table-align-right">50,00&thinsp;€</td>
                         <td class="n-table-ellipsis">
-                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet consectetuer
-                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet
+                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit
+                            amet consectetuer
+                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum
+                            dolor sit amet
                             consectetuer adipiscing
                         </td>
                         <td>Card</td>
@@ -155,8 +161,10 @@
                     <tr>
                         <td class="n-table-align-right">290,00&thinsp;€</td>
                         <td class="n-table-ellipsis">
-                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet consectetuer
-                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet
+                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit
+                            amet consectetuer
+                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum
+                            dolor sit amet
                             consectetuer adipiscing
                         </td>
                         <td>Card</td>
@@ -165,8 +173,10 @@
                     <tr>
                         <td class="n-table-align-right">49,90&thinsp;€</td>
                         <td class="n-table-ellipsis">
-                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet consectetuer
-                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet
+                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit
+                            amet consectetuer
+                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum
+                            dolor sit amet
                             consectetuer adipiscing
                         </td>
                         <td>Card</td>
@@ -175,8 +185,10 @@
                     <tr>
                         <td class="n-table-align-right">25,00&thinsp;€</td>
                         <td class="n-table-ellipsis">
-                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet consectetuer
-                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit amet
+                            Suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum dolor sit
+                            amet consectetuer
+                            adipiscing suspendisse blandit sodales eros, quis aliquet leo aliquet ultrices lorem ipsum
+                            dolor sit amet
                             consectetuer adipiscing
                         </td>
                         <td>Card</td>

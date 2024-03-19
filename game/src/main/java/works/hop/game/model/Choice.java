@@ -11,6 +11,7 @@ public class Choice {
     Question question;
     @NotNull
     long questionRef;
+    @NotNull
     @Length(max = 64)
     String choiceValue;
     @Length(max = 256)

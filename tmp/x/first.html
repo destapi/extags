@@ -1,11 +1,11 @@
 <div>
     <x-form x-onsubmit="handleCols">
         <label><input name="cols" x-value="cols"/></label>
-        <input type="submit" value="Set # of cols" />
+        <input type="submit" value="Set # of cols"/>
     </x-form>
 
     <ul>
-        <x-li x-items="mods" x-onclick="$" x-eval="true">@{$}</x-li>
+        <x-li x-eval="true" x-items="mods" x-onclick="$">@{$}</x-li>
     </ul>
 
     <x-div x-items="data">

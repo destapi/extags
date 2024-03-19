@@ -29,7 +29,7 @@ public class AppConfig {
     }
 
     @Bean
-    public Validator validator(){
+    public Validator validator() {
         return factory.getValidator();
     }
 }

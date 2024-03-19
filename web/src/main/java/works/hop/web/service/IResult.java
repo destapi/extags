@@ -14,7 +14,7 @@ public interface IResult<T> {
 
     void errors(Errors errors);
 
-    default void errors(Map<String, String> errors){
+    default void errors(Map<String, String> errors) {
         Errors errs = new Errors();
         errs.putAll(errors);
         this.errors(errs);
