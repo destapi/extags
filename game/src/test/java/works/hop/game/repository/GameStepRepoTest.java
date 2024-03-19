@@ -84,7 +84,7 @@ class GameStepRepoTest {
         List<GameStep> steps = gameStepRepo.getGameSteps(game.getId());
         assertThat(steps).hasSize(1);
 
-        gameStepRepo.removeGameStep(newGameStep);
+        gameStepRepo.removeGameStep(newGameStep.getGroupNum(), newGameStep.getQuestionNum());
         steps = gameStepRepo.getGameSteps(game.getId());
         assertThat(steps).isEmpty();
     }

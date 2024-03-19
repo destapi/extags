@@ -72,12 +72,12 @@ public class GameStepRepo {
         return step;
     }
 
-    public void removeGameStep(GameStep step) {
+    public void removeGameStep(int groupNum, int questionNum) {
         String REMOVE_ENTITY_SQL = "delete from GameStep where gameRef = ? and questionRef = ?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(REMOVE_ENTITY_SQL);
-            ps.setInt(1, step.getGroupNum());
-            ps.setInt(2, step.getQuestionNum());
+            ps.setInt(1, groupNum);
+            ps.setInt(2, questionNum);
             return ps;
         });
     }

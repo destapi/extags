@@ -59,17 +59,17 @@ class TeamRepoTest {
         assertThat(newTeam.getMembers()).isEmpty();
 
         Player bigfoot = playerRepo.getByEmail("casssie.bigfoot@email.com");
-        teamRepo.addTeamMember(newTeam.getId(), bigfoot.getId());
+        teamRepo.joinTeam(newTeam.getId(), bigfoot.getId());
         Team updated1 = teamRepo.getById(newTeam.getId());
         assertThat(updated1.getMembers()).hasSize(1);
 
         Player coolcat = playerRepo.getByEmail("debbie.coolcat@email.com");
-        teamRepo.addTeamMember(newTeam.getId(), coolcat.getId());
+        teamRepo.joinTeam(newTeam.getId(), coolcat.getId());
         Team updated2 = teamRepo.getById(newTeam.getId());
         assertThat(updated2.getMembers()).hasSize(2);
 
         //remove member
-        teamRepo.removeTeamMember(newTeam.getId(), bigfoot.getId());
+        teamRepo.leaveTeam(newTeam.getId(), bigfoot.getId());
         Team updated3 = teamRepo.getById(newTeam.getId());
         assertThat(updated3.getMembers()).hasSize(1);
     }

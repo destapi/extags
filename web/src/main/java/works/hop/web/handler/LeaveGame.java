@@ -1,23 +1,17 @@
 package works.hop.web.handler;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
-import works.hop.game.model.Game;
 import works.hop.web.service.IGameService;
 import works.hop.web.service.IResult;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-
-@Component("updateGame")
+@Component("leaveGame")
 @RequiredArgsConstructor
-public class UpdateGame extends ReqHandler {
+public class LeaveGame extends ReqHandler {
 
     final Gson gson;
     final IGameService gameService;
@@ -25,13 +19,11 @@ public class UpdateGame extends ReqHandler {
     @Override
     public String handle(HttpServletRequest request, HttpServletResponse response) {
         try {
-            Type mapType = new TypeToken<Game>() {
-            }.getType();
-            Game gameInfo = gson.fromJson(
-                    new InputStreamReader(request.getInputStream()), mapType);
-            IResult<Game> updatedGame = gameService.updateGame(gameInfo);
+            String gameId = request.getParameter("gameId");
+            String playerId = request.getParameter("playerId");
+            IResult<Void> updatedGame = gameService.leaveGame(Long.parseLong(gameId), Long.parseLong(playerId));
             return gson.toJson(updatedGame);
-        } catch (IOException e) {
+        } catch (Throwable e) {
             response.setStatus(500);
             return e.getMessage();
         }

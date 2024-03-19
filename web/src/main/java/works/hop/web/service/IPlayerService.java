@@ -3,17 +3,17 @@ package works.hop.web.service;
 import works.hop.game.model.Player;
 import works.hop.game.model.PlayerStatus;
 
-public interface IPlayerService extends Validator<Player> {
+public interface IPlayerService extends IValidator<Player> {
 
-    IResult<Player> getById(long id);
+    IResult<Player> getById(long playerId);
 
     IResult<Player> getByEmailAddress(String emailAddress);
 
-    IResult<Player> createNewPlayer(Player id);
+    IResult<Player> createNewPlayer(Player player);
 
     IResult<Player> updatePlayer(Player player);
 
-    IResult<Void> updateStatus(long id, PlayerStatus newStatus);
+    IResult<Void> updateStatus(long playerId, PlayerStatus newStatus);
 
-    IResult<Void> removePlayer(long id);
+    IResult<Void> removePlayer(long playerId);
 }

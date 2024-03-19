@@ -33,7 +33,7 @@ public class TeamRepo {
         return team;
     }
 
-    private List<Player> teamMembers(Long id) {
+    public List<Player> teamMembers(Long id) {
         String SELECT_BY_ID = "select * from Player where id in (select playerRef from TeamMember where teamRef = ?)";
         return jdbcTemplate.query(SELECT_BY_ID, new PlayerRowMapper(), id);
     }
@@ -78,7 +78,7 @@ public class TeamRepo {
         });
     }
 
-    public void addTeamMember(long teamRef, long playerRef) {
+    public void joinTeam(long teamRef, long playerRef) {
         String INSERT_ENTITY_SQL = "insert into TeamMember (teamRef, playerRef) values (?, ?)";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(INSERT_ENTITY_SQL);
@@ -88,7 +88,7 @@ public class TeamRepo {
         });
     }
 
-    public void removeTeamMember(long teamRef, long playerRef) {
+    public void leaveTeam(long teamRef, long playerRef) {
         String INSERT_ENTITY_SQL = "delete from TeamMember where teamRef = ? and playerRef = ?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(INSERT_ENTITY_SQL);

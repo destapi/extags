@@ -4,9 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import works.hop.eztag.server.handler.ReqHandler;
-import works.hop.web.handler.CreatePlayer;
-import works.hop.web.handler.PlayerByEmail;
+import works.hop.web.handler.*;
 
 import static works.hop.eztag.server.App.runApp;
 
@@ -19,17 +17,17 @@ public class Application {
     public static void main(String[] args) {
         runApp(args, app -> {
             app.route("/game")
-                    .get("/{id}", ctx.getBean("gameById", ReqHandler.class))
-                    .post("/", ctx.getBean("createGame", ReqHandler.class))
-                    .put("/{id}", ctx.getBean("updateGame", ReqHandler.class))
-                    .delete("/{id}", ctx.getBean("deleteGame", ReqHandler.class))
-                    .patch("/{id}", ctx.getBean("startGame", ReqHandler.class))
+                    .get("/{id}", ctx.getBean(GameById.class))
+                    .post("/", ctx.getBean(CreateGame.class))
+                    .put("/{id}", ctx.getBean(UpdateGame.class))
+                    .delete("/{id}", ctx.getBean(ResetGame.class))
+                    .patch("/{id}", ctx.getBean(StartGame.class))
                     .route("/player")
                     .get("/email/{email}", ctx.getBean(PlayerByEmail.class))
-                    .get("/id/{id}", ctx.getBean("playerById", ReqHandler.class))
+                    .get("/id/{id}", ctx.getBean(PlayerById.class))
                     .post("/", ctx.getBean(CreatePlayer.class))
-                    .put("/{id}", ctx.getBean("updatePlayer", ReqHandler.class))
-                    .delete("/{id}", ctx.getBean("deletePlayer", ReqHandler.class));
+                    .put("/{id}", ctx.getBean(UpdatePlayer.class))
+                    .delete("/{id}", ctx.getBean(DeletePlayer.class));
         });
     }
 }

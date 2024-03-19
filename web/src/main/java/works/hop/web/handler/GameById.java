@@ -1,7 +1,6 @@
 package works.hop.web.handler;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,13 +10,9 @@ import works.hop.game.model.Game;
 import works.hop.web.service.IGameService;
 import works.hop.web.service.IResult;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-
-@Component("updateGame")
+@Component("gameById")
 @RequiredArgsConstructor
-public class UpdateGame extends ReqHandler {
+public class GameById extends ReqHandler {
 
     final Gson gson;
     final IGameService gameService;
@@ -25,13 +20,10 @@ public class UpdateGame extends ReqHandler {
     @Override
     public String handle(HttpServletRequest request, HttpServletResponse response) {
         try {
-            Type mapType = new TypeToken<Game>() {
-            }.getType();
-            Game gameInfo = gson.fromJson(
-                    new InputStreamReader(request.getInputStream()), mapType);
-            IResult<Game> updatedGame = gameService.updateGame(gameInfo);
-            return gson.toJson(updatedGame);
-        } catch (IOException e) {
+            String playerId = param("id");
+            IResult<Game> byEmail = gameService.getById(Long.parseLong(playerId));
+            return gson.toJson(byEmail);
+        } catch (Throwable e) {
             response.setStatus(500);
             return e.getMessage();
         }

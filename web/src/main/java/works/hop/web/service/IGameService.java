@@ -2,19 +2,18 @@ package works.hop.web.service;
 
 import works.hop.game.model.Game;
 import works.hop.game.model.Player;
-import works.hop.game.model.PlayerStatus;
 
 import java.util.List;
 
-public interface IGameService extends Validator<Player> {
+public interface IGameService extends IValidator<Game> {
 
     IResult<Game> getById(long gameId);
 
-    IResult<Game> getByOrganizer(long playerId);
+    IResult<List<Game>> getByOrganizer(long playerId);
 
     IResult<List<Player>> getParticipants(long gameId);
 
-    IResult<Game> createGame(Game game);
+    IResult<Game> createNewGame(Game game);
 
     IResult<Game> updateGame(Game game);
 
