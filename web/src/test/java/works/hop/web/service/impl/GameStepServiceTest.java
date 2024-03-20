@@ -9,10 +9,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import works.hop.game.model.Choice;
-import works.hop.game.repository.ChoiceRepo;
+import works.hop.game.model.GameStep;
+import works.hop.game.model.StepStatus;
+import works.hop.game.repository.GameStepRepo;
 import works.hop.web.config.TestWebConfig;
-import works.hop.web.service.IChoiceService;
+import works.hop.web.service.IGameStepService;
 
 import java.util.Map;
 
@@ -20,34 +21,36 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestWebConfig.class)
-class ChoiceServiceTest {
+class GameStepServiceTest {
 
-    IChoiceService choiceService;
+    IGameStepService stepService;
     @Mock
-    ChoiceRepo choiceRepo;
+    GameStepRepo stepRepo;
     @Autowired
     Validator validator;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        choiceService = new ChoiceService(choiceRepo, validator);
+        stepService = new GameStepService(stepRepo, validator);
     }
-
+    
     @Test
     void validator_when_entity_is_missing_required_fields() {
-        Choice choice = new Choice();
-        Map<String, String> violations = choiceService.validate(choice);
+        GameStep step = new GameStep();
+        Map<String, String> violations = stepService.validate(step);
         assertThat(violations).isNotEmpty();
     }
 
     @Test
     void validator_when_entity_is_NOT_missing_required_fields() {
-        Choice choice = new Choice();
-        choice.setChoiceValue("something cool");
-        choice.setOrdinal(1);
-        choice.setQuestionRef(1L);
-        Map<String, String> violations = choiceService.validate(choice);
+        GameStep step = new GameStep();
+        step.setQuestionRef(1L);
+        step.setGameRef(2L);
+        step.setGroupNum(1);
+        step.setQuestionNum(1);
+        step.setStepStatus(StepStatus.AWAITING_NEXT);
+        Map<String, String> violations = stepService.validate(step);
         assertThat(violations).isEmpty();
     }
 }

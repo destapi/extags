@@ -9,10 +9,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import works.hop.game.model.Choice;
-import works.hop.game.repository.ChoiceRepo;
+import works.hop.game.model.Team;
+import works.hop.game.repository.TeamRepo;
 import works.hop.web.config.TestWebConfig;
-import works.hop.web.service.IChoiceService;
+import works.hop.web.service.ITeamService;
 
 import java.util.Map;
 
@@ -20,34 +20,35 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestWebConfig.class)
-class ChoiceServiceTest {
+class TeamServiceTest {
 
-    IChoiceService choiceService;
+    ITeamService teamService;
     @Mock
-    ChoiceRepo choiceRepo;
+    TeamRepo teamRepo;
     @Autowired
     Validator validator;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        choiceService = new ChoiceService(choiceRepo, validator);
+        teamService = new TeamService(teamRepo, validator);
     }
-
+    
     @Test
     void validator_when_entity_is_missing_required_fields() {
-        Choice choice = new Choice();
-        Map<String, String> violations = choiceService.validate(choice);
+        Team team = new Team();
+        Map<String, String> violations = teamService.validate(team);
         assertThat(violations).isNotEmpty();
     }
-
+    
     @Test
     void validator_when_entity_is_NOT_missing_required_fields() {
-        Choice choice = new Choice();
-        choice.setChoiceValue("something cool");
-        choice.setOrdinal(1);
-        choice.setQuestionRef(1L);
-        Map<String, String> violations = choiceService.validate(choice);
+        Team team = new Team();
+        team.setCaptainRef(1L);
+        team.setName("Dark knights");
+        team.setCity("Canton");
+        team.setState("OH");
+        Map<String, String> violations = teamService.validate(team);
         assertThat(violations).isEmpty();
     }
 }

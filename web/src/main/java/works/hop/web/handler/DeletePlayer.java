@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
 import works.hop.web.service.IPlayerService;
 
-@Component("deletePlayer")
+@Component("DeletePlayer")
 @RequiredArgsConstructor
 public class DeletePlayer extends ReqHandler {
 

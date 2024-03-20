@@ -10,7 +10,7 @@ import works.hop.game.model.Player;
 import works.hop.web.service.IPlayerService;
 import works.hop.web.service.IResult;
 
-@Component("playerByEmail")
+@Component("PlayerByEmail")
 @RequiredArgsConstructor
 public class PlayerByEmail extends ReqHandler {
 

@@ -9,7 +9,7 @@ import works.hop.eztag.server.handler.ReqHandler;
 import works.hop.web.service.IGameService;
 import works.hop.web.service.IResult;
 
-@Component("joinGame")
+@Component("JoinGame")
 @RequiredArgsConstructor
 public class JoinGame extends ReqHandler {
 

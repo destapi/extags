@@ -41,6 +41,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.25.3'
     testImplementation 'org.mockito:mockito-core:5.11.0'
     testImplementation 'org.springframework:spring-test:6.1.4'
+    testImplementation 'org.eclipse.jetty:jetty-client:11.0.20';
 }
 
 test {

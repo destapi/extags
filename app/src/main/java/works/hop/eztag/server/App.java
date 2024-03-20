@@ -18,12 +18,16 @@ import works.hop.eztag.server.router.Router;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class App {
 
     static ContextHandlerCollection contextCollection = new ContextHandlerCollection();
 
     public static void runApp(String[] args, Consumer<App> consumer) {
+        runApp(args, consumer, null);
+    }
+    public static void runApp(String[] args, Consumer<App> consumer, Consumer<Supplier<Void>> stop) {
         final Options options = new Options();
         options.addOption(new Option("keystorePath", false, "path to keystore file."));
         options.addOption(new Option("keystorePassword", false, "keystore password"));
@@ -45,12 +49,28 @@ public class App {
                 Server server = app.configureServer(line);
                 consumer.accept(app);
                 server.start();
+                configureStop(stop, server);
             } catch (Exception e) {
                 throw new RuntimeException("Could not start server successfully", e);
             }
         } catch (ParseException exp) {
             // oops, something went wrong
             System.err.println("Parsing failed.  Reason: " + exp.getMessage());
+        }
+    }
+
+    private static void configureStop(Consumer<Supplier<Void>> stop, Server server) {
+        if(stop != null) {
+            stop.accept(() -> {
+                new Thread(() -> {
+                    try {
+                        server.stop();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }).start();
+                return null;
+            });
         }
     }
 

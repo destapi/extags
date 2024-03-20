@@ -20,16 +20,16 @@ public class AppConfig {
     final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
     @Bean
+    public Validator validator() {
+        return factory.getValidator();
+    }
+
+    @Bean
     public Gson gson() {
         return new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
                 .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeTypeAdapter())
                 .create();
-    }
-
-    @Bean
-    public Validator validator() {
-        return factory.getValidator();
     }
 }

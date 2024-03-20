@@ -9,7 +9,7 @@ import works.hop.eztag.server.handler.ReqHandler;
 import works.hop.web.service.IGameService;
 import works.hop.web.service.IResult;
 
-@Component("leaveGame")
+@Component("LeaveGame")
 @RequiredArgsConstructor
 public class LeaveGame extends ReqHandler {
 

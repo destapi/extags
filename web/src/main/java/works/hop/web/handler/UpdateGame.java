@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
-@Component("updateGame")
+@Component("UpdateGame")
 @RequiredArgsConstructor
 public class UpdateGame extends ReqHandler {
 

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
-@Component("createGame")
+@Component("CreateGame")
 @RequiredArgsConstructor
 public class CreateGame extends ReqHandler {
 

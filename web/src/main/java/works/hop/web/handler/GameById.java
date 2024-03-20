@@ -10,7 +10,7 @@ import works.hop.game.model.Game;
 import works.hop.web.service.IGameService;
 import works.hop.web.service.IResult;
 
-@Component("gameById")
+@Component("GameById")
 @RequiredArgsConstructor
 public class GameById extends ReqHandler {
 
