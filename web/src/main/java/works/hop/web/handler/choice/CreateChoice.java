@@ -7,31 +7,32 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
+import works.hop.game.model.Choice;
 import works.hop.game.model.Game;
-import works.hop.web.service.IGameService;
+import works.hop.game.model.Player;
+import works.hop.web.service.IChoiceService;
 import works.hop.web.service.IResult;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
-@Component("CreateGame")
+@Component("CreateChoice")
 @RequiredArgsConstructor
-public class CreateGame extends ReqHandler {
+public class CreateChoice extends ReqHandler {
 
     final Gson gson;
-    final IGameService gameService;
+    final IChoiceService choiceService;
 
     @Override
     public String handle(HttpServletRequest request, HttpServletResponse response) {
         try {
-            Type mapType = new TypeToken<Game>() {
+            Type mapType = new TypeToken<Player>() {
             }.getType();
-            Game gameInfo = gson.fromJson(
+            Choice choice = gson.fromJson(
                     new InputStreamReader(request.getInputStream()), mapType);
-            IResult<Game> newGame = gameService.createNewGame(gameInfo);
-            return gson.toJson(newGame);
-        } catch (IOException e) {
+            IResult<Choice> newChoice = choiceService.addChoice(choice);
+            return gson.toJson(newChoice);
+        } catch (Exception e) {
             response.setStatus(500);
             return e.getMessage();
         }

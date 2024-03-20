@@ -1,0 +1,15 @@
+{
+  "name": "x-counter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@microsoft/fast-components": "^2.30.6"
+  }
+}

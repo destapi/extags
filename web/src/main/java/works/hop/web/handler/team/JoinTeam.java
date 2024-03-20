@@ -1,4 +1,4 @@
-package works.hop.web.handler;
+package works.hop.web.handler.team;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -7,31 +7,31 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
-import works.hop.game.model.Question;
-import works.hop.web.service.IQuestionService;
+import works.hop.game.model.Player;
+import works.hop.game.model.Team;
 import works.hop.web.service.IResult;
+import works.hop.web.service.ITeamService;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
-@Component("CreateQuestion")
+@Component("RegisterTeam")
 @RequiredArgsConstructor
-public class CreateQuestion extends ReqHandler {
+public class RegisterTeam extends ReqHandler {
 
     final Gson gson;
-    final IQuestionService questionService;
+    final ITeamService teamService;
 
     @Override
     public String handle(HttpServletRequest request, HttpServletResponse response) {
         try {
-            Type mapType = new TypeToken<Question>() {
+            Type mapType = new TypeToken<Player>() {
             }.getType();
-            Question questionInfo = gson.fromJson(
+            Team team = gson.fromJson(
                     new InputStreamReader(request.getInputStream()), mapType);
-            IResult<Question> newQuestion = questionService.createQuestion(questionInfo);
-            return gson.toJson(newQuestion);
-        } catch (IOException e) {
+            IResult<Team> newTeam = teamService.updateTeam(team);
+            return gson.toJson(newTeam);
+        } catch (Exception e) {
             response.setStatus(500);
             return e.getMessage();
         }
