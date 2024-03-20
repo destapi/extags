@@ -1,5 +1,6 @@
 package works.hop.game.model;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -19,7 +20,7 @@ public class Game {
     @Length(max = 256)
     String description;
     Player organizer;
-    @NotNull
+    @Min(1)
     long organizerRef;
     @NotNull
     GameStatus gameStatus;

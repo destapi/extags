@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.game.model.GameScore;
 import works.hop.game.repository.GameScoreRepo;
-import works.hop.web.config.TestWebConfig;
+import works.hop.web.config.AppConfig;
 import works.hop.web.service.IGameScoreService;
 
 import java.util.Map;
@@ -19,7 +19,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestWebConfig.class)
+@ContextConfiguration(classes = AppConfig.class)
 class GameScoreServiceTest {
 
     IGameScoreService scoreService;

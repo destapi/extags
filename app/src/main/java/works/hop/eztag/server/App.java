@@ -25,8 +25,11 @@ public class App {
     static ContextHandlerCollection contextCollection = new ContextHandlerCollection();
 
     public static void runApp(String[] args, Consumer<App> consumer) {
-        runApp(args, consumer, null);
+        runApp(args, consumer, (supplier -> {
+            Runtime.getRuntime().addShutdownHook(new Thread(supplier::get));
+        }));
     }
+
     public static void runApp(String[] args, Consumer<App> consumer, Consumer<Supplier<Void>> stop) {
         final Options options = new Options();
         options.addOption(new Option("keystorePath", false, "path to keystore file."));

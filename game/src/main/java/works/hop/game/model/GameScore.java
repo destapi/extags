@@ -1,5 +1,6 @@
 package works.hop.game.model;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -10,13 +11,13 @@ import java.time.LocalDateTime;
 public class GameScore {
 
     Game game;
-    @NotNull
+    @Min(1)
     long gameRef;
     Player player;
-    @NotNull
+    @Min(1)
     long playerRef;
     Question question;
-    @NotNull
+    @Min(1)
     long questionRef;
     @NotNull
     @Length(max = 256)

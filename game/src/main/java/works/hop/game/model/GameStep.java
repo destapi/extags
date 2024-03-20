@@ -1,5 +1,6 @@
 package works.hop.game.model;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -8,10 +9,10 @@ public class GameStep {
 
     int groupNum;
     int questionNum;
-    @NotNull
+    @Min(1)
     long gameRef;
     Question question;
-    @NotNull
+    @Min(1)
     long questionRef;
     boolean autoProgression;
     Long delayBeforeCountdown;

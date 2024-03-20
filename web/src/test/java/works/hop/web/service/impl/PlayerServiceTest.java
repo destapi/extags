@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.game.model.Player;
-import works.hop.game.model.StepStatus;
 import works.hop.game.repository.PlayerRepo;
-import works.hop.web.config.TestWebConfig;
+import works.hop.web.config.AppConfig;
 import works.hop.web.service.IPlayerService;
 
 import java.util.Map;
@@ -20,7 +19,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestWebConfig.class)
+@ContextConfiguration(classes = AppConfig.class)
 class PlayerServiceTest {
 
     IPlayerService playerService;

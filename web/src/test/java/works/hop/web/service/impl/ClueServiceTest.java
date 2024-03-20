@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.game.model.Clue;
 import works.hop.game.repository.ClueRepo;
-import works.hop.web.config.TestWebConfig;
+import works.hop.web.config.AppConfig;
 import works.hop.web.service.IClueService;
 
 import java.util.Map;
@@ -19,7 +19,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestWebConfig.class)
+@ContextConfiguration(classes = AppConfig.class)
 class ClueServiceTest {
 
     IClueService clueService;

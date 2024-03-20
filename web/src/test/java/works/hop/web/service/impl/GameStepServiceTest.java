@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.game.model.GameStep;
 import works.hop.game.model.StepStatus;
 import works.hop.game.repository.GameStepRepo;
-import works.hop.web.config.TestWebConfig;
+import works.hop.web.config.AppConfig;
 import works.hop.web.service.IGameStepService;
 
 import java.util.Map;
@@ -20,7 +20,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestWebConfig.class)
+@ContextConfiguration(classes = AppConfig.class)
 class GameStepServiceTest {
 
     IGameStepService stepService;

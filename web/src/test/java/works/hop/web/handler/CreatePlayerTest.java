@@ -12,16 +12,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.eztag.client.AppClient;
 import works.hop.eztag.server.router.Router;
+import works.hop.game.model.Player;
+import works.hop.game.model.PlayerStatus;
 import works.hop.web.config.AppConfig;
-import works.hop.web.config.AppRouterExtension;
-import works.hop.web.config.TestRouter;
-import works.hop.web.config.TestWebConfig;
+import works.hop.web.config.RouterExtension;
+import works.hop.web.config.WebTestRouter;
 import works.hop.web.service.IPlayerService;
 
-import java.util.Map;
+import java.util.Collections;
 
-@ExtendWith({SpringExtension.class, AppRouterExtension.class})
-@ContextConfiguration(classes = TestWebConfig.class)
+@ExtendWith({SpringExtension.class, RouterExtension.class})
+@ContextConfiguration(classes = AppConfig.class)
 class CreatePlayerTest {
 
     CreatePlayer handler;
@@ -31,20 +32,31 @@ class CreatePlayerTest {
     Gson gson;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         handler = new CreatePlayer(gson, service);
     }
 
     @Test
-    void handle(@TestRouter Router router) throws Exception {
-        router.post("/players", handler);
-        AppClient.request("post",
-                "/players",
-                Map.of("Content-Type", "application/json"),
-                new StringRequestContent("", ""),
-                response -> {
+    void handle(@WebTestRouter Router router) throws Exception {
+        // add route handler
+        router.post("/player", handler);
 
+        // create target entity
+        Player newPlayer = new Player();
+        newPlayer.setPlayerStatus(PlayerStatus.UNVERIFIED);
+        newPlayer.setEmailAddress("jimmy.snakeeyes@email.com");
+        newPlayer.setScreenName("jimbob");
+        newPlayer.setCity("Jacksonville");
+        newPlayer.setState("FL");
+
+        // fire up request to testing server
+        AppClient.request("post",
+                "http://localhost:3030/player/",
+                Collections.emptyMap(),
+                new StringRequestContent("application/json", gson.toJson(newPlayer)),
+                response -> {
+                    System.out.println(response.getContentAsString());
                 });
     }
 }

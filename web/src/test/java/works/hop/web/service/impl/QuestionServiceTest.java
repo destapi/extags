@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.game.model.Question;
 import works.hop.game.model.QuestionType;
 import works.hop.game.repository.QuestionRepo;
-import works.hop.web.config.TestWebConfig;
+import works.hop.web.config.AppConfig;
 import works.hop.web.service.IQuestionService;
 
 import java.util.Map;
@@ -20,7 +20,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestWebConfig.class)
+@ContextConfiguration(classes = AppConfig.class)
 class QuestionServiceTest {
 
     IQuestionService questionService;
@@ -46,7 +46,7 @@ class QuestionServiceTest {
     void validator_when_entity_is_NOT_missing_required_fields() {
         Question question = new Question();
         question.setQuestion("what is the time");
-        question.setMaxPoints(1000);
+        question.setCreatedByRef(4L);
         question.setAnswer("you got this");
         question.setQuestionType(QuestionType.HISTORY);
         Map<String, String> violations = questionService.validate(question);

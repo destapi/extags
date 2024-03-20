@@ -11,18 +11,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import works.hop.game.model.Choice;
 import works.hop.game.repository.ChoiceRepo;
-import works.hop.web.config.TestWebConfig;
-import works.hop.web.service.IChoiceService;
+import works.hop.web.config.AppConfig;
 
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestWebConfig.class)
+@ContextConfiguration(classes = AppConfig.class)
 class ChoiceServiceTest {
 
-    IChoiceService choiceService;
+    ChoiceService choiceService;
     @Mock
     ChoiceRepo choiceRepo;
     @Autowired

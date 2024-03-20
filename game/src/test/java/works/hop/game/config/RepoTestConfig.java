@@ -8,7 +8,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import javax.sql.DataSource;
 
 @Configuration
-public class TestRepositoryConfig {
+public class RepoTestConfig {
     @Bean
     public DataSource embeddedDataSource() {
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import works.hop.game.config.TestRepositoryConfig;
+import works.hop.game.config.RepoTestConfig;
 import works.hop.game.model.Player;
 
 import javax.sql.DataSource;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static works.hop.game.model.PlayerStatus.ACTIVATED;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestRepositoryConfig.class)
+@ContextConfiguration(classes = RepoTestConfig.class)
 class PlayerRepoTest {
 
     @Autowired

@@ -7,9 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
-import works.hop.game.model.Game;
 import works.hop.game.model.Question;
-import works.hop.web.service.IGameService;
+import works.hop.web.service.IQuestionService;
 import works.hop.web.service.IResult;
 
 import java.io.IOException;
@@ -21,17 +20,17 @@ import java.lang.reflect.Type;
 public class CreateQuestion extends ReqHandler {
 
     final Gson gson;
-    final IGameService gameService;
+    final IQuestionService questionService;
 
     @Override
     public String handle(HttpServletRequest request, HttpServletResponse response) {
         try {
             Type mapType = new TypeToken<Question>() {
             }.getType();
-            Game gameInfo = gson.fromJson(
+            Question questionInfo = gson.fromJson(
                     new InputStreamReader(request.getInputStream()), mapType);
-            IResult<Game> newGame = gameService.createNewGame(gameInfo);
-            return gson.toJson(newGame);
+            IResult<Question> newQuestion = questionService.createQuestion(questionInfo);
+            return gson.toJson(newQuestion);
         } catch (IOException e) {
             response.setStatus(500);
             return e.getMessage();

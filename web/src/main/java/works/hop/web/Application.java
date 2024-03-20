@@ -27,7 +27,9 @@ public class Application {
                     .get("/id/{id}", ctx.getBean(PlayerById.class))
                     .post("/", ctx.getBean(CreatePlayer.class))
                     .put("/{id}", ctx.getBean(UpdatePlayer.class))
-                    .delete("/{id}", ctx.getBean(DeletePlayer.class));
+                    .delete("/{id}", ctx.getBean(DeletePlayer.class))
+                    .route("/question")
+                    .post("/", ctx.getBean(CreateQuestion.class));
         });
     }
 }

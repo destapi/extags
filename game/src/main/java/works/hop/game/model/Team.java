@@ -1,5 +1,6 @@
 package works.hop.game.model;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -20,7 +21,7 @@ public class Team {
     @Length(max = 32)
     String state;
     Player captain;
-    @NotNull
+    @Min(1)
     long captainRef;
     LocalDateTime dateCreated;
     List<Player> members = new LinkedList<>();

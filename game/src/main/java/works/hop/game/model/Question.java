@@ -1,5 +1,6 @@
 package works.hop.game.model;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -24,7 +25,7 @@ public class Question {
     String answerReason;
     int maxPoints;
     Player createdBy;
-    @NotNull
+    @Min(1)
     long createdByRef;
     LocalDateTime dateCreated;
     List<Choice> multipleChoices = new LinkedList<>();

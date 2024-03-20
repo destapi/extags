@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import works.hop.game.config.TestRepositoryConfig;
+import works.hop.game.config.RepoTestConfig;
 import works.hop.game.model.Player;
 import works.hop.game.model.Question;
 import works.hop.game.model.QuestionType;
@@ -17,7 +17,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestRepositoryConfig.class)
+@ContextConfiguration(classes = RepoTestConfig.class)
 class QuestionRepoTest {
 
     @Autowired

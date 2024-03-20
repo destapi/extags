@@ -1,5 +1,6 @@
 package works.hop.game.model;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -9,7 +10,7 @@ public class Clue {
 
     int ordinal;
     Question question;
-    @NotNull
+    @Min(1)
     long questionRef;
     @NotNull
     @Length(max = 64)
