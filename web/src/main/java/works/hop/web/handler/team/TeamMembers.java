@@ -1,4 +1,4 @@
-package works.hop.web.handler.game;
+package works.hop.web.handler.team;
 
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,24 +7,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
 import works.hop.game.model.Player;
-import works.hop.web.service.IGameService;
+import works.hop.web.service.ITeamService;
 import works.hop.web.service.IResult;
 
 import java.util.List;
 
-@Component("GameParticipants")
+@Component("TeamMembers")
 @RequiredArgsConstructor
-public class GameParticipants extends ReqHandler {
+public class TeamMembers extends ReqHandler {
 
     final Gson gson;
-    final IGameService gameService;
+    final ITeamService teamService;
 
     @Override
     public String handle(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String gameId = request.getParameter("gameId");
-            IResult<List<Player>> updatedGame = gameService.getParticipants(Long.parseLong(gameId));
-            return gson.toJson(updatedGame);
+            String teamId = request.getParameter("teamId");
+            IResult<List<Player>> updatedTeam = teamService.teamMembers(Long.parseLong(teamId));
+            return gson.toJson(updatedTeam);
         } catch (Throwable e) {
             response.setStatus(500);
             return e.getMessage();

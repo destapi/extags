@@ -13,9 +13,9 @@ public interface ITeamService extends IValidator<Team> {
 
     IResult<Team> createNewTeam(Team team);
 
-    IResult<Team> registerTeam(Team team);
+    IResult<Team> updateTeam(Team team);
 
-    IResult<Void> unregisterTeam(int teamId);
+    IResult<Void> deleteTeam(long teamId);
 
     IResult<Void> joinTeam(long teamId, long playerId);
 

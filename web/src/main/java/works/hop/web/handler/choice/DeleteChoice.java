@@ -1,4 +1,4 @@
-package works.hop.web.handler;
+package works.hop.web.handler.choice;
 
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Component("RemoveChoice")
 @RequiredArgsConstructor
-public class RemoveChoice extends ReqHandler {
+public class DeleteChoice extends ReqHandler {
 
     final Gson gson;
     final IChoiceService choiceService;

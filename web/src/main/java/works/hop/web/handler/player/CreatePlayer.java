@@ -1,4 +1,4 @@
-package works.hop.web.handler;
+package works.hop.web.handler.player;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

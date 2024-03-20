@@ -63,7 +63,7 @@ public class TeamService implements ITeamService {
     }
 
     @Override
-    public IResult<Team> registerTeam(Team team) {
+    public IResult<Team> updateTeam(Team team) {
         IResult<Team> result = new Result<>();
         try {
             Map<String, String> violations = validate(team);
@@ -71,7 +71,7 @@ public class TeamService implements ITeamService {
                 result.errors(violations);
                 return result;
             }
-            result.data(teamRepo.registerTeam(team));
+            result.data(teamRepo.updateTeam(team));
         } catch (Exception e) {
             result.errors(Map.of("registerTeam", e.getMessage()));
         }
@@ -79,10 +79,10 @@ public class TeamService implements ITeamService {
     }
 
     @Override
-    public IResult<Void> unregisterTeam(int teamId) {
+    public IResult<Void> deleteTeam(long teamId) {
         IResult<Void> result = new Result<>();
         try {
-            teamRepo.unregisterTeam(teamId);
+            teamRepo.deleteTeam(teamId);
             return new Result<>(null);
         } catch (Exception e) {
             result.errors(Map.of("unregisterTeam", e.getMessage()));

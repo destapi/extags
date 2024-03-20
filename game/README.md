@@ -4,7 +4,7 @@
 2. open a H2 DB shell and follow the prompts
 
 ```bash
-$ java -cp app/.bin/h2-2.2.224.jar org.h2.tools.Shell
+$ java -cp game/.bin/h2-2.2.224.jar org.h2.tools.Shell
 
 Welcome to H2 Shell 2.2.224 (2023-09-17)
 Exit with Ctrl+C

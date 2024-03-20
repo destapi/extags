@@ -1,4 +1,4 @@
-package works.hop.web.handler.choice;
+package works.hop.web.handler.clue;
 
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,26 +6,24 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
-import works.hop.game.model.Choice;
-import works.hop.game.model.Player;
-import works.hop.web.service.IChoiceService;
-import works.hop.web.service.IQuestionService;
+import works.hop.game.model.Clue;
+import works.hop.web.service.IClueService;
 import works.hop.web.service.IResult;
 
 import java.util.List;
 
-@Component("QuestionChoices")
+@Component("QuestionClues")
 @RequiredArgsConstructor
-public class QuestionChoices extends ReqHandler {
+public class QuestionClues extends ReqHandler {
 
     final Gson gson;
-    final IChoiceService choiceService;
+    final IClueService clueService;
     @Override
     public String handle(HttpServletRequest request, HttpServletResponse response) {
         try {
             String questionId = request.getParameter("questionId");
-            IResult<List<Choice>> currentChoices = choiceService.questionChoices(Long.parseLong(questionId));
-            return gson.toJson(currentChoices);
+            IResult<List<Clue>> currentClues = clueService.questionClues(Long.parseLong(questionId));
+            return gson.toJson(currentClues);
         } catch (Exception e) {
             response.setStatus(500);
             return e.getMessage();

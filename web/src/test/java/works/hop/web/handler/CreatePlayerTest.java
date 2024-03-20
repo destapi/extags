@@ -17,6 +17,7 @@ import works.hop.game.model.PlayerStatus;
 import works.hop.web.config.AppConfig;
 import works.hop.web.config.RouterExtension;
 import works.hop.web.config.WebTestRouter;
+import works.hop.web.handler.player.CreatePlayer;
 import works.hop.web.service.IPlayerService;
 
 import java.util.Collections;

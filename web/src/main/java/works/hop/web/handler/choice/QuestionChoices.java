@@ -1,4 +1,4 @@
-package works.hop.web.handler;
+package works.hop.web.handler.choice;
 
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;

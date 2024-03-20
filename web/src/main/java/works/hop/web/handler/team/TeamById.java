@@ -6,24 +6,24 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
-import works.hop.game.model.Choice;
-import works.hop.web.service.IChoiceService;
+import works.hop.game.model.Team;
+import works.hop.web.service.ITeamService;
 import works.hop.web.service.IResult;
 
 import java.util.List;
 
-@Component("QuestionChoices")
+@Component("QuestionTeams")
 @RequiredArgsConstructor
-public class QuestionChoices extends ReqHandler {
+public class TeamById extends ReqHandler {
 
     final Gson gson;
-    final IChoiceService choiceService;
+    final ITeamService teamService;
     @Override
     public String handle(HttpServletRequest request, HttpServletResponse response) {
         try {
-            String questionId = request.getParameter("questionId");
-            IResult<List<Choice>> currentChoices = choiceService.questionChoices(Long.parseLong(questionId));
-            return gson.toJson(currentChoices);
+            String teamId = request.getParameter("teamId");
+            IResult<Team> currentTeams = teamService.getById(Long.parseLong(teamId));
+            return gson.toJson(currentTeams);
         } catch (Exception e) {
             response.setStatus(500);
             return e.getMessage();

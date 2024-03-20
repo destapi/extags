@@ -55,7 +55,7 @@ public class TeamRepo {
         return team;
     }
 
-    public Team registerTeam(Team team) {
+    public Team updateTeam(Team team) {
         String UPDATE_ENTITY_SQL = "update Team set name = ?, city=?, state=? where id = ?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(UPDATE_ENTITY_SQL);
@@ -69,7 +69,7 @@ public class TeamRepo {
         return team;
     }
 
-    public void unregisterTeam(long teamId) {
+    public void deleteTeam(long teamId) {
         String UPDATE_ENTITY_SQL = "delete from Team where id = ?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(UPDATE_ENTITY_SQL);

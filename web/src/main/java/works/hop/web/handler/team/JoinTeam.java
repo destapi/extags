@@ -14,10 +14,11 @@ import works.hop.web.service.ITeamService;
 
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.util.Objects;
 
 @Component("RegisterTeam")
 @RequiredArgsConstructor
-public class RegisterTeam extends ReqHandler {
+public class JoinTeam extends ReqHandler {
 
     final Gson gson;
     final ITeamService teamService;
@@ -25,12 +26,10 @@ public class RegisterTeam extends ReqHandler {
     @Override
     public String handle(HttpServletRequest request, HttpServletResponse response) {
         try {
-            Type mapType = new TypeToken<Player>() {
-            }.getType();
-            Team team = gson.fromJson(
-                    new InputStreamReader(request.getInputStream()), mapType);
-            IResult<Team> newTeam = teamService.updateTeam(team);
-            return gson.toJson(newTeam);
+            long teamId = Long.parseLong(Objects.requireNonNull(param("teamId"), "Team id is not an optional field when joining a team"));
+            long playerId = Long.parseLong(Objects.requireNonNull(param("playerId"), "Player id is not an optional field when joining a team"));
+            IResult<Void> joinedTeam = teamService.joinTeam(teamId, playerId);
+            return gson.toJson(joinedTeam);
         } catch (Exception e) {
             response.setStatus(500);
             return e.getMessage();

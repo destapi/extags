@@ -42,7 +42,7 @@ class TeamRepoTest {
         assertThat(newTeam.getMembers()).isEmpty();
 
         newTeam.setState("WI");
-        newTeam = teamRepo.registerTeam(newTeam);
+        newTeam = teamRepo.updateTeam(newTeam);
         Team updated = teamRepo.getById(newTeam.getId());
         assertThat(updated.getState()).isEqualTo(newTeam.getState());
     }

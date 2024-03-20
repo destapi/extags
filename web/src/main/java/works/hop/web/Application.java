@@ -5,6 +5,11 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import works.hop.web.handler.*;
+import works.hop.web.handler.choice.ChoiceRoutes;
+import works.hop.web.handler.clue.ClueRoutes;
+import works.hop.web.handler.game.GameRoutes;
+import works.hop.web.handler.player.PlayerRoutes;
+import works.hop.web.handler.question.QuestionRoutes;
 
 import static works.hop.eztag.server.App.runApp;
 
@@ -16,20 +21,13 @@ public class Application {
 
     public static void main(String[] args) {
         runApp(args, app -> {
-            app.route("/game")
-                    .get("/{id}", ctx.getBean(GameById.class))
-                    .post("/", ctx.getBean(CreateGame.class))
-                    .put("/{id}", ctx.getBean(UpdateGame.class))
-                    .delete("/{id}", ctx.getBean(ResetGame.class))
-                    .patch("/{id}", ctx.getBean(StartGame.class))
-                    .route("/player")
-                    .get("/email/{email}", ctx.getBean(PlayerByEmail.class))
-                    .get("/id/{id}", ctx.getBean(PlayerById.class))
-                    .post("/", ctx.getBean(CreatePlayer.class))
-                    .put("/{id}", ctx.getBean(UpdatePlayer.class))
-                    .delete("/{id}", ctx.getBean(DeletePlayer.class))
-                    .route("/question")
-                    .post("/", ctx.getBean(CreateQuestion.class));
+            app.route("/health")
+                    .get("/", ctx.getBean(HealthCheck.class));
+            ctx.getBean(PlayerRoutes.class).accept(app);
+            ctx.getBean(ChoiceRoutes.class).accept(app);
+            ctx.getBean(ClueRoutes.class).accept(app);
+            ctx.getBean(QuestionRoutes.class).accept(app);
+            ctx.getBean(GameRoutes.class).accept(app);
         });
     }
 }
