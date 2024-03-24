@@ -1,5 +1,9 @@
 package works.hop.eztag.parser;
 
+import works.hop.eztag.pubsub.JEvent;
+import works.hop.eztag.pubsub.JReceiver;
+import works.hop.eztag.pubsub.JSubscribe;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -38,11 +42,13 @@ public class JContext implements JObserver {
     @Override
     public void subscribe(List<JSubscribe> interests) {
         interests.forEach(sub -> {
-            if (!observables().containsKey(sub.event)) {
-                observables().put(sub.event, new LinkedList<>());
+            for(String interest : sub.getInterests()) {
+                if (!observables().containsKey(interest)) {
+                    observables().put(interest, new LinkedList<>());
+                }
+                observables().get(interest).add(sub.getTarget());
+                sub.setUnsubscribe(() -> observables().get(interest).remove(sub.getTarget()));
             }
-            observables().get(sub.event).add(sub.target);
-            sub.unsubscribe = () -> observables().get(sub.event).remove(sub.target);
         });
     }
 
@@ -51,9 +57,9 @@ public class JContext implements JObserver {
         List<JNode> listeners = observables.get("add");
         for (JNode node : listeners) {
             JEvent event = new JEvent();
-            event.source = node;
-            event.event = "addItemToCollection";
-            node.bubble(event, (JNode) value);
+            event.setSource(node);
+            event.setEvent("addItemToCollection");
+            node.bubble(event, null, value);
         }
     }
 
@@ -62,9 +68,20 @@ public class JContext implements JObserver {
         List<JNode> listeners = observables.get("remove");
         for (JNode node : listeners) {
             JEvent event = new JEvent();
-            event.source = node;
-            event.event = "removeItemFromCollection";
-            node.bubble(event, (JNode) value);
+            event.setSource(node);
+            event.setEvent("removeItemFromCollection");
+            node.bubble(event, value, null);
+        }
+    }
+
+    @Override
+    public void updateItemInCollection(Object target, String path, int index, Object prev, Object value) {
+        List<JNode> listeners = observables.get("update");
+        for (JNode node : listeners) {
+            JEvent event = new JEvent();
+            event.setSource(node);
+            event.setEvent("updateItemInCollection");
+            node.bubble(event, prev, value);
         }
     }
 
@@ -73,9 +90,42 @@ public class JContext implements JObserver {
         List<JNode> listeners = observables.get("update");
         for (JNode node : listeners) {
             JEvent event = new JEvent();
-            event.source = node;
-            event.event = "updateItemInCollection";
-            node.bubble(event, (JNode) value);
+            event.setSource(node);
+            event.setEvent("updateItemInCollection");
+            node.bubble(event, prev, value);
+        }
+    }
+
+    @Override
+    public void addItemToDictionary(Object target, String path, String key, Object oldValue, Object newValue) {
+        List<JNode> listeners = observables.get("add");
+        for (JNode node : listeners) {
+            JEvent event = new JEvent();
+            event.setSource(node);
+            event.setEvent("addItemToDictionary");
+            node.bubble(event, oldValue, newValue);
+        }
+    }
+
+    @Override
+    public void updateItemInDictionary(Object target, String path, String key, Object prev, Object value) {
+        List<JNode> listeners = observables.get("update");
+        for (JNode node : listeners) {
+            JEvent event = new JEvent();
+            event.setSource(node);
+            event.setEvent("updateItemInDictionary");
+            node.bubble(event, prev, value);
+        }
+    }
+
+    @Override
+    public void removeItemFromDictionary(Object target, String path, String key, Object value) {
+        List<JNode> listeners = observables.get("delete");
+        for (JNode node : listeners) {
+            JEvent event = new JEvent();
+            event.setSource(node);
+            event.setEvent("removeItemFromDictionary");
+            node.bubble(event, value, null);
         }
     }
 }

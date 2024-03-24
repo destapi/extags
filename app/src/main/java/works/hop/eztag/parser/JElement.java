@@ -2,6 +2,7 @@ package works.hop.eztag.parser;
 
 import org.mvel2.MVEL;
 import org.mvel2.templates.TemplateRuntime;
+import works.hop.eztag.pubsub.JSubscribe;
 
 import javax.xml.stream.XMLStreamException;
 import java.util.*;
@@ -354,7 +355,7 @@ public class JElement extends JObject {
     public String renderComponent() {
         if (ifExpression == null || (Boolean) MVEL.eval(ifExpression, context)) {
             if (!interests.isEmpty()) {
-                observer.subscribe(this.interests.stream().map(i -> new JSubscribe(i, this)).toList());
+                observer.subscribe(this.interests.stream().map(i -> new JSubscribe(new String[]{i}, this)).toList());
             }
 
             StringBuilder builder = new StringBuilder();
@@ -378,7 +379,7 @@ public class JElement extends JObject {
     public String renderListComponent() {
         if (ifExpression == null || (Boolean) MVEL.eval(ifExpression, context)) {
             if (!interests.isEmpty()) {
-                observer.subscribe(this.interests.stream().map(i -> new JSubscribe(i, this)).toList());
+                observer.subscribe(this.interests.stream().map(i -> new JSubscribe(new String[]{i}, this)).toList());
             }
 
             StringBuilder builder = new StringBuilder();

@@ -11,7 +11,7 @@ import works.hop.web.service.ITeamService;
 
 import java.util.Objects;
 
-@Component("RegisterTeam")
+@Component
 @RequiredArgsConstructor
 public class LeaveTeam extends ReqHandler {
 

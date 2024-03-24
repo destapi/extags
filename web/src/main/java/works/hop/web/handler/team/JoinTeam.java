@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
-@Component("RegisterTeam")
+@Component
 @RequiredArgsConstructor
 public class JoinTeam extends ReqHandler {
 

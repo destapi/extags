@@ -18,7 +18,6 @@ public class QuestionRowMapper implements RowMapper<Question> {
         question.setAnswer(rs.getString("answer"));
         question.setCreatedByRef(rs.getLong("createdByRef"));
         question.setAnswerReason(rs.getString("answerReason"));
-        question.setMaxPoints(rs.getInt("maxPoints"));
         question.setDateCreated(rs.getTimestamp("dateCreated").toLocalDateTime());
         question.setId(rs.getLong("id"));
         return question;

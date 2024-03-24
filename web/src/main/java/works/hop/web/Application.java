@@ -10,6 +10,7 @@ import works.hop.web.handler.clue.ClueRoutes;
 import works.hop.web.handler.game.GameRoutes;
 import works.hop.web.handler.player.PlayerRoutes;
 import works.hop.web.handler.question.QuestionRoutes;
+import works.hop.web.handler.team.TeamRoutes;
 
 import static works.hop.eztag.server.App.runApp;
 
@@ -23,11 +24,12 @@ public class Application {
         runApp(args, app -> {
             app.route("/health")
                     .get("/", ctx.getBean(HealthCheck.class));
-            ctx.getBean(PlayerRoutes.class).accept(app);
             ctx.getBean(ChoiceRoutes.class).accept(app);
             ctx.getBean(ClueRoutes.class).accept(app);
-            ctx.getBean(QuestionRoutes.class).accept(app);
             ctx.getBean(GameRoutes.class).accept(app);
+            ctx.getBean(PlayerRoutes.class).accept(app);
+            ctx.getBean(QuestionRoutes.class).accept(app);
+            ctx.getBean(TeamRoutes.class).accept(app);
         });
     }
 }

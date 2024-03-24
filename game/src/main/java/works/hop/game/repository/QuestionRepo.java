@@ -41,7 +41,7 @@ public class QuestionRepo {
     }
 
     public Question createQuestion(Question question) {
-        String INSERT_ENTITY_SQL = "insert into Question (question, questionType, answer, answerReason, maxPoints, createdByRef) values (?, ?, ?, ?, ?, ?)";
+        String INSERT_ENTITY_SQL = "insert into Question (question, questionType, answer, answerReason, createdByRef) values (?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection
@@ -50,8 +50,7 @@ public class QuestionRepo {
             ps.setString(2, Optional.ofNullable(question.getQuestionType()).map(Enum::name).orElse(QuestionType.GENERAL.name()));
             ps.setString(3, Objects.requireNonNullElse(question.getAnswer(), ""));
             ps.setString(4, Objects.requireNonNullElse(question.getAnswerReason(), ""));
-            ps.setInt(5, question.getMaxPoints());
-            ps.setLong(6, question.getCreatedByRef());
+            ps.setLong(5, question.getCreatedByRef());
             return ps;
         }, keyHolder);
 
@@ -60,15 +59,14 @@ public class QuestionRepo {
     }
 
     public Question updateQuestion(Question question) {
-        String UPDATE_ENTITY_SQL = "update Question set question = ?, questionType=?, answer=?, answerReason=?, maxPoints=? where id = ?";
+        String UPDATE_ENTITY_SQL = "update Question set question = ?, questionType=?, answer=?, answerReason=? where id = ?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(UPDATE_ENTITY_SQL);
             ps.setString(1, Objects.requireNonNull(question.getQuestion()));
             ps.setString(2, Optional.ofNullable(question.getQuestionType()).map(Enum::name).orElse(QuestionType.GENERAL.name()));
             ps.setString(3, Objects.requireNonNullElse(question.getAnswer(), ""));
             ps.setString(4, Objects.requireNonNullElse(question.getAnswerReason(), ""));
-            ps.setInt(5, question.getMaxPoints());
-            ps.setLong(6, question.getId());
+            ps.setLong(5, question.getId());
             return ps;
         });
 

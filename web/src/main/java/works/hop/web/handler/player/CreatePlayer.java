@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
-@Component("CreatePlayer")
+@Component
 @RequiredArgsConstructor
 public class CreatePlayer extends ReqHandler {
 

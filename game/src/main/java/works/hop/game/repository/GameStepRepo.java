@@ -33,7 +33,7 @@ public class GameStepRepo {
 
     public GameStep createGameStep(GameStep step) {
         String INSERT_ENTITY_SQL = "insert into GameStep (gameRef, questionRef, groupNum, questionNum, autoProgression, delayBeforeCountdown, " +
-                "delayAfterCountdown, countdownDuration, countdownIntervals, stepStatus) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "delayAfterCountdown, countdownDuration, countdownIntervals, maxPoints, correctChoice, stepStatus) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection
                     .prepareStatement(INSERT_ENTITY_SQL);
@@ -46,7 +46,9 @@ public class GameStepRepo {
             ps.setLong(7, step.getDelayAfterCountdown());
             ps.setLong(8, step.getCountdownDuration());
             ps.setLong(9, step.getCountdownIntervals());
-            ps.setString(10, Optional.ofNullable(step.getStepStatus()).map(Enum::name).orElse(StepStatus.AWAITING_NEXT.name()));
+            ps.setInt(10, step.getMaxPoints());
+            ps.setInt(11, step.getCorrectChoice());
+            ps.setString(12, Optional.ofNullable(step.getStepStatus()).map(Enum::name).orElse(StepStatus.AWAITING_NEXT.name()));
             return ps;
         });
         return step;
@@ -54,7 +56,7 @@ public class GameStepRepo {
 
     public GameStep updateGameStep(GameStep step) {
         String UPDATE_ENTITY_SQL = "update GameStep set groupNum = ?, questionNum = ?, autoProgression=?, delayBeforeCountdown=?, delayAfterCountdown=?, " +
-                "countdownDuration=?, countdownIntervals=? where gameRef = ? and questionRef = ?";
+                "countdownDuration=?, countdownIntervals=?, maxPoints = ?, correctChoice = ? where gameRef = ? and questionRef = ?";
         this.jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(UPDATE_ENTITY_SQL);
             ps.setInt(1, step.getGroupNum());
@@ -66,6 +68,8 @@ public class GameStepRepo {
             ps.setLong(7, step.getCountdownIntervals());
             ps.setLong(8, step.getGameRef());
             ps.setLong(9, step.getQuestionRef());
+            ps.setInt(10, step.getMaxPoints());
+            ps.setInt(11, step.getCorrectChoice());
             return ps;
         });
 

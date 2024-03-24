@@ -23,7 +23,6 @@ public class Question {
     String answer;
     @Length(max = 1024)
     String answerReason;
-    int maxPoints;
     Player createdBy;
     @Min(1)
     long createdByRef;

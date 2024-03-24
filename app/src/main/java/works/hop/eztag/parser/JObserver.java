@@ -1,5 +1,8 @@
 package works.hop.eztag.parser;
 
+import works.hop.eztag.pubsub.JReceiver;
+import works.hop.eztag.pubsub.JSubscribe;
+
 import java.util.List;
 import java.util.Map;
 

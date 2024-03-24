@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
 
-@Component("HealthCheck")
+@Component
 @RequiredArgsConstructor
 public class HealthCheck extends ReqHandler {
 

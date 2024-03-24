@@ -1,5 +1,7 @@
 package works.hop.eztag.parser;
 
+import works.hop.eztag.pubsub.JEvent;
+
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -39,15 +41,15 @@ public interface JNode extends Serializable {
         return prev;
     }
 
-    default void bubble(JEvent event, JNode data) {
-        if (event.source == null) event.source = this;
+    default void bubble(JEvent event, Object oldValue, Object newValue) {
+        if (event.getSource() == null) event.setSource(this);
 
         if (parent() != null) {
-            parent().bubble(event, data);
+            parent().bubble(event, oldValue, newValue);
         }
         // this must be the root, so the observer should be available
         if (observer() != null) {
-            observer().receiver().onEvent(event, data);
+            observer().receiver().onEvent(event, oldValue, newValue);
         }
     }
 
@@ -66,33 +68,30 @@ public interface JNode extends Serializable {
     /**
      * JObject retrieve from a map the value reachable by key
      *
-     * @param subscriber key to register interest for notification if the value changes
-     * @param key        value used as a key in the map
+     * @param key value used as a key in the map
      * @return value if key exists else null
      */
-    default Object getItem(String subscriber, String key) {
+    default Object getItem(String key) {
         return null;
     }
 
     /**
      * JArray retrieve from the array the value at index
      *
-     * @param subscriber key to register interest for notification if the value changes
-     * @param index      ordinal position of an element in array
+     * @param index ordinal position of an element in array
      * @return value at the index position if it's within valid range
      */
-    default Object getIndexed(String subscriber, int index) {
+    default Object getIndexed(int index) {
         return null;
     }
 
     /**
      * JArray retrieve from an array the first object that matches the predicate
      *
-     * @param subscriber key to register interest for notification if the value changes
-     * @param predicate  test for presence or existence
+     * @param predicate test for presence or existence
      * @return value if found else null
      */
-    default Object getItem(String subscriber, Predicate<Object> predicate) {
+    default Object getItem(Predicate<Object> predicate) {
         return null;
     }
 

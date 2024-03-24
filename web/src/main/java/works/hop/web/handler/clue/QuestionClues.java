@@ -12,7 +12,7 @@ import works.hop.web.service.IResult;
 
 import java.util.List;
 
-@Component("QuestionClues")
+@Component
 @RequiredArgsConstructor
 public class QuestionClues extends ReqHandler {
 

@@ -10,7 +10,7 @@ import works.hop.web.service.IClueService;
 
 import java.util.Objects;
 
-@Component("DeleteClue")
+@Component
 @RequiredArgsConstructor
 public class DeleteClue extends ReqHandler {
 

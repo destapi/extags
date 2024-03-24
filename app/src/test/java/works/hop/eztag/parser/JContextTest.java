@@ -1,6 +1,7 @@
 package works.hop.eztag.parser;
 
 import org.junit.jupiter.api.Test;
+import works.hop.eztag.pubsub.JReceiver;
 
 import javax.xml.stream.XMLStreamException;
 import java.util.stream.Stream;
@@ -24,24 +25,19 @@ class JContextTest {
         // create model object and set parent-child relationships
         JObject model = new JObject();  // root of model object
         JArray users = new JArray();
-        users.parent(model);    //set parent-child relationship
-
         JObject user = new JObject();
-        user.parent(users); //set parent-child relationship
 
         JArray numbers = Stream.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
-                .map(n -> {
+                .map(numNode -> {
                     JObject obj = new JObject();
-                    obj.put("num", n);
+                    obj.putItem("num", numNode);
                     return obj;
                 }).collect(toCollection(JArray::new));
-        numbers.parent(user);    //set parent-child relationship
-        numbers.forEach(num -> ((JNode) num).parent(numbers));   //set parent-child relationship
 
-        user.put("numbers", numbers);
-        user.put("name", "jimmy");
-        users.add(user);
-        model.put("users", users);
+        user.putItem("numbers", numbers);
+        user.putItem("name", "jimmy");
+        users.addItem(user);
+        model.putItem("users", users);
 
         // context
         JContext context = new JContext(model, new JReceiver() {
@@ -55,16 +51,16 @@ class JContextTest {
 
         // now add another item
         JObject item15 = new JObject();
-        item15.put("num", 15);
+        item15.putItem("num", 15);
         numbers.addItem(item15);
 
         // now update num 9 to be 10
-        numbers.updateItem(i -> (int) ((JNode) i).getItem("", "num") == 9, node -> {
+        numbers.updateItem(i -> (int) ((JNode) i).getItem("num") == 9, node -> {
             node.putItem("num", 10);
         });
 
         // now remove 3
-        numbers.removeFirst(i -> (int) ((JNode) i).getItem("", "num") == 3);
+        numbers.removeFirst(i -> (int) ((JNode) i).getItem("num") == 3);
     }
 
 }

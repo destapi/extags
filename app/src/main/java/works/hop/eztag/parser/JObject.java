@@ -1,7 +1,12 @@
 package works.hop.eztag.parser;
 
+import works.hop.eztag.pubsub.JSubscribe;
+
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.function.Consumer;
+
+import static works.hop.eztag.pubsub.JReceiver.interests;
 
 public class JObject extends LinkedHashMap<String, Object> implements JNode {
 
@@ -35,7 +40,11 @@ public class JObject extends LinkedHashMap<String, Object> implements JNode {
     }
 
     @Override
-    public Object getItem(String subscriber, String key) {
+    public Object getItem(String key) {
+        JSubscribe subscriber = new JSubscribe(interests, this);
+        if(this.observer != null) {
+            this.observer.subscribe(List.of(subscriber));
+        }
         return super.get(key);
     }
 
@@ -53,7 +62,12 @@ public class JObject extends LinkedHashMap<String, Object> implements JNode {
         // notify with added value
         JObserver rootObserver = this.root().observer();
         if (rootObserver != null) {
-            rootObserver.addItemToDictionary(this, this.tracePath(), key, oldValue, value);
+            if(oldValue == null) {
+                rootObserver.addItemToDictionary(this, this.tracePath(), key, oldValue, value);
+            }
+            else{
+                rootObserver.updateItemInDictionary(this, this.tracePath(), key, oldValue, value);
+            }
         }
 
         super.put(key, value);

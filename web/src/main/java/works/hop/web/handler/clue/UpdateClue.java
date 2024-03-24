@@ -15,7 +15,7 @@ import works.hop.web.service.IResult;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
-@Component("UpdateClue")
+@Component
 @RequiredArgsConstructor
 public class UpdateClue extends ReqHandler {
 

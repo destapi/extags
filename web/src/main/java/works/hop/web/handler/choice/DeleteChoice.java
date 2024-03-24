@@ -10,7 +10,7 @@ import works.hop.web.service.IChoiceService;
 
 import java.util.Objects;
 
-@Component("RemoveChoice")
+@Component
 @RequiredArgsConstructor
 public class DeleteChoice extends ReqHandler {
 

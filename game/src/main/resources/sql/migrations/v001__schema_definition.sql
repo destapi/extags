@@ -48,7 +48,6 @@ create table if not exists Question
     questionType ENUM ('GENERAL', 'SCIENCE', 'MATH', 'ENGLISH', 'GEOGRAPHY', 'POLITICS', 'HISTORY', 'RELIGION', 'MUSIC', 'MOVIES', 'TV', 'ANIMALS') not null default 'GENERAL',
     answer       varchar(256)                                                                                                                       not null,
     answerReason varchar(1024),
-    maxPoints    int                                                                                                                                         default 0,
     createdByRef bigint                                                                                                                             not null references Player (id),
     dateCreated  timestamp                                                                                                                          not null default now(),
     constraint uniqQuestion unique (question, createdByRef)
@@ -115,6 +114,8 @@ create table if not exists GameStep
     delayAfterCountdown  long                                                                     default 0,
     countdownDuration    long                                                                     default 0,
     countdownIntervals   long                                                                     default 0,
+    maxPoints            int                                                                      default 0,
+    correctChoice        int default 0,
     stepStatus           ENUM ('AWAITING_NEXT', 'COMING_UP', 'SHOWING', 'COUNTING_DOWN') not null default 'AWAITING_NEXT',
     constraint pkCurrent primary key (gameRef, questionRef)
 );

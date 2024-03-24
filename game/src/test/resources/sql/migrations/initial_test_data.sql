@@ -13,14 +13,14 @@ insert into Game (title, organizerRef)
 values ('ribeye steak', (select id from Player where screenName = 'alligator'));
 
 -- questions
-insert into Question (question, answer, maxPoints, createdByRef)
-values ('1 + 1', '2', 1000, (select id from Player where screenName = 'alligator'));
-insert into Question (question, answer, maxPoints, createdByRef)
-values ('1 + 2', '3', 1000, (select id from Player where screenName = 'alligator'));
-insert into Question (question, answer, maxPoints, createdByRef)
-values ('1 + 3', '4', 1000, (select id from Player where screenName = 'alligator'));
-insert into Question (question, answer, maxPoints, createdByRef)
-values ('1 + 4', '5', 1000, (select id from Player where screenName = 'alligator'));
+insert into Question (question, answer, createdByRef)
+values ('1 + 1', '2', (select id from Player where screenName = 'alligator'));
+insert into Question (question, answer, createdByRef)
+values ('1 + 2', '3', (select id from Player where screenName = 'alligator'));
+insert into Question (question, answer, createdByRef)
+values ('1 + 3', '4', (select id from Player where screenName = 'alligator'));
+insert into Question (question, answer, createdByRef)
+values ('1 + 4', '5', (select id from Player where screenName = 'alligator'));
 
 -- choices - question 1
 insert into Choice (ordinal, choiceValue, explanation, questionRef)

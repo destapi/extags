@@ -1,9 +1,14 @@
 package works.hop.eztag.parser;
 
+import works.hop.eztag.pubsub.JSubscribe;
+
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
+import static works.hop.eztag.pubsub.JReceiver.interests;
 
 public class JArray extends LinkedList<Object> implements JNode {
 
@@ -37,12 +42,20 @@ public class JArray extends LinkedList<Object> implements JNode {
     }
 
     @Override
-    public Object getIndexed(String subscriber, int index) {
+    public Object getIndexed(int index) {
+        JSubscribe subscriber = new JSubscribe(interests, this);
+        if(this.observer != null) {
+            this.observer.subscribe(List.of(subscriber));
+        }
         return super.get(index);
     }
 
     @Override
-    public Object getItem(String subscriber, Predicate<Object> predicate) {
+    public Object getItem(Predicate<Object> predicate) {
+        JSubscribe subscriber = new JSubscribe(interests, this);
+        if(this.observer != null) {
+            this.observer.subscribe(List.of(subscriber));
+        }
         return super.stream().filter(predicate).findFirst().orElseThrow();
     }
 

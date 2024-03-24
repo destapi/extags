@@ -12,7 +12,7 @@ import works.hop.web.service.IResult;
 
 import java.util.List;
 
-@Component("TeamMembers")
+@Component
 @RequiredArgsConstructor
 public class TeamMembers extends ReqHandler {
 

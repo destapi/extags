@@ -22,6 +22,8 @@ public class GameStepRowMapper implements RowMapper<GameStep> {
         inProgress.setDelayBeforeCountdown(rs.getLong("delayBeforeCountdown"));
         inProgress.setCountdownIntervals(rs.getLong("countdownIntervals"));
         inProgress.setCountdownDuration(rs.getLong("countdownDuration"));
+        inProgress.setMaxPoints(rs.getInt("maxPoints"));
+        inProgress.setCorrectChoice(rs.getInt("correctChoice"));
         inProgress.setStepStatus(StepStatus.valueOf(rs.getString("stepStatus")));
         return inProgress;
     }

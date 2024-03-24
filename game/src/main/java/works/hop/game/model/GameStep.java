@@ -19,6 +19,8 @@ public class GameStep {
     Long delayAfterCountdown;
     Long countdownDuration;
     Long countdownIntervals;
+    int maxPoints;
+    int correctChoice;
     @NotNull
     StepStatus stepStatus;
 }

@@ -82,6 +82,5 @@ function parseFile(url) {
                 console.log(`${index + 1}. Title: ${book.title}, Price: ${book.price}`);
             });
         });
-
     })
 }

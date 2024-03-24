@@ -14,7 +14,7 @@ import works.hop.web.service.IResult;
 
 import java.util.List;
 
-@Component("QuestionChoices")
+@Component
 @RequiredArgsConstructor
 public class QuestionChoices extends ReqHandler {
 

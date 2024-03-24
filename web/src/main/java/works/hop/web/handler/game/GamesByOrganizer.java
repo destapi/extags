@@ -15,7 +15,7 @@ import works.hop.web.service.ITeamService;
 import java.util.List;
 import java.util.Objects;
 
-@Component("GamesByOrganizer")
+@Component
 @RequiredArgsConstructor
 public class GamesByOrganizer extends ReqHandler {
 

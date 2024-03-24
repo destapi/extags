@@ -42,14 +42,13 @@ class QuestionRepoTest {
         newQuestion = questionRepo.createQuestion(newQuestion);
         assertThat(newQuestion.getId()).isNotZero();
         assertThat(newQuestion.getQuestionType()).isNull();
-        assertThat(newQuestion.getMaxPoints()).isZero();
 
         newQuestion.setQuestionType(QuestionType.ENGLISH);
-        newQuestion.setMaxPoints(100);
+        newQuestion.setAnswer("It's always the same");
         newQuestion = questionRepo.updateQuestion(newQuestion);
         Question updated = questionRepo.getById(newQuestion.getId());
         assertThat(updated.getQuestionType()).isEqualTo(newQuestion.getQuestionType());
-        assertThat(updated.getMaxPoints()).isEqualTo(newQuestion.getMaxPoints());
+        assertThat(updated.getAnswer()).isEqualTo(newQuestion.getAnswer());
     }
 
     @Test
@@ -63,7 +62,6 @@ class QuestionRepoTest {
         newQuestion = questionRepo.createQuestion(newQuestion);
         assertThat(newQuestion.getId()).isNotZero();
         assertThat(newQuestion.getQuestionType()).isNull();
-        assertThat(newQuestion.getMaxPoints()).isZero();
 
         List<Question> ques1 = questionRepo.getByAuthor(crazyeyes.getId());
         assertThat(ques1).isNotEmpty();

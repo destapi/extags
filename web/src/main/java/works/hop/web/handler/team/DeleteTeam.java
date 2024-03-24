@@ -10,7 +10,7 @@ import works.hop.web.service.ITeamService;
 
 import java.util.Objects;
 
-@Component("DeleteTeam")
+@Component
 @RequiredArgsConstructor
 public class DeleteTeam extends ReqHandler {
 

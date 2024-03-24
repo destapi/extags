@@ -15,7 +15,7 @@ import works.hop.web.service.IResult;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
-@Component("UpdateTeam")
+@Component
 @RequiredArgsConstructor
 public class UpdateTeam extends ReqHandler {
 

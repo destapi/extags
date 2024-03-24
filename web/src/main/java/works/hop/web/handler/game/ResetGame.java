@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import works.hop.eztag.server.handler.ReqHandler;
 import works.hop.web.service.IGameService;
 
-@Component("ResetGame")
+@Component
 @RequiredArgsConstructor
 public class ResetGame extends ReqHandler {
 

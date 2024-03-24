@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 
-@Component("CreateQuestion")
+@Component
 @RequiredArgsConstructor
 public class CreateQuestion extends ReqHandler {
 

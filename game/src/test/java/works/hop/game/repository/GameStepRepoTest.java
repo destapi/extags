@@ -53,11 +53,14 @@ class GameStepRepoTest {
         newGameStep.setCountdownIntervals(500L);
         newGameStep.setStepStatus(StepStatus.COMING_UP);
         newGameStep = gameStepRepo.createGameStep(newGameStep);
+        assertThat(newGameStep.getMaxPoints()).isZero();
 
         // now update a field
         newGameStep.setQuestionNum(2);
+        newGameStep.setMaxPoints(100);
         GameStep updated1 = gameStepRepo.updateGameStep(newGameStep);
         assertThat(updated1.getQuestionNum()).isEqualTo(newGameStep.getQuestionNum());
+        assertThat(updated1.getMaxPoints()).isEqualTo(newGameStep.getMaxPoints());
     }
 
     @Test
@@ -80,6 +83,7 @@ class GameStepRepoTest {
         newGameStep.setCountdownIntervals(500L);
         newGameStep.setStepStatus(StepStatus.COMING_UP);
         newGameStep = gameStepRepo.createGameStep(newGameStep);
+        assertThat(newGameStep.getMaxPoints()).isZero();
 
         List<GameStep> steps = gameStepRepo.getGameSteps(game.getId());
         assertThat(steps).hasSize(1);
