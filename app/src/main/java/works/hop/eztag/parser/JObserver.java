@@ -3,6 +3,7 @@ package works.hop.eztag.parser;
 import works.hop.eztag.pubsub.JReceiver;
 import works.hop.eztag.pubsub.JSubscribe;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  * changed, either through addition, updating or removal. This capability can be harnessed to using a concrete representation
  * of the Observer, and should be written to any concrete Writer of interest
  */
-public interface JObserver {
+public interface JObserver extends Serializable {
 
     Map<String, List<JNode>> observables();
 

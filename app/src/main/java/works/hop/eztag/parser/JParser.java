@@ -11,7 +11,6 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Stack;
@@ -19,17 +18,17 @@ import java.util.Stack;
 public class JParser {
 
     String path;
-    JContext processor;
+    JContext context;
     Stack<JElement> stack = new Stack<>();
     JElement lastPopped;
 
-    public JParser(JContext processor) {
-        this.processor = processor;
+    public JParser(JContext context) {
+        this.context = context;
     }
 
-    public JParser(String path, JContext processor) {
+    public JParser(String path, JContext context) {
         this.path = path;
-        this.processor = processor;
+        this.context = context;
     }
 
     public XMLEventReader reader() throws XMLStreamException {
@@ -46,7 +45,7 @@ public class JParser {
 
     public JElement parse() throws XMLStreamException {
         parse(reader());
-        lastPopped.observer(processor);
+        lastPopped.observer(context);
         return lastPopped;
     }
 
@@ -56,7 +55,7 @@ public class JParser {
 
     public JElement parse(Reader content) throws XMLStreamException {
         parse(reader(content));
-        lastPopped.observer(processor);
+        lastPopped.observer(context);
         return lastPopped;
     }
 
@@ -87,15 +86,20 @@ public class JParser {
                         switch (attrName) {
                             case "x-if": {
                                 element.setIfExpression(attrValue);
+                                element.interests.add("update");
                                 break;
                             }
                             case "x-show": {
                                 element.setShowExpression(attrValue);
                                 element.attributes.put("data-x-show", attrValue);
+                                element.interests.add("update");
                                 break;
                             }
                             case "x-items": {
                                 element.setListExpression(attrValue);
+                                element.interests.add("add");
+                                element.interests.add("delete");
+                                element.interests.add("update");
                                 break;
                             }
                             case "x-key": {
@@ -104,6 +108,8 @@ public class JParser {
                             }
                             case "x-text": {
                                 element.setTextExpression(attrValue);
+                                element.interests.add("update");
+                                element.interests.add("delete");
                                 break;
                             }
                             case "x-path": {
@@ -112,6 +118,8 @@ public class JParser {
                             }
                             case "x-eval": {
                                 element.setEvalNode((Boolean) MVEL.eval(attrValue));
+                                element.interests.add("update");
+                                element.interests.add("delete");
                                 break;
                             }
                             case "x-slot": {
@@ -138,10 +146,6 @@ public class JParser {
                             }
                             case "x-doctype": {
                                 ((JElement) element.root()).setDocTypeTag(attrValue);
-                                break;
-                            }
-                            case "x-sub": {
-                                element.interests.addAll(Arrays.stream(attrValue.split(",")).toList());
                                 break;
                             }
                             default: {

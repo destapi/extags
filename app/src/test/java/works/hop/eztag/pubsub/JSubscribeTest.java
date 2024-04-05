@@ -19,8 +19,8 @@ class JSubscribeTest {
         JArray array = new JArray();
         for (int i = 0; i < 5; i++) {
             JObject node = new JObject();
-            node.putItem(Integer.toString(i), 1);
-            array.addItem(node);
+            node.put(Integer.toString(i), 1);
+            array.add(node);
         }
 
         // create subscriber having a default receiver and assign to root node
@@ -29,10 +29,10 @@ class JSubscribeTest {
         array.observer(observer);
 
         //subscribe (implicitly) to property in a model
-        JObject node = (JObject) array.getIndexed(1);
+        JObject node = (JObject) array.get(1);
 
         //make change to data in a model
-        node.putItem("1", 100);
+        node.put("1", 100);
 
         //at this point, the receiver should receive the event data
         ArgumentCaptor<JEvent> eventCaptor = ArgumentCaptor.forClass(JEvent.class);
@@ -51,8 +51,8 @@ class JSubscribeTest {
         JArray array = new JArray();
         for (int i = 0; i < 5; i++) {
             JObject node = new JObject();
-            node.putItem(Integer.toString(i), 1);
-            array.addItem(node);
+            node.put(Integer.toString(i), 1);
+            array.add(node);
         }
 
         // create subscriber having a default receiver and assign to root node
@@ -66,8 +66,8 @@ class JSubscribeTest {
 
         //add new item to the model
         JObject node6 = new JObject();
-        node6.putItem("6", 6);
-        array.addItem(node6);
+        node6.put("6", 6);
+        array.add(node6);
 
         // capture arguments
         ArgumentCaptor<JEvent> eventCaptor = ArgumentCaptor.forClass(JEvent.class);
@@ -77,6 +77,6 @@ class JSubscribeTest {
 
         //assert received data
         assertThat(oldValueCaptor.getValue()).isNull();
-        assertThat(((JNode)newValueCaptor.getValue()).getItem("6")).isEqualTo(6);
+        assertThat(((JNodeObject)newValueCaptor.getValue()).get("6")).isEqualTo(6);
     }
 }

@@ -7,7 +7,11 @@ build
 .idea
 .vscode
 .bin
+
+# Ignore nodejs generated arftifacts
 **/node_modules
+**/dist
+**/package-lock.json
 
 # Ignore instrumenting files
 *.stackdump

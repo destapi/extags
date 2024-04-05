@@ -2,12 +2,14 @@ package works.hop.eztag.parser;
 
 import org.mvel2.MVEL;
 import org.mvel2.templates.TemplateRuntime;
+import works.hop.eztag.clone.JCopy;
 import works.hop.eztag.pubsub.JSubscribe;
 
 import javax.xml.stream.XMLStreamException;
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class JElement extends JObject {
+public class JElement extends JObject implements Cloneable{
 
     public static final List<String> selfClosingTags = List.of("area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr");
     public static final List<String> decoratorTags = List.of("doctype", "meta", "link", "style", "script");
@@ -355,7 +357,7 @@ public class JElement extends JObject {
     public String renderComponent() {
         if (ifExpression == null || (Boolean) MVEL.eval(ifExpression, context)) {
             if (!interests.isEmpty()) {
-                observer.subscribe(this.interests.stream().map(i -> new JSubscribe(new String[]{i}, this)).toList());
+                root().observer().subscribe(this.interests.stream().map(i -> new JSubscribe(new String[]{i}, this)).toList());
             }
 
             StringBuilder builder = new StringBuilder();
@@ -379,7 +381,7 @@ public class JElement extends JObject {
     public String renderListComponent() {
         if (ifExpression == null || (Boolean) MVEL.eval(ifExpression, context)) {
             if (!interests.isEmpty()) {
-                observer.subscribe(this.interests.stream().map(i -> new JSubscribe(new String[]{i}, this)).toList());
+                root().observer().subscribe(this.interests.stream().map(i -> new JSubscribe(new String[]{i}, this)).toList());
             }
 
             StringBuilder builder = new StringBuilder();
@@ -391,12 +393,15 @@ public class JElement extends JObject {
                 builder.append(">");
 
                 Collection<Object> collection = (Collection<Object>) MVEL.eval(listExpression, context);
+                if (children.size() != 1) {
+                    throw new RuntimeException("for a loop parent, there should be ONLY one child");
+                }
+                JElement child = children.get(0);
                 for (Object item : collection) {
-                    for (JElement child : children) {
-                        child.setContext(item);
-                        child.attributes.put("data-x-id", MVEL.eval(listItemsKey, item).toString());
-                        builder.append(child.render());
-                    }
+                    JElement element = child.clone();
+                    element.setContext(item);
+                    element.attributes.put("data-x-id", MVEL.eval(listItemsKey, item).toString());
+                    builder.append(element.render());
                 }
 
                 if (selfClosingTags.contains(tagName.toLowerCase())) {
@@ -461,5 +466,34 @@ public class JElement extends JObject {
         } catch (XMLStreamException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public JElement clone() {
+        JElement clone = (JElement) super.clone();
+        clone.templateElement = this.templateElement != null? this.templateElement.clone() : null;
+        clone.docTypeElement = this.docTypeElement != null? this.docTypeElement.clone() : null;
+        clone.attributes = new HashMap<>();
+        clone.attributes.putAll(this.attributes);
+        clone.interests = new LinkedList<>();
+        clone.interests.addAll(this.interests);
+        clone.children = new LinkedList<>();
+        this.children.forEach(element -> {
+            JElement cloneChild = element.clone();
+            clone.children.add(cloneChild);
+        });
+        clone.slots = new HashMap<>();
+        this.slots.forEach((k, v) -> {
+            clone.slots.put(k, v.clone());
+        });
+        clone.fragments = new HashMap<>();
+        this.fragments.forEach((k, v) -> {
+            clone.fragments.put(k, v.clone());
+        });
+        clone.decorators = new HashMap<>();
+        this.decorators.forEach((k, list) -> {
+            clone.decorators.put(k, list.stream().map(JElement::clone).collect(Collectors.toList()));
+        });
+        return clone;
     }
 }

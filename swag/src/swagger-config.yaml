@@ -1,0 +1,30 @@
+openapi: "3.0.0"
+info:
+  version: "0.0.1"
+  title: "Game Swag"
+  description: "REST API for Game endpoints"
+servers:
+  - url: "http://localhost:8088/"
+    description: "Identity Server test API"
+components:
+  securitySchemes:
+    # See http://localhost:8088/ for configuration details.
+    identity_server_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: "http://localhost:8088/connect/authorize"
+          scopes:
+            api: "api"
+security:
+  - identity_server_auth:
+      - api
+paths:
+  /health/:
+    get:
+      summary: "Check the availability status of a server"
+      responses:
+        401:
+          description: "Unauthorized"
+        200:
+          description: "OK"

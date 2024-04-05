@@ -4,12 +4,14 @@ import works.hop.eztag.pubsub.JEvent;
 import works.hop.eztag.pubsub.JReceiver;
 import works.hop.eztag.pubsub.JSubscribe;
 
+import java.io.Serializable;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class JContext implements JObserver {
+public class JContext implements JObserver, Serializable {
 
     final JReceiver receiver;
     final Object context;
@@ -54,10 +56,11 @@ public class JContext implements JObserver {
 
     @Override
     public void addItemToCollection(Object target, String path, Object value) {
-        List<JNode> listeners = observables.get("add");
+        List<JNode> listeners = observables.getOrDefault("add", Collections.emptyList());
         for (JNode node : listeners) {
             JEvent event = new JEvent();
             event.setSource(node);
+            event.setPath(path);
             event.setEvent("addItemToCollection");
             node.bubble(event, null, value);
         }
@@ -65,10 +68,11 @@ public class JContext implements JObserver {
 
     @Override
     public void removeItemFromCollection(Object target, String path, Object value) {
-        List<JNode> listeners = observables.get("remove");
+        List<JNode> listeners = observables.getOrDefault("delete", Collections.emptyList());
         for (JNode node : listeners) {
             JEvent event = new JEvent();
             event.setSource(node);
+            event.setPath(path);
             event.setEvent("removeItemFromCollection");
             node.bubble(event, value, null);
         }
@@ -76,10 +80,11 @@ public class JContext implements JObserver {
 
     @Override
     public void updateItemInCollection(Object target, String path, int index, Object prev, Object value) {
-        List<JNode> listeners = observables.get("update");
+        List<JNode> listeners = observables.getOrDefault("update", Collections.emptyList());
         for (JNode node : listeners) {
             JEvent event = new JEvent();
             event.setSource(node);
+            event.setPath(path);
             event.setEvent("updateItemInCollection");
             node.bubble(event, prev, value);
         }
@@ -87,21 +92,28 @@ public class JContext implements JObserver {
 
     @Override
     public void updateItemInCollection(Object target, String path, Object prev, Object value) {
-        List<JNode> listeners = observables.get("update");
+        List<JNode> listeners = observables.getOrDefault("update", Collections.emptyList());
         for (JNode node : listeners) {
-            JEvent event = new JEvent();
-            event.setSource(node);
-            event.setEvent("updateItemInCollection");
-            node.bubble(event, prev, value);
+            if(!((JElement)node).attributes.isEmpty()) {
+                String data = ((JElement)node).attributes.get("data-x-id");
+                if(Double.valueOf(data).equals(((JNodeObject)prev).get("num"))) {
+                    JEvent event = new JEvent();
+                    event.setSource(node);
+                    event.setPath(path);
+                    event.setEvent("updateItemInCollection");
+                    node.bubble(event, prev, value);
+                }
+            }
         }
     }
 
     @Override
     public void addItemToDictionary(Object target, String path, String key, Object oldValue, Object newValue) {
-        List<JNode> listeners = observables.get("add");
+        List<JNode> listeners = observables.getOrDefault("add", Collections.emptyList());
         for (JNode node : listeners) {
             JEvent event = new JEvent();
             event.setSource(node);
+            event.setPath(path);
             event.setEvent("addItemToDictionary");
             node.bubble(event, oldValue, newValue);
         }
@@ -109,10 +121,11 @@ public class JContext implements JObserver {
 
     @Override
     public void updateItemInDictionary(Object target, String path, String key, Object prev, Object value) {
-        List<JNode> listeners = observables.get("update");
+        List<JNode> listeners = observables.getOrDefault("update", Collections.emptyList());
         for (JNode node : listeners) {
             JEvent event = new JEvent();
             event.setSource(node);
+            event.setPath(path);
             event.setEvent("updateItemInDictionary");
             node.bubble(event, prev, value);
         }
@@ -120,10 +133,11 @@ public class JContext implements JObserver {
 
     @Override
     public void removeItemFromDictionary(Object target, String path, String key, Object value) {
-        List<JNode> listeners = observables.get("delete");
+        List<JNode> listeners = observables.getOrDefault("delete", Collections.emptyList());
         for (JNode node : listeners) {
             JEvent event = new JEvent();
             event.setSource(node);
+            event.setPath(path);
             event.setEvent("removeItemFromDictionary");
             node.bubble(event, value, null);
         }

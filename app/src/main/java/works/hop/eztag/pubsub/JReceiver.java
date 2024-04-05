@@ -1,6 +1,8 @@
 package works.hop.eztag.pubsub;
 
-public interface JReceiver {
+import java.io.Serializable;
+
+public interface JReceiver extends Serializable {
 
     String[] interests = {"add", "update", "delete"};
 

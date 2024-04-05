@@ -33,6 +33,10 @@ public interface JNode extends Serializable {
 
     }
 
+    String path();
+
+    void path(String path);
+
     default JNode root() {
         JNode prev = this;
         while (prev.parent() != null) {
@@ -66,26 +70,6 @@ public interface JNode extends Serializable {
     }
 
     /**
-     * JObject retrieve from a map the value reachable by key
-     *
-     * @param key value used as a key in the map
-     * @return value if key exists else null
-     */
-    default Object getItem(String key) {
-        return null;
-    }
-
-    /**
-     * JArray retrieve from the array the value at index
-     *
-     * @param index ordinal position of an element in array
-     * @return value at the index position if it's within valid range
-     */
-    default Object getIndexed(int index) {
-        return null;
-    }
-
-    /**
      * JArray retrieve from an array the first object that matches the predicate
      *
      * @param predicate test for presence or existence
@@ -96,43 +80,12 @@ public interface JNode extends Serializable {
     }
 
     /**
-     * JArray replace in an array the value at index
-     *
-     * @param index ordinal position of an element to replace in the array
-     * @param value new value intended
-     * @return old value at the index position if it's within valid range
-     */
-    default Object replaceIndexed(int index, Object value) {
-        return null;
-    }
-
-    /**
      * JArray replace first value in the array which matches predicate
      *
      * @param predicate test for presence or existence
      * @param value     value replaced in the array
      */
-    default void replaceItem(Predicate<Object> predicate, Object value) {
-
-    }
-
-    /**
-     * JObject add new value with given key into a map
-     *
-     * @param key   value used as a key in the map
-     * @param value value put into the map
-     */
-    default void putItem(String key, Object value) {
-
-    }
-
-    /**
-     * JObject replace value with a given key in a map
-     *
-     * @param key   value used as a key in the map
-     * @param value value replaced in the map
-     */
-    default void replaceItem(String key, Object value) {
+    default void update(Predicate<Object> predicate, Object value) {
 
     }
 
@@ -142,38 +95,18 @@ public interface JNode extends Serializable {
      * @param predicate test for presence or existence
      * @param consumer  function to update an object in-place
      */
-    default void updateItem(Predicate<Object> predicate, Consumer<JNode> consumer) {
+    default void update(Predicate<Object> predicate, Consumer<JNode> consumer) {
 
     }
 
     /**
      * JObject update an object in the map in-place
      *
-     * @param parent   value of parent node if it exists
      * @param key      value used as a key in the map
      * @param consumer function to update an object in-place
      */
-    default void update(JNode parent, String key, Consumer<JNode> consumer) {
+    default void update(String key, Consumer<JNode> consumer) {
 
-    }
-
-    /**
-     * JArray add an element to the array
-     *
-     * @param value value added to the array
-     */
-    default boolean addItem(Object value) {
-        return false;
-    }
-
-    /**
-     * JArray remove from the array the value at index
-     *
-     * @param index ordinal position of an element in array
-     * @return value at the index position if it's within valid range
-     */
-    default Object removeIndexed(int index) {
-        return null;
     }
 
     /**
@@ -195,24 +128,9 @@ public interface JNode extends Serializable {
 
     }
 
-    /**
-     * JObject remove from a map the value reachable by key
-     *
-     * @param parent value of parent node if it exists
-     * @param key    value used as a key in the map
-     * @return value if key exists else null
-     */
-    default Object remove(JNode parent, String key) {
-        return null;
-    }
-
     int size();
 
     boolean isEmpty();
 
     void clear();
-
-    String path();
-
-    void path(String path);
 }

@@ -1,16 +1,16 @@
 package works.hop.eztag.parser;
 
+import works.hop.eztag.clone.JCopy;
 import works.hop.eztag.pubsub.JSubscribe;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static works.hop.eztag.pubsub.JReceiver.interests;
 
-public class JArray extends LinkedList<Object> implements JNode {
+public class JArray extends JNodeArray {
 
     JObserver observer;
     JNode parent;
@@ -42,34 +42,27 @@ public class JArray extends LinkedList<Object> implements JNode {
     }
 
     @Override
-    public Object getIndexed(int index) {
-        JSubscribe subscriber = new JSubscribe(interests, this);
-        if(this.observer != null) {
-            this.observer.subscribe(List.of(subscriber));
-        }
-        return super.get(index);
+    public String path() {
+        return this.path;
+    }
+
+    @Override
+    public void path(String path) {
+        this.path = path;
     }
 
     @Override
     public Object getItem(Predicate<Object> predicate) {
         JSubscribe subscriber = new JSubscribe(interests, this);
-        if(this.observer != null) {
-            this.observer.subscribe(List.of(subscriber));
+        JObserver rootObserver = this.root().observer();
+        if (this.observer != null) {
+            rootObserver.subscribe(List.of(subscriber));
         }
         return super.stream().filter(predicate).findFirst().orElseThrow();
     }
 
     @Override
-    public Object replaceIndexed(int index, Object value) {
-        JObserver rootObserver = this.root().observer();
-        if (rootObserver != null) {
-            rootObserver.updateItemInCollection(this, this.tracePath(), super.get(index), value);
-        }
-        return super.set(index, value);
-    }
-
-    @Override
-    public void replaceItem(Predicate<Object> predicate, Object value) {
+    public void update(Predicate<Object> predicate, Object value) {
         for (int i = 0; i < super.size(); i++) {
             if (predicate.test(super.get(i))) {
                 super.set(i, value);
@@ -84,45 +77,19 @@ public class JArray extends LinkedList<Object> implements JNode {
     }
 
     @Override
-    public boolean addItem(Object value) {
-        boolean added = add(value);
-        // apply parent-child relationship
-        if (JNode.class.isAssignableFrom(value.getClass())) {
-            ((JNode) value).parent(this);
-        }
-
-        // notify with added value
-        JObserver rootObserver = this.root().observer();
-        if (added && rootObserver != null) {
-            rootObserver.addItemToCollection(this, this.tracePath(), value);
-        }
-        return added;
-    }
-
-    @Override
-    public void updateItem(Predicate<Object> predicate, Consumer<JNode> consumer) {
+    public void update(Predicate<Object> predicate, Consumer<JNode> consumer) {
         for (Iterator<Object> iterator = super.iterator(); iterator.hasNext(); ) {
             Object next = iterator.next();
+            JObject oldValue = JCopy.cloneObject(next, JObject.class);
             if (predicate.test(next)) {
                 consumer.accept((JNode) next);
                 // notify using first match
                 JObserver rootObserver = this.root().observer();
                 if (rootObserver != null) {
-                    rootObserver.updateItemInCollection(this, this.tracePath(), null, next);
+                    rootObserver.updateItemInCollection(this, this.tracePath(), oldValue, next);
                 }
             }
         }
-    }
-
-    @Override
-    public Object removeIndexed(int index) {
-        Object value = remove(index);
-        //notify matched index
-        JObserver rootObserver = this.root().observer();
-        if (rootObserver != null) {
-            rootObserver.removeItemFromCollection(this, this.tracePath(), index, value);
-        }
-        return value;
     }
 
     @Override
@@ -155,15 +122,5 @@ public class JArray extends LinkedList<Object> implements JNode {
                 }
             }
         }
-    }
-
-    @Override
-    public String path() {
-        return this.path;
-    }
-
-    @Override
-    public void path(String path) {
-        this.path = path;
     }
 }

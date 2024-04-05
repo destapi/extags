@@ -1,0 +1,1 @@
+docker run -d -p 80:8080 -v "C:\Projects\java\eztags\swag\src":/tmp -e SWAGGER_FILE="/tmp/swagger-config.yaml" swaggerapi/swagger-editor

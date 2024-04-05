@@ -2,17 +2,24 @@ package works.hop.eztag.pubsub;
 
 import works.hop.eztag.parser.JNode;
 
+import java.io.Serializable;
 import java.util.function.Supplier;
 
-public class JSubscribe {
+public class JSubscribe implements Serializable {
 
     String[] interests;
     Supplier<?> unsubscribe;
     JNode target;
+    String path;
 
     public JSubscribe(String[] interests, JNode target) {
+        this(interests, target, target.tracePath());
+    }
+
+    public JSubscribe(String[] interests, JNode target, String path) {
         this.interests = interests;
         this.target = target;
+        this.path = path;
     }
 
     public String[] getInterests() {

@@ -111,7 +111,7 @@ public class App {
 
         // Configure TCP/IP parameters.
         // The port to listen to.
-        plainConnector.setPort(Optional.ofNullable(cmd.getOptionValue("port")).map(Integer::parseInt).orElse(8080));
+        plainConnector.setPort(Optional.ofNullable(cmd.getOptionValue("port")).map(Integer::parseInt).orElse(8088));
         // The address to bind to.
         plainConnector.setHost(cmd.getOptionValue("host", "127.0.0.1"));
 

@@ -6,6 +6,7 @@ const button = document.createElement('button');
 createEffect(() => {
 	button.innerText = count();
 });
+
 button.addEventListener('click', () => {
 	setCount(count() + 1);
 });
